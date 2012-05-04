@@ -51,7 +51,7 @@ Contact Form Manager is developed and maintained by <a href="http://xyzscripts.c
       <ul>
         <li><a href="http://wordpress.org/extend/plugins/lightbox-pop/">Lightbox Pop</a></li>
  <li><a href="http://xyzscripts.com/wordpress-plugins/lightbox-pop/details">Lightbox Pop Premium</a></li>
- <li><a href="http://xyzscripts.com/wordpress-plugins/newsletter-manager/details">Newsletter Manager</a></li>
+ <li><a href="http://wordpress.org/extend/plugins/newsletter-manager/">Newsletter Manager</a></li>
    
       </ul>
 
