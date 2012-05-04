@@ -7,7 +7,7 @@ Requires at least: 2.8
 Tested up to: 3.3.1
 Stable tag: 1.0.2
 
-Create and manage custom contact forms for your website.  Choose from a wide range of form elements such as text field, email field, textarea, checkbox, radio button, dropdown list, recaptcha, file uploader and submit button 
+Create and manage custom contact forms for your website.  Choose from a wide range of form elements .
 
 == Description ==
 
