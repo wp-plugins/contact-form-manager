@@ -68,8 +68,6 @@ function cfm_about(){
 // }
 
 
-// 	wp_register_script( 'calender_script', plugins_url('newsletter-manager/js/epoch_classes.js') );
-// 	wp_enqueue_script( 'calender_script' );
 
 function xyz_cfm_admin_style()
 {
@@ -83,7 +81,7 @@ wp_enqueue_script('jquery');
 if(is_admin()){
 
 
-	wp_register_script( 'notice_script', plugins_url('newsletter-manager/js/notice.js') );
+	wp_register_script( 'notice_script', plugins_url('contact-form-manager/js/notice.js') );
 	wp_enqueue_script( 'notice_script' );
 
 	wp_register_style( 'xyz_cfm_style', plugins_url('contact-form-manager/css/xyz_cfm_styles.css'));

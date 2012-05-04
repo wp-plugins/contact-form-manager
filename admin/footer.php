@@ -43,7 +43,7 @@ height:200px;
    <ul style="float: left;">
    
    <li><a target="_blank" href="http://xyzscripts.com/donate/1">Donate a dollar</a></li>
-   <li><a target="_blank" href="http://wordpress.org/extend/plugins/newsletter-manager/">Rate this plugin</a></li>
+   <li><a target="_blank" href="http://wordpress.org/extend/plugins/contact-form-manager/">Rate this plugin</a></li>
    <li><a target="_blank" href="http://xyzscripts.com/support/">Suggestions</a></li>
    </ul>
    <ul style="float: left;padding-left: 30px">
