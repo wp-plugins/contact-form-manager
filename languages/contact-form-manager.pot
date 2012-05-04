@@ -1,0 +1,67 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Contact Form Manager\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-04-24 16:43+0530\n"
+"PO-Revision-Date: 2012-04-24 17:06+0530\n"
+"Last-Translator: Sumesh <sumesh.vasu@f1logic.com>\n"
+"Language-Team: xyzscripts.com <support@xyzscripts.com>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../contact-form-manager/create-contact-form.php:343
+msgid "Enter a valid email address"
+msgstr ""
+
+#: ../contact-form-manager/create-contact-form.php:354
+msgid "Image content not matched"
+msgstr ""
+
+#: ../contact-form-manager/create-contact-form.php:360
+msgid "Please fill all mandatory fields"
+msgstr ""
+
+#: ../contact-form-manager/create-contact-form.php:474
+msgid "Fill text field"
+msgstr ""
+
+#: ../contact-form-manager/create-contact-form.php:498
+msgid "Fill email field"
+msgstr ""
+
+#: ../contact-form-manager/create-contact-form.php:521
+msgid "Fill textarea field"
+msgstr ""
+
+#: ../contact-form-manager/create-contact-form.php:540
+msgid "Select dropdown field"
+msgstr ""
+
+#: ../contact-form-manager/create-contact-form.php:574
+msgid "Fill date field"
+msgstr ""
+
+#: ../contact-form-manager/create-contact-form.php:732
+msgid "Select atleast one checkbox"
+msgstr ""
+
+#: ../contact-form-manager/create-contact-form.php:780
+msgid "Select atleast one radio button"
+msgstr ""
+
+#: ../contact-form-manager/create-contact-form.php:826
+msgid "Fill captcha field"
+msgstr ""
+
+#: ../contact-form-manager/admin/add-contact-form.php:3
+msgid "test message"
+msgstr "new messageqweqewew"
+
