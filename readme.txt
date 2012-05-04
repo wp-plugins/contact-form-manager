@@ -25,7 +25,7 @@ Create and manage multiple contact forms for your website. The contact form mana
     Redirection after submission feature
     Standard captcha and reCaptcha options
     Style class integration option with form elements
-    Option to add “*” (star symbol) for mandatory fields
+    Option to add * (star symbol) for mandatory fields
     Tiny MCE filter option
     Shortcodes for contact forms
     Visual HTML editor for beautiful contact forms
