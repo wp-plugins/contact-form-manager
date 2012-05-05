@@ -15,21 +15,39 @@ Create and manage multiple contact forms for your website. The contact form mana
 
 = Features =
 
-    Full control on Contact Form
-    Multiple Contact Forms
-    Support the form elements text, email, text area, dropdown, checkbox, radiobutton, date, captcha, file upload and submit button
-    Auto save contact forms
-    Multi language support
-    Edit the contact form without modifying the short code
-    Autoreply feature
-    Redirection after submission feature
-    Standard captcha and reCaptcha options
+
+Supported Elements
+    Text field
+    Email field
+    Textarea
+    Dropdown List
+    Checkbox
+    Radiobutton
+    Date picker
+    Captcha
+    File Uploader
+    Submit Button
+
+Form Content
+    Full control on contact form content
+    Visual HTML editor for beautiful contact forms
     Style class integration option with form elements
     Option to add * (star symbol) for mandatory fields
-    Tiny MCE filter option
-    Shortcodes for contact forms
-    Visual HTML editor for beautiful contact forms
+    Auto-save form elements
+    Multi language support
+    Multiple Contact Forms
 
+Spam Control
+    Simple image verification
+    Recaptcha support
+
+Form Display		
+    Shortcodes for contact forms
+    Modify form element options without replacing shortcode
+
+Form submission
+    Autoreply on submission
+    Redirection after submission 
 
 
 = About =
@@ -92,13 +110,13 @@ Please check the first part of our user guide for changing language details.
 
 We are using 2 types of captcha in the contact form
 
-    Standard captcha
+    Simple image verification
 
-    reCaptcha
+    Recaptcha
 
 If you are using the standard captcha, you need GD and FreeType library installed on your server.
 
-If you are using the reCaptcha, please make sure that you have configured the public key and private key.
+If you are using the recaptcha, please make sure that you have configured the public key and private key.
 
 
 = 10. Site Admin is not receiving any mail using the contact form =
