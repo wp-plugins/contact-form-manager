@@ -59,7 +59,7 @@ if(get_option('xyz_cfm_credit_link')=="1"){
 
 }
 function xyz_cfm_credit() {	
-	$content = '<div style="width:100%;text-align:center; font-size:11px; ">Contact Form Powered By : <a target="_blank" href="http://www.xyzscripts.com" >XYZScripts.com</a></div>';
+	$content = '<div style="width:100%;text-align:center; font-size:11px; ">Contact Form Powered By : <a target="_blank" title="PHP Scripts & Programs" href="http://www.xyzscripts.com" >XYZScripts.com</a></div>';
 	echo $content;
 }
 
