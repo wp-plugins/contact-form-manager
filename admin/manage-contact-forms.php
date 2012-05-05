@@ -110,8 +110,8 @@ id="system_notice_area_dismiss">Dismiss</span>
 			$page_links = paginate_links( array(
 					'base' => add_query_arg( 'pagenum','%#%'),
 	    'format' => '',
-	    'prev_text' => __( '&laquo;', 'aag' ),
-	    'next_text' => __( '&raquo;', 'aag' ),
+	    'prev_text' =>  '&laquo;',
+	    'next_text' =>  '&raquo;',
 	    'total' => $num_of_pages,
 	    'current' => $pagenum
 			) );
