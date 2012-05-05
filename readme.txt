@@ -2,7 +2,7 @@
 Contributors: f1logic
 Donate link: http://xyzscripts.com/donate/
 
-Tags: contact form, contact page, contact manager, contact form manager, multiple contact forms, contact form with recaptcha, contact form date picker, custom contact form, contact form with auto reply
+Tags: contact, contact form, contact page, contact form plugin, contact us, contact manager, contact form manager, multiple contact forms, contact form with recaptcha, contact form date picker, custom contact form, contact form with auto reply, wordpress contact, TinyMCE form editor
 Requires at least: 2.8
 Tested up to: 3.3.1
 Stable tag: 1.0.2
@@ -11,7 +11,7 @@ Create and manage custom contact forms for your website.  Choose from a wide ran
 
 == Description ==
 
-Create and manage multiple contact forms for your website. The contact form manager plugin supports a wide range of contact form elements such as text field, email field, textarea, dropdown list, radio button, checkbox, date picker, captcha, file uploader etc. Shortcodes are generated such that, you can modify form element properties without having to replace the shortcode everytime. 
+The Contact Form Manager lets you create and manage multiple contact forms for your website. It supports a wide range of contact form elements such as text field, email field, textarea, dropdown list, radio button, checkbox, date picker, captcha, file uploader etc. Shortcodes are generated such that, you can modify form element properties without having to replace the shortcode everytime. 
 
 = Features =
 
@@ -34,9 +34,9 @@ Form Content
     Full control on contact form content
     Visual HTML editor for beautiful contact forms
     Style class integration option with form elements
-    Option to add * (star symbol) for mandatory fields
-    Auto-save form elements
-    Multi language support
+    Option to add * (star symbol) for mandatory form fields
+    Auto-save form elements on creation
+    Multi language support for contact form messages
     Multiple Contact Forms
 
 Spam Control
@@ -46,13 +46,13 @@ Spam Control
 
 Form Display		
 
-    Shortcodes for contact forms
+    Shortcodes for dispalying contact forms
     Modify form element options without replacing shortcode
 
 Form submission
 
-    Autoreply on submission
-    Redirection after submission 
+    Autoreply on form submission
+    Redirection after contact form submission 
 
 
 = About =
@@ -64,7 +64,7 @@ Contact Form  Manager is developed and maintained by [XYZScripts](http://xyzscri
 1. Extract `contact-form-manager.zip` to your `/wp-content/plugins/` directory.
 2. In the admin panel under plugins activate Contact Form Manager.
 3. You can configure the basic settings from XYZ Contact menu.
-4. Once settings are done, you may create contact forms and place the shortcodes of require pages
+4. Once settings are done, you may create contact forms and place the shortcodes on required pages
 5. Please configure required keys if you plan to use recpatcha
 
 If you need any further help, you may contact our [support desk](http://xyzscripts.com/support/ "XYZScripts Support").
@@ -86,11 +86,11 @@ First you need to create a new contact form. Now in the XYZ Contact > Contact Fo
 
 = 4. How can I add a field to my contact form ? =
 
-To add a new field in the contact form, please click the edit contact form or add a new contact form link. Now you can see a section Form Elements and in this please select the Add Elements. No you can select the tag and create a new element or field.
+To add a new field in the contact form, please click the edit contact form or add a new contact form link. Now you can see a section Form Elements and from here please select the Add Elements. No you can select the tag and create a new element or field.
 
-= 5. Should I edit my contact page after editing the contact form element settings ? =
+= 5. Should I replace my contact form shortcode after editing the contact form element settings ? =
 
-No. There is no need to edit the contact page after editing the contact form options. It will update automatically and saves you from the trouble of replacing the code everytime.
+No. There is no need to replace the contact form shortcode after editing the contact form elements. It will update automatically and saves you from the trouble of replacing the code everytime.
 
 
 = 6. How should I get a mail with all the fields used in the form ? =
