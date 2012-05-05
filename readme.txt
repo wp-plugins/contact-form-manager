@@ -17,6 +17,7 @@ Create and manage multiple contact forms for your website. The contact form mana
 
 
 Supported Elements
+
     Text field
     Email field
     Textarea
@@ -29,6 +30,7 @@ Supported Elements
     Submit Button
 
 Form Content
+
     Full control on contact form content
     Visual HTML editor for beautiful contact forms
     Style class integration option with form elements
@@ -38,14 +40,17 @@ Form Content
     Multiple Contact Forms
 
 Spam Control
+
     Simple image verification
     Recaptcha support
 
 Form Display		
+
     Shortcodes for contact forms
     Modify form element options without replacing shortcode
 
 Form submission
+
     Autoreply on submission
     Redirection after submission 
 
