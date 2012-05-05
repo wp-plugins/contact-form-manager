@@ -15,6 +15,10 @@ height:200px;
     .xyz_feedback ul{
     font-weight: bold;
     }
+    
+    .xyz_feedback a{
+    text-decoration: none
+    }
 
     
     .xyz_subscribe{
@@ -26,6 +30,10 @@ width: 48%;
 height:200px;
     
     }
+  .xyz_subscribe  td{
+    padding:0;
+    }
+    
     </style>
 <p></p>
 <div style="width: 100%">

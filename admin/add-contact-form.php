@@ -5,7 +5,7 @@ global $wpdb;
 $last_id= $wpdb->get_var("select max(id) from xyz_cfm_form");
 $last_id=($last_id=='')?1:$last_id+1;
 
-$wpdb->insert('xyz_cfm_form', array('name' => 'form'.$last_id,'status'=>0),array('%s'));
+$wpdb->insert('xyz_cfm_form', array('name' => 'form'.$last_id,'status'=>2),array('%s'));
 $lastid = $wpdb->insert_id;
 
 $wpdb->insert('xyz_cfm_form_elements', array('form_id' =>$lastid,'element_name'=>'yourName',

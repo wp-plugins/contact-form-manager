@@ -12,12 +12,6 @@ id="system_notice_area_dismiss">Dismiss</span>
 
 }
 
-$uncompleteDetails = $wpdb->get_results("SELECT * FROM xyz_cfm_form WHERE status='0'");
-foreach ($uncompleteDetails as $uncompleteDetail){
-	setup_postdata($uncompleteDetail);
-	$wpdb->update('xyz_cfm_form',array('status'=>"2"),array('id'=>$uncompleteDetail->id));
-}
-$wpdb->update('xyz_cfm_form',array('status'=>"2"),array('status'=>"0"));
 ?>
 
 
@@ -62,6 +56,8 @@ $wpdb->update('xyz_cfm_form',array('status'=>"2"),array('status'=>"0"));
 						echo $entry->name;
 						?></td>
 						<td><?php 
+						if($entry->status == 2){echo 'NA';}
+						else
 						echo "[xyz-cfm-form id=".$entry->id."]";
 						?></td>
 						<td>

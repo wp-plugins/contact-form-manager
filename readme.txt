@@ -114,7 +114,7 @@ More questions ? [Drop a mail](http://xyzscripts.com/members/support/ "XYZScript
 == Screenshots ==
 
 1. This is the form configuration page.
-2. This is a smaple contact form.
+2. This is a sample contact form.
 
 == Changelog ==
 
