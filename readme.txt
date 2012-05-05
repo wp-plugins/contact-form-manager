@@ -2,7 +2,7 @@
 Contributors: f1logic
 Donate link: http://xyzscripts.com/donate/
 
-Tags: contact form, contact page, contact manager, contact form manager, mutiple contact forms, contact form with recaptcha, contact form date picker, custom contact form, contact form with auto reply
+Tags: contact form, contact page, contact manager, contact form manager, multiple contact forms, contact form with recaptcha, contact form date picker, custom contact form, contact form with auto reply
 Requires at least: 2.8
 Tested up to: 3.3.1
 Stable tag: 1.0.2
@@ -58,7 +58,7 @@ Please ensure that PHP mail() function is enabled in your server. Also some serv
 
 = 3. How can I display the contact form in my website ? =
 
-First you need to create a new contact form. Now in the XYZ Contact > Contact Forms page you can see the newly created cntact for and its short code. Please copy this short code and paste in your contact page.
+First you need to create a new contact form. Now in the XYZ Contact > Contact Forms page you can see the newly created contact for and its short code. Please copy this short code and paste in your contact page.
 
 
 = 4. How can I add a field to my contact form ? =
@@ -106,7 +106,7 @@ If you are using the reCaptcha, please make sure that you have configured the pu
 
 In the contact form 'Mail to site admin' section, you need to add the 'from email' address. Since you want the message from your users email id, we are using the code of the user email here. The code is something like [email-2].
 
-But in some server, they don't allow to send emails with from addresses that are outside the server domain. So in such conditions, you need to add yourown email address with the same domain extension of your server in the 'from email' section.
+But in some server, they don't allow to send emails with from addresses that are outside the server domain. So in such conditions, you need to add your own email address with the same domain extension of your server in the 'from email' section.
 
 More questions ? [Drop a mail](http://xyzscripts.com/members/support/ "XYZScripts Support") and we shall get back to you with the answers.
 
