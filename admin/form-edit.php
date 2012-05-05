@@ -3,6 +3,9 @@ if(get_option('xyz_cfm_tinymce_filter')=="1"){
 	require( dirname( __FILE__ ) . '/tinymce_filters.php' );
 }
 global $wpdb;
+global $current_user;
+get_currentuserinfo();
+
 
 $_POST = stripslashes_deep($_POST);
 $_GET = stripslashes_deep($_GET);
@@ -12,7 +15,6 @@ $_POST = xyz_trim_deep($_POST);
 $xyz_cfm_formId = $_GET['formId'];
 
 $xyz_cfm_code = '';
-$xyz_cfm_codeFlag = 0;
 if(isset($_POST) && isset($_POST['addSubmit'])){
 
 // 		echo '<pre>';
@@ -65,7 +67,6 @@ if(isset($_POST) && isset($_POST['addSubmit'])){
 	
 	$xyz_cfm_redirectionLink = $_POST['redirectionLink'];
 	
-	$xyz_cfm_codeFlag =1;
 
 	if($xyz_cfm_toEmailReply != "" && $xyz_cfm_formName != "" && $xyz_cfm_generatedCode != "" && $xyz_cfm_to != "" && $xyz_cfm_from != "" && $xyz_cfm_subject != "" && $xyz_cfm_mailBody != "" && $xyz_cfm_subjectReplay != "" && $xyz_cfm_mailBodyReplay != ""){
 		$element_count = $wpdb->query( 'SELECT * FROM xyz_cfm_form WHERE id!="'.$xyz_cfm_formId.'" AND name="'.$xyz_cfm_formName.'" LIMIT 0,1' ) ;
@@ -77,7 +78,6 @@ if(isset($_POST) && isset($_POST['addSubmit'])){
 							'reply_body'=>$xyz_cfm_mailBodyReplay,'reply_mail_type'=>$xyz_cfm_mailTypeReplay,'enable_reply'=>$xyz_cfm_enableReply,'redirection_link'=>$xyz_cfm_redirectionLink),
 					array('id'=>$xyz_cfm_formId));
 				
-			$xyz_cfm_code = "Form successfully updated.Copy this code and paste it into your post or page .<br/>Code is <b>[xyz-cfm-form id=".$xyz_cfm_formId."]</b>";
 			?>
 			<div class="system_notice_area_style1" id="system_notice_area">
 			Contact form successfully updated. &nbsp;&nbsp;&nbsp;<span id="system_notice_area_dismiss">Dismiss</span>
@@ -87,7 +87,7 @@ if(isset($_POST) && isset($_POST['addSubmit'])){
 		}else{
 			$currentCode = $wpdb->get_results( 'SELECT * FROM xyz_cfm_form WHERE element_diplay_name="'.$xyz_cfm_formName.'" LIMIT 0,1' ) ;
 			$currentCode = $currentCode[0];
-			$xyz_cfm_code = "<font color=red>Contact form name already exists.</font>  Copy this code and paste it into your post or page . <br/>    Code is <b>[xyz-cfm-form-".$xyz_cfm_formId."]</b>";
+			
 			?>
 			<div class="system_notice_area_style0" id="system_notice_area">
 			Contact form already exists. &nbsp;&nbsp;&nbsp;<span id="system_notice_area_dismiss">Dismiss</span>
@@ -1050,7 +1050,8 @@ td {
 							<div id="newFormResult">
 								<?php 
 
-								if(isset($_POST) && $xyz_cfm_codeFlag ==1){
+								if($formDetails->status ==1){
+									$xyz_cfm_code = "Copy this code and paste it into your post or page . <br/>    Code is <b>[xyz-cfm-form-".$xyz_cfm_formId."]</b>";
 									echo $xyz_cfm_code;
 								}
 
@@ -1683,7 +1684,7 @@ td {
 
 						<tr>
 							<td><font color="red">*</font>To Email&nbsp;:&nbsp;<br> <input style="width: 350px;" type="text"
-								name="to" id="to" value="<?php if(isset($_POST['to'])){ echo esc_html($_POST['to']);}else{ echo esc_html($formDetails->to_email); }?>">
+								name="to" id="to" value="<?php if(isset($_POST['to'])){ echo esc_html($_POST['to']);}elseif($formDetails->to_email!=''){ echo esc_html($formDetails->to_email); }else echo $current_user->user_email;?>">
 							</td>
 						</tr>
 						<tr>
