@@ -1051,7 +1051,7 @@ td {
 								<?php 
 
 								if($formDetails->status ==1){
-									$xyz_cfm_code = "Copy this code and paste it into your post or page . <br/>    Code is <b>[xyz-cfm-form-".$xyz_cfm_formId."]</b>";
+									$xyz_cfm_code = "Copy this code and paste it into your post or page . <br/>    Code is <b>[xyz-cfm-form id=".$xyz_cfm_formId."]</b>";
 									echo $xyz_cfm_code;
 								}
 
