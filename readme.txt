@@ -44,12 +44,12 @@ Spam Control
     Simple image verification
     Recaptcha support
 
-Form Display		
+Contact Form Display		
 
     Shortcodes for displaying contact forms
     Modify contact form element options without replacing shortcode
 
-Form submission
+Contact Form Submission
 
     Autoreply on contact form submission
     Redirection after contact form submission 
