@@ -11,12 +11,12 @@ Create and manage custom contact forms for your website.  Choose from a wide ran
 
 == Description ==
 
-The Contact Form Manager lets you create and manage multiple contact forms for your website. It supports a wide range of contact form elements such as text field, email field, textarea, dropdown list, radio button, checkbox, date picker, captcha, file uploader etc. Shortcodes are generated such that, you can modify form element properties without having to replace the shortcode everytime. 
+The Contact Form Manager lets you create and manage multiple customized contact forms for your website. It supports a wide range of contact form elements such as text field, email field, textarea, dropdown list, radio button, checkbox, date picker, captcha, file uploader etc. Shortcodes are generated such that, you can modify contact form element properties without having to replace the shortcode everytime. 
 
 = Features =
 
 
-Supported Elements
+Supported Contact Form Elements
 
     Text field
     Email field
@@ -29,13 +29,13 @@ Supported Elements
     File Uploader
     Submit Button
 
-Form Content
+Contact Form Content
 
     Full control on contact form content
     Visual HTML editor for beautiful contact forms
-    Style class integration option with form elements
-    Option to add * (star symbol) for mandatory form fields
-    Auto-save form elements on creation
+    Style class integration option with contact form elements
+    Option to add * (star symbol) for mandatory contact form fields
+    Auto-save contact form elements on creation
     Multi language support for contact form messages
     Multiple Contact Forms
 
@@ -46,12 +46,12 @@ Spam Control
 
 Form Display		
 
-    Shortcodes for dispalying contact forms
-    Modify form element options without replacing shortcode
+    Shortcodes for displaying contact forms
+    Modify contact form element options without replacing shortcode
 
 Form submission
 
-    Autoreply on form submission
+    Autoreply on contact form submission
     Redirection after contact form submission 
 
 
@@ -75,27 +75,27 @@ If you need any further help, you may contact our [support desk](http://xyzscrip
 
 Please check the wordpress version you are using. Make sure it meets the minimum version recommended by us. Make sure all files of the `contact form manager` plugin uploaded to the folder `wp-content/plugins/`
 
-= 2. Why are the emails are not being sent ? =
+= 2. Why are the emails are not being sent on contact form submission ? =
 
 Please ensure that PHP mail() function is enabled in your server. Also some servers enforce a validation which requires that the sender email address must belong to same domain,ie, if your site is xyz.com, then the sender email must be someone@xyz.com 
 
 = 3. How can I display the contact form in my website ? =
 
-First you need to create a new contact form. Now in the XYZ Contact > Contact Forms page you can see the newly created contact for and its short code. Please copy this short code and paste in your contact page.
+First you need to create a new contact form. Now in the XYZ Contact > Contact Forms page you can see the newly created contact form and its short code. Please copy this short code and paste in your contact page.
 
 
 = 4. How can I add a field to my contact form ? =
 
-To add a new field in the contact form, please click the edit contact form or add a new contact form link. Now you can see a section Form Elements and from here please select the Add Elements. No you can select the tag and create a new element or field.
+To add a new field in the contact form, please click the edit contact form or add a new contact form link. Now you can see a section Form Elements and from here please select the Add Elements. No you can select the and create a new element or field.
 
 = 5. Should I replace my contact form shortcode after editing the contact form element settings ? =
 
 No. There is no need to replace the contact form shortcode after editing the contact form elements. It will update automatically and saves you from the trouble of replacing the code everytime.
 
 
-= 6. How should I get a mail with all the fields used in the form ? =
+= 6. How should I get a mail with all the fields used in the contact form ? =
 
-In the mail settings, please use all the codes of the fields you have used in the contact field. Please make sure that you have added all the tag codes (the code will be like [text-1], [email-2] etc.) in the email body. Custom fields like captcha and submit button cannot be used in mail.
+In the mail content, please use all the codes corresponding to the fields you have used in the contact field. Please make sure that you have added all the tag codes (the code will be like [text-1], [email-2] etc.) in the email body. Custom fields like captcha and submit button cannot be used in mail.
 
 
 = 7. Can I embed the contact form into my template file ? =
@@ -127,16 +127,16 @@ If you are using the recaptcha, please make sure that you have configured the pu
 = 10. Site Admin is not receiving any mail using the contact form =
 
 
-In the contact form 'Mail to site admin' section, you need to add the 'from email' address. Since you want the message from your users email id, we are using the code of the user email here. The code is something like [email-2].
+While editing the 'Mail to site admin' section of a contact form, you need to specify the 'from email' address. Since you want the message from your visitor's email id, we are using the code of the user email here. The code is something like [email-2].
 
-But in some server, they don't allow to send emails with from addresses that are outside the server domain. So in such conditions, you need to add your own email address with the same domain extension of your server in the 'from email' section.
+But in some servers, they don't allow to send emails with from addresses that are outside the server domain. So in such conditions, you need to add your own email address with the same domain extension of your server in the 'from email' section.
 
 More questions ? [Drop a mail](http://xyzscripts.com/members/support/ "XYZScripts Support") and we shall get back to you with the answers.
 
 
 == Screenshots ==
 
-1. This is the form configuration page.
+1. This is the contact form configuration page.
 2. This is a sample contact form.
 
 == Changelog ==
@@ -159,4 +159,4 @@ Please read the FAQ first if you are having problems.
 
 = Feedback =
 
-We would like to receive your feedback and suggestions. You may submit them at our [support desk](http://xyzscripts.com/members/support/ "XYZScripts Support").
+We would like to receive your feedback and suggestions about Contact Form Manager. You may submit them at our [support desk](http://xyzscripts.com/members/support/ "XYZScripts Support").
