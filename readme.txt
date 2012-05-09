@@ -15,8 +15,9 @@ The Contact Form Manager lets you create and manage multiple customized contact 
 
 = Features =
 
+The main features of  the contact form manager plugin are highlighted below.
 
-Supported Contact Form Elements
+= Supported Contact Form Elements =
 
     Text field
     Email field
@@ -29,7 +30,7 @@ Supported Contact Form Elements
     File Uploader
     Submit Button
 
-Contact Form Content
+= Contact Form Content =
 
     Full control on contact form content
     Visual HTML editor for beautiful contact forms
@@ -39,17 +40,17 @@ Contact Form Content
     Multi language support for contact form messages
     Multiple Contact Forms
 
-Spam Control
+= Spam Control =
 
     Simple image verification
     Recaptcha support
 
-Contact Form Display		
+= Contact Form Display =	
 
     Shortcodes for displaying contact forms
     Modify contact form element options without replacing shortcode
 
-Contact Form Submission
+= Contact Form Submission =
 
     Autoreply on contact form submission
     Redirection after contact form submission 
