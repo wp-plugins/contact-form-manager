@@ -5,7 +5,8 @@ Donate link: http://xyzscripts.com/donate/
 Tags: contact, contact form, contact page, contact form plugin, contact us, contact manager, contact form manager, multiple contact forms, contact form with recaptcha, contact form date picker, custom contact form, contact form with auto reply, wordpress contact, TinyMCE form editor
 Requires at least: 2.8
 Tested up to: 3.3.1
-Stable tag: 1.0.2
+Stable tag: 1.0
+License: GPLv2 or later
 
 Create and manage custom contact forms for your website.  Choose from a wide range of form elements .
 
