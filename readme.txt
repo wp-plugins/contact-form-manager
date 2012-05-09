@@ -110,7 +110,7 @@ Yes, you can embed the contact form into your template file. You cannot directly
 
 = 8. I want to use contact form in my language, not in English. How can I do that ? =
 
-Please check the first part of our user guide for changing language details.
+For changing language, please check the [how-to-change-the-language-in-contact-form-manager](http://docs.xyzscripts.com/contact-form-manager/how-to-change-the-language-in-contact-form-manager/ "Contact Form Manager Documentation - Changing Language") section in our docs.
 
 
 = 9. CAPTCHA does not work =
