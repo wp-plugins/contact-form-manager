@@ -202,10 +202,22 @@ type="text" value="<?php 	echo $current_user->user_email; ?>" /><span style="col
 </fieldset>
 
     <div style="clear: both;"></div>
-<div style="text-align: center;padding-top: 10px">
+ <div style="width: 99%">
+<div style="padding-top: 10px;float:left;">
 Powered by <a href="http://xyzscripts.com" target="_blank">XYZScripts</a>
 </div>
+<div style="padding-top: 10px;float:right ;">
+See Also : 
+		<a target="_blank"	href="http://wordpress.org/extend/plugins/lightbox-pop/">Lightbox Pop</a>
+		|
+		<a target="_blank"	href="http://xyzscripts.com/wordpress-plugins/lightbox-pop/details">Lightbox Pop Premium</a>
+		|
+		<a target="_blank"	href="http://wordpress.org/extend/plugins/newsletter-manager/">Newsletter Manager</a>
 
+</div>
+ </div>   
+
+    <div style="clear: both;"></div>
 
 </div>
     <p style="clear: both;"></p>

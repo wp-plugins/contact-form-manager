@@ -40,7 +40,7 @@ $letter6=substr($rand_str,5,1);
                                        
 //Creates an image from a png file. If you want to use gif or jpg images, 
 //just use the coresponding functions: imagecreatefromjpeg and imagecreatefromgif.
-$image=imagecreatefrompng("../../images/bg.png");
+$image=imagecreatefrompng("../images/bg.png");
 //$image = imagecreatefromjpeg("images/background1.jpg");
                                        
 //Get a random angle for each letter to be rotated with.

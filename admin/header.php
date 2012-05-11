@@ -5,7 +5,7 @@
 
 <?php 
 
-if(get_option('xyz_cfm_credit_link')=="0"){
+if(get_option('xyz_credit_link')=="0"){
 	?>
 <div style="float:left;background-color: #FFECB3;border-radius:5px;padding: 0px 5px;margin-top: 10px;border: 1px solid #E0AB1B" id="xyz_backlink_div">
 	
@@ -38,12 +38,25 @@ jQuery.ajax
 }
 ?>
 
+<style>
+#text {margin:50px auto; width:500px}
+.hotspot {color:#900; padding-bottom:1px; border-bottom:1px dotted #900; cursor:pointer}
+
+#tt {position:absolute; display:block; }
+#tttop {display:block; height:5px; margin-left:5px;}
+#ttcont {display:block; padding:2px 10px 3px 7px;  margin-left:-400px; background:#666; color:#FFF}
+#ttbot {display:block; height:5px; margin-left:5px; }
+</style>
+
+
+
+
 
 <div style="margin-top: 10px">
 <table style="float:right; ">
 <tr>
-<td  style="float:right;">
-	<a class="xyz_cfm_link" style="margin-left:8px;margin-right:12px;"  target="_blank" href="http://xyzscripts.com/donate/1">Donate</a>
+<td  style="float:right;" >
+	<a onmouseover="tooltip.show('Please help us to keep this plugin free forever by donating a dollar');" onmouseout="tooltip.hide();" class="xyz_cfm_link" style="margin-left:8px;margin-right:12px;"   target="_blank" href="http://xyzscripts.com/donate/1">Donate</a>
 </td>
 <td style="float:right;">
 	<a class="xyz_cfm_link" style="margin-left:8px;" target="_blank" href="http://kb.xyzscripts.com/category/contact-form-manager">FAQ</a>

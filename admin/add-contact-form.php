@@ -28,7 +28,7 @@ $xyz_cfm_subjectCode = "[text-".$xyz_cfm_subjectId."]";
 
 
 $wpdb->insert('xyz_cfm_form_elements', array('form_id' =>$lastid,'element_name'=>'message',
-		'element_type'=>'3','element_required'=>'1'),
+		'element_type'=>'3','element_required'=>'1','cols'=>45,'rows'=>6),
 		array('%d','%s','%s','%d','%d'));
 $messageId = $wpdb->insert_id;
 $messageCode = "[textarea-".$messageId."]";
@@ -40,16 +40,28 @@ $submitId = $wpdb->insert_id;
 $submitCode = "[submit-".$submitId."]";
 
 
-$xyz_cfm_pageCodeDefault = '<p>Your Name<br />'.$nameCode.'</p>
-<p>Your Email<br />'.$emailCode.'</p>
-<p> Subject<br />'.$xyz_cfm_subjectCode.'</p>
-<p>Message Body<br />'.$messageCode.'</p>
-<p>'.$submitCode.'</p>';
+$xyz_cfm_pageCodeDefault ='<table width="100%">
+			<tr>
+				<td>Your Name</td><td>&nbsp;:&nbsp;</td><td>'.$nameCode.'</td>
+			</tr>
+			<tr>
+			<td>Your Email</td><td>&nbsp;:&nbsp;</td><td>'.$emailCode.'</td>
+			</tr>
+			<tr>
+			<td>Subject</td><td>&nbsp;:&nbsp;</td><td>'.$xyz_cfm_subjectCode.'</td>
+			</tr>
+			<tr>
+			<td>Message Body</td><td>&nbsp;:&nbsp;</td><td>'.$messageCode.'</td>
+			</tr>
+			<tr>
+			<td colspan="2"></td>
+			<td >'.$submitCode.'</td>
+			</tr>
+		</table>';
 
+$xyz_cfm_mailBody='Hi,<p>You have a new contact request</p><p>From : '.$emailCode.'<br />Subject : '.$xyz_cfm_subjectCode.'<br />Message Body : '.$messageCode.'</p>Regards<br>'.get_bloginfo('name');
 
-$xyz_cfm_mailBody='<p>From : '.$emailCode.'<br />Subject : '.$xyz_cfm_subjectCode.'<br />Message Body : '.$messageCode.'</p>';
-
-$xyz_cfm_mailBodyReplay='<p>Hai '.$nameCode.',<br />Thank you for contacting us.Your mail has been received and shall be processed shortly.</p>';
+$xyz_cfm_mailBodyReplay='<p>Hi '.$nameCode.',</p><p>Thank you for contacting us. Your mail has been received and shall be processed shortly.</p>Regards<br>'.get_bloginfo('name');
 
 $wpdb->update('xyz_cfm_form',
 		array('form_content'=>$xyz_cfm_pageCodeDefault,
@@ -61,7 +73,7 @@ $wpdb->update('xyz_cfm_form',
 				'to_email_reply'=>$emailCode,
 				'reply_subject'=>'Re:'.$xyz_cfm_subjectCode,
 				'reply_body'=>$xyz_cfm_mailBodyReplay,
-				'reply_mail_type'=>$xyz_cfm_mailTypeReplay,
+				'reply_mail_type'=>1,
 				'enable_reply'=>1 //disable
 		),
 		array('id'=>$lastid));

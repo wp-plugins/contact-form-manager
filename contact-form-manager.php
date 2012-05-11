@@ -3,7 +3,7 @@
 Plugin Name: Contact Form Manager
 Plugin URI: http://xyzscripts.com/wordpress-plugins/contact-form-manager/
 Description: Create  and manage multiple contact forms for your website. The plugin supports a wide range of form elements such as text field, email field, textarea, dropdown list, radio button, checkbox, date picker, captcha, file uploader etc. Shortcodes are generated such that, you can modify form element properties without having to replace the shortcode everytime.          
-Version: 1.0
+Version: 1.1
 Author: xyzscripts.com
 Author URI: http://xyzscripts.com/
 Text Domain: contact-form-manager
@@ -33,7 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 ob_start();
 // error_reporting(E_ALL);
-define(XYZ_CFM_PLUGIN_FILE,__FILE__);
+define('XYZ_CFM_PLUGIN_FILE',__FILE__);
 require( dirname( __FILE__ ) . '/xyz-functions.php' );
 
 require( dirname( __FILE__ ) . '/admin/install.php' );
@@ -53,7 +53,7 @@ function xyz_cfm_manager() {
 }
 add_action('init', 'xyz_cfm_manager');
 
-if(get_option('xyz_cfm_credit_link')=="1"){
+if(get_option('xyz_credit_link')=="cfm"){
 
 	add_action('wp_footer', 'xyz_cfm_credit');
 

@@ -1,7 +1,11 @@
 <?php 
 global $wpdb;
 $_GET = stripslashes_deep($_GET);
-if($_GET['msg'] == 1){
+$xyz_cfm_formpMessage = '';
+if(isset($_GET['msg'])){
+	$xyz_cfm_formpMessage = $_GET['msg'];
+}
+if($xyz_cfm_formpMessage == 1){
 
 	?>
 <div class="system_notice_area_style1" id="system_notice_area">
@@ -34,7 +38,7 @@ id="system_notice_area_dismiss">Dismiss</span>
 				style="cursor: pointer; margin-bottom:10px;" type="button"
 				name="textFieldButton2" value="Add New Contact Form"
 				 onClick='document.location.href="<?php echo admin_url('admin.php?page=contact-form-manager-managecontactforms&action=form-add');?>"'>
-			<table class="widefat" style="width: 99%; margin: 0 auto">
+			<table class="widefat" style="width: 99%; margin: 0 auto; border-bottom:none;">
 				<thead>
 					<tr>
 						<th scope="col" style="">Contact Form Name</th>

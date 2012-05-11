@@ -1,26 +1,38 @@
 <?php
 
-function xyz_em_tinymce_config( $init )
+if(!function_exists('xyz_tinymce_config'))
+{
+
+function xyz_tinymce_config( $init )
 {
 	$init['apply_source_formatting'] = true;
 
 	// Pass $init back to WordPress
 	return $init;
 }
-add_filter('tiny_mce_before_init', 'xyz_em_tinymce_config');
+add_filter('tiny_mce_before_init', 'xyz_tinymce_config');
+
+}
 
 
-function xyz_em_tinymce_htmledit($c)
+if(!function_exists('xyz_tinymce_htmledit'))
+{
+
+function xyz_tinymce_htmledit($c)
 {
 	$c = str_replace( array('&amp;', '&lt;', '&gt;'), array('&', '<', '>'), $c );
 	$c = wpautop($c);
 	$c = htmlspecialchars($c, ENT_NOQUOTES);
 	return $c;
 }
-add_filter('htmledit_pre', 'xyz_em_tinymce_htmledit', 999);
+add_filter('htmledit_pre', 'xyz_tinymce_htmledit', 999);
+}
 
 
-function xyz_em_tinymce_replace()
+if(!function_exists('xyz_tinymce_replace'))
+{
+
+function xyz_tinymce_replace()
 {
 	?>
 <script type="text/javascript">
@@ -38,6 +50,6 @@ o.data = o.unfiltered;
 </script>
 <?php
 }
-add_action( 'after_wp_tiny_mce', 'xyz_em_tinymce_replace' );
-
+add_action( 'after_wp_tiny_mce', 'xyz_tinymce_replace' );
+}
 ?>

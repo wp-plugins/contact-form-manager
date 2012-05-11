@@ -24,7 +24,11 @@ if(isset($_POST) && isset($_POST['addSubmit'])){
 	$xyz_cfm_formName = $_POST['formName'];
 	$xyz_cfm_generatedCode = $_POST['generatedCode'];
 	$xyz_cfm_to = $_POST['to'];
-	$xyz_cfm_from = $_POST['from'];
+	
+	$xyz_cfm_from_email_id = $_POST['xyz_cfm_senderEmailId'];//from email id
+
+	$xyz_cfm_from_email = $_POST['from'];//from email address
+	
 	$xyz_cfm_subject = $_POST['subject'];
 	
 	$xyz_cfm_formId = $_POST['formId'];
@@ -59,7 +63,10 @@ if(isset($_POST) && isset($_POST['addSubmit'])){
 
 	$xyz_cfm_senderName = $_POST['senderName'];
 	$xyz_cfm_replaySenderName = $_POST['replaySenderName'];
-	$xyz_cfm_replaySenderEmail = $_POST['replaySenderEmail'];
+	
+	$xyz_cfm_replaySenderEmailId = $_POST['xyz_cfm_replaySenderEmailId'];//reply email id
+	
+	$xyz_cfm_replaySenderEmail = $_POST['replaySenderEmail'];//freply email address
 	
 	$xyz_cfm_enableReply = $_POST['enableReply'];
 	
@@ -68,15 +75,29 @@ if(isset($_POST) && isset($_POST['addSubmit'])){
 	$xyz_cfm_redirectionLink = $_POST['redirectionLink'];
 	
 
-	if($xyz_cfm_toEmailReply != "" && $xyz_cfm_formName != "" && $xyz_cfm_generatedCode != "" && $xyz_cfm_to != "" && $xyz_cfm_from != "" && $xyz_cfm_subject != "" && $xyz_cfm_mailBody != "" && $xyz_cfm_subjectReplay != "" && $xyz_cfm_mailBodyReplay != ""){
+	if($xyz_cfm_toEmailReply != "" && $xyz_cfm_formName != "" && 
+			$xyz_cfm_generatedCode != "" && $xyz_cfm_to != "" && ($xyz_cfm_from_email != "" || $xyz_cfm_from_email_id != "") &&
+			 $xyz_cfm_subject != "" && $xyz_cfm_mailBody != "" && $xyz_cfm_subjectReplay != "" && $xyz_cfm_mailBodyReplay != ""){
+		
 		$element_count = $wpdb->query( 'SELECT * FROM xyz_cfm_form WHERE id!="'.$xyz_cfm_formId.'" AND name="'.$xyz_cfm_formName.'" LIMIT 0,1' ) ;
 		if($element_count == 0){
-			$wpdb->update('xyz_cfm_form',
-					array('name'=>$xyz_cfm_formName,'status'=>'1','form_content'=>$xyz_cfm_generatedCode,'submit_mode'=>$xyz_cfm_submitMode,
-							'to_email'=>$xyz_cfm_to,'from_email'=>$xyz_cfm_from,'sender_name'=>$xyz_cfm_senderName,'reply_sender_name'=>$xyz_cfm_replaySenderName,'reply_sender_email'=>$xyz_cfm_replaySenderEmail,'cc_email'=>$xyz_cfm_cc,
-							'mail_type'=>$xyz_cfm_mailType,'mail_subject'=>$xyz_cfm_subject,'mail_body'=>$xyz_cfm_mailBody,'to_email_reply'=>$xyz_cfm_toEmailReply,'reply_subject'=>$xyz_cfm_subjectReplay,
-							'reply_body'=>$xyz_cfm_mailBodyReplay,'reply_mail_type'=>$xyz_cfm_mailTypeReplay,'enable_reply'=>$xyz_cfm_enableReply,'redirection_link'=>$xyz_cfm_redirectionLink),
-					array('id'=>$xyz_cfm_formId));
+			
+			if(get_option('xyz_cfm_sendViaSmtp') == 1){
+			
+				$wpdb->update('xyz_cfm_form',
+				array('name'=>$xyz_cfm_formName,'status'=>'1','form_content'=>$xyz_cfm_generatedCode,'submit_mode'=>$xyz_cfm_submitMode,
+				'to_email'=>$xyz_cfm_to,'from_email_id'=>$xyz_cfm_from_email_id,'sender_name'=>$xyz_cfm_senderName,'reply_sender_name'=>$xyz_cfm_replaySenderName,'reply_sender_email_id'=>$xyz_cfm_replaySenderEmailId,'cc_email'=>$xyz_cfm_cc,
+				'mail_type'=>$xyz_cfm_mailType,'mail_subject'=>$xyz_cfm_subject,'mail_body'=>$xyz_cfm_mailBody,'to_email_reply'=>$xyz_cfm_toEmailReply,'reply_subject'=>$xyz_cfm_subjectReplay,
+				'reply_body'=>$xyz_cfm_mailBodyReplay,'reply_mail_type'=>$xyz_cfm_mailTypeReplay,'enable_reply'=>$xyz_cfm_enableReply,'redirection_link'=>$xyz_cfm_redirectionLink),array('id'=>$xyz_cfm_formId));
+				
+			}else{
+				$wpdb->update('xyz_cfm_form',array('name'=>$xyz_cfm_formName,'status'=>'1','form_content'=>$xyz_cfm_generatedCode,
+				'submit_mode'=>$xyz_cfm_submitMode,'to_email'=>$xyz_cfm_to,'from_email'=>$xyz_cfm_from_email,'sender_name'=>$xyz_cfm_senderName,
+				'reply_sender_name'=>$xyz_cfm_replaySenderName,'reply_sender_email'=>$xyz_cfm_replaySenderEmail,'cc_email'=>$xyz_cfm_cc,
+				'mail_type'=>$xyz_cfm_mailType,'mail_subject'=>$xyz_cfm_subject,'mail_body'=>$xyz_cfm_mailBody,'to_email_reply'=>$xyz_cfm_toEmailReply,
+				'reply_subject'=>$xyz_cfm_subjectReplay,'reply_body'=>$xyz_cfm_mailBodyReplay,'reply_mail_type'=>$xyz_cfm_mailTypeReplay,
+				'enable_reply'=>$xyz_cfm_enableReply,'redirection_link'=>$xyz_cfm_redirectionLink),array('id'=>$xyz_cfm_formId));
+			}
 				
 			?>
 			<div class="system_notice_area_style1" id="system_notice_area">
@@ -175,7 +196,15 @@ jQuery(document).ready(function() {
 		var formName = jQuery.trim(jQuery("#formName").val());
 		var generatedCode = jQuery("#generatedCode").val();
 		var to = jQuery.trim(jQuery("#to").val());
+
 		var from = jQuery.trim(jQuery("#from").val());
+		if(from == ''){
+
+			from = jQuery("#xyz_cfm_senderEmailId").val();
+			
+		}
+		
+		
 		var subject = jQuery.trim(jQuery("#subject").val());
 		var mailType = jQuery("#mailType").val();
 		if(mailType == 1){
@@ -198,7 +227,6 @@ jQuery(document).ready(function() {
 			
 		}
 		if(mailTypeReplay == 2){
-
 			
 			var mailBodyReplay = jQuery.trim(jQuery("#mailBodyReplayPlainText").val());
 			
@@ -211,11 +239,30 @@ jQuery(document).ready(function() {
 
 		var senderName = jQuery("#senderName").val();
 		var replaySenderName = jQuery("#replaySenderName").val();
-		var replaySenderEmail = jQuery("#replaySenderEmail").val();
+
+		var replaySenderEmail = '';
+		
+		if(jQuery("#xyz_cfm_replaySenderEmailId").val() == ''){
+		
+			replaySenderEmail = jQuery("#replaySenderEmail").val();
+			if(replaySenderEmail != ""){
+
+	        	if(!emailReg.test(replaySenderEmail)) {
+		        	alert('Enter a valid  email address.');
+		            return false;
+		        }
+
+	        }
+			
+		}else{
+			replaySenderEmail = jQuery("#xyz_cfm_replaySenderEmailId").val();
+		}
 
 		var toEmailReply = jQuery("#toEmailReply").val();
+
 		
-		if(toEmailReply != "" && formName != "" && generatedCode != "" && to != "" && from != "" && subject != "" && mailBody != "" && subjectReplay != "" && mailBodyReplay != ""){
+		if(toEmailReply != "" && formName != "" && generatedCode != "" && to != "" && from != "" && subject != "" && 
+				mailBody != "" && subjectReplay != "" && mailBodyReplay != ""){
 
 			var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 			 
@@ -232,14 +279,9 @@ jQuery(document).ready(function() {
 			        }
 
 		        }
-		        if(replaySenderEmail != ""){
 
-		        	if(!emailReg.test(replaySenderEmail)) {
-			        	alert('Enter a valid  email address.');
-			            return false;
-			        }
-
-		        }
+		        
+		        
 	        }
 			
 		}else{
@@ -1154,7 +1196,7 @@ td {
 										<table class="tableStyle">
 											<tr>
 												<td  colspan="2" style="border: none;">
-													<div id="textFieldResult"></div>
+													<div style="margin-left:10px;" id="textFieldResult"></div>
 												</td>
 
 											</tr>
@@ -1212,7 +1254,7 @@ td {
 										<table class="tableStyle">
 											<tr>
 												<td style="border:none; padding-left:15px;" colspan="2">
-													<div id="emailFieldResult"></div>
+													<divstyle="margin-left:10px;"  id="emailFieldResult"></div>
 												</td>
 
 											</tr>
@@ -1267,7 +1309,7 @@ td {
 										<table class="tableStyle">
 											<tr>
 												<td style="border:none; padding-left:15px;" colspan="2">
-													<div id="textAreaResult"></div>
+													<div style="margin-left:10px;" id="textAreaResult"></div>
 												</td>
 
 											</tr>
@@ -1329,7 +1371,7 @@ td {
 										<table class="tableStyle">
 											<tr>
 												<td style="border:none; padding-left:15px;" colspan="2">
-													<div id="dropDownMenuResult"></div>
+													<div style="margin-left:10px;" id="dropDownMenuResult"></div>
 												</td>
 
 											</tr>
@@ -1375,7 +1417,7 @@ td {
 										<table class="tableStyle">
 											<tr>
 												<td style="border:none; padding-left:15px;" colspan="2">
-													<div id="dateFieldResult"></div>
+													<div style="margin-left:10px;" id="dateFieldResult"></div>
 												</td>
 
 											</tr>
@@ -1414,7 +1456,7 @@ td {
 										<table class="tableStyle">
 											<tr>
 												<td style="border:none; padding-left:15px;" colspan="2">
-													<div id="checkBoxesResult"></div>
+													<div style="margin-left:10px;" id="checkBoxesResult"></div>
 												</td>
 
 											</tr>
@@ -1462,7 +1504,7 @@ td {
 										<table class="tableStyle">
 											<tr>
 												<td style="border:none; padding-left:15px;" colspan="2">
-													<div id="radioButtonsResult"></div>
+													<div style="margin-left:10px;" id="radioButtonsResult"></div>
 												</td>
 
 											</tr>
@@ -1510,7 +1552,7 @@ td {
 										<table class="tableStyle">
 											<tr>
 												<td style="border:none; padding-left:15px;" colspan="2">
-													<div id="fileUploadResult"></div>
+													<div style="margin-left:10px;" id="fileUploadResult"></div>
 												</td>
 
 											</tr>
@@ -1566,7 +1608,7 @@ td {
 										<table class="tableStyle">
 											<tr>
 												<td colspan="2" style="border:none; padding-left:15px;">
-													<div id="submitButtonResult"></div>
+													<div style="margin-left:10px;" id="submitButtonResult"></div>
 												</td>
 
 											</tr>
@@ -1607,7 +1649,7 @@ td {
 										<table class="tableStyle">
 											<tr>
 												<td colspan="2" style="border:none; padding-left:15px;">
-													<div id="captchaResult"></div>
+													<div style="margin-left:10px;" id="captchaResult"></div>
 												</td>
 
 											</tr>
@@ -1693,9 +1735,39 @@ td {
 							</td>
 						</tr>
 						<tr>
-							<td><font color="red">*</font>From Email&nbsp;:&nbsp;<br> <input style="width: 350px;"
+							<td><font color="red">*</font>From Email&nbsp;:&nbsp;<br>
+							<?php 
+							
+							if(get_option('xyz_cfm_sendViaSmtp') == 1){
+								$xyz_cfm_getSenderdetails = $wpdb->get_results("SELECT * FROM xyz_cfm_sender_email_address");
+								?>
+								<select name="xyz_cfm_senderEmailId" id="xyz_cfm_senderEmailId">
+								<?php
+								foreach ($xyz_cfm_getSenderdetails as $xyz_cfm_getSender){
+								?>
+								<option value="<?php echo $xyz_cfm_getSender->id;?>" <?php if(isset($_POST['xyz_cfm_senderEmailId']) && $_POST['xyz_cfm_senderEmailId']==$xyz_cfm_getSender->id){?>selected="selected"<?php } elseif($formDetails->from_email_id == $xyz_cfm_getSender->id){?>selected="selected"<?php }?>><?php echo $xyz_cfm_getSender->user;?></option>
+								<?php
+								}
+								?>
+								</select>
+							<input type = "hidden" name="from" value="<?php echo $formDetails->from_email ;?>">
+								<?php 
+							
+							}else{
+							
+							?>
+							
+
+							<input type = "hidden" name="xyz_cfm_senderEmailId" value="<?php echo $formDetails->from_email_id ;?>">
+							 <input style="width: 350px;"
 								type="text" name="from" id="from"
 								value="<?php if(isset($_POST['from'])){ echo esc_html($_POST['from']);}else{ echo esc_html($formDetails->from_email); }?>">
+							<?php 
+							
+							}
+							
+							?>	
+								
 							</td>
 						</tr>
 						<tr>
@@ -1762,8 +1834,38 @@ td {
 						</tr>
 						<tr><td></td></tr>
 						<tr>
-							<td>Sender Email&nbsp;:&nbsp;<br> <input style="width: 350px;"
+							<td>Sender Email&nbsp;:&nbsp;<br>
+							
+							<?php 
+							
+							if(get_option('xyz_cfm_sendViaSmtp') == 1){
+								$xyz_cfm_getSenderdetails = $wpdb->get_results("SELECT * FROM xyz_cfm_sender_email_address");
+								?>
+								<select name="xyz_cfm_replaySenderEmailId" id="xyz_cfm_replaySenderEmailId">
+								<option value="0">Select</option>
+								<?php
+								foreach ($xyz_cfm_getSenderdetails as $xyz_cfm_getSender){
+								?>
+								<option value="<?php echo $xyz_cfm_getSender->id;?>" <?php if(isset($_POST['xyz_cfm_replaySenderEmailId']) && $_POST['xyz_cfm_replaySenderEmailId']==$xyz_cfm_getSender->id){?>selected="selected"<?php } elseif($formDetails->reply_sender_email_id == $xyz_cfm_getSender->id){?>selected="selected"<?php }?>><?php echo $xyz_cfm_getSender->user;?></option>
+								<?php
+								}
+								?>
+								</select>
+							<input type = "hidden" name="replaySenderEmail" value="<?php echo $formDetails->reply_sender_email ;?>">
+								<?php 
+							
+							}else{
+							
+							?>
+							<input type = "hidden" name="xyz_cfm_replaySenderEmailId" value="<?php echo $formDetails->reply_sender_email_id ;?>">
+							<input style="width: 350px;"
 								type="text" name="replaySenderEmail" id="replaySenderEmail" value="<?php if(isset($_POST['replaySenderEmail'])){ echo esc_html($_POST['replaySenderEmail']);}else{ echo esc_html($formDetails->reply_sender_email); }?>">
+								
+							<?php 
+							
+							}
+							
+							?>
 							</td>
 						</tr>
 						<tr>

@@ -61,7 +61,7 @@ msgid "Select atleast one checkbox"
 msgstr ""
 
 #: create-contact-form.php:829
-msgid "Select atleast one radio button"
+msgid "Select a radio button"
 msgstr ""
 
 #: create-contact-form.php:861

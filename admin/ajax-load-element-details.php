@@ -178,22 +178,7 @@ jQuery('#textFieldButtonUpdate1').click(function() {
 	}
 	});
 
-
-	var dataStringElement = '&formId='+formId;
-	jQuery.ajax
-	({
-	type: "POST",
-	url: "<?php echo plugins_url('contact-form-manager/admin/ajax-load-elements.php') ?>",
-	data: dataStringElement,
-	cache: false,
-	success: function(html)
-	{	
-		
-		jQuery("#elementSettingResult").html(html);
-	}
-	});
-	
-
+	jQuery("#xyz_cfm_elementSetting option[value='<?php echo $elementId;?>']").text(elementName);
 	
 	}else{
 		alert("Please fill all mandatory fields.");
@@ -241,19 +226,7 @@ jQuery('#textFieldButtonUpdate2').click(function() {
 	}
 	});
 
-	var dataStringElement = '&formId='+formId;
-	jQuery.ajax
-	({
-	type: "POST",
-	url: "<?php echo plugins_url('contact-form-manager/admin/ajax-load-elements.php') ?>",
-	data: dataStringElement,
-	cache: false,
-	success: function(html)
-	{	
-		
-		jQuery("#elementSettingResult").html(html);
-	}
-	});
+	jQuery("#xyz_cfm_elementSetting option[value='<?php echo $elementId;?>']").text(elementName);
 	
 	}else{
 		alert("Please fill all mandatory fields.");
@@ -301,19 +274,7 @@ jQuery('#textFieldButtonUpdate3').click(function() {
 	}
 	});
 
-	var dataStringElement = '&formId='+formId;
-	jQuery.ajax
-	({
-	type: "POST",
-	url: "<?php echo plugins_url('contact-form-manager/admin/ajax-load-elements.php') ?>",
-	data: dataStringElement,
-	cache: false,
-	success: function(html)
-	{	
-		
-		jQuery("#elementSettingResult").html(html);
-	}
-	});
+	jQuery("#xyz_cfm_elementSetting option[value='<?php echo $elementId;?>']").text(elementName);
 	
 	}else{
 		alert("Please fill all mandatory fields.");
@@ -322,7 +283,7 @@ jQuery('#textFieldButtonUpdate3').click(function() {
 	
 });
 
-jQuery('#textFieldButton4Update').click(function() {
+jQuery('#textFieldButtonUpdate4').click(function() {
 	var selectId = 4;
 	var dataString = 'id='+ selectId+'&elementId='+<?php echo $elementId;?>;
 	var required ='';
@@ -358,19 +319,7 @@ jQuery('#textFieldButton4Update').click(function() {
 	}
 	});
 
-	var dataStringElement = '&formId='+formId;
-	jQuery.ajax
-	({
-	type: "POST",
-	url: "<?php echo plugins_url('contact-form-manager/admin/ajax-load-elements.php') ?>",
-	data: dataStringElement,
-	cache: false,
-	success: function(html)
-	{	
-		
-		jQuery("#elementSettingResult").html(html);
-	}
-	});
+	jQuery("#xyz_cfm_elementSetting option[value='<?php echo $elementId;?>']").text(elementName);
 	
 	}else{
 		alert("Please fill all mandatory fields.");
@@ -414,20 +363,8 @@ jQuery('#textFieldButtonUpdate5').click(function() {
 	}
 	});
 
-	var dataStringElement = '&formId='+formId;
-	jQuery.ajax
-	({
-	type: "POST",
-	url: "<?php echo plugins_url('contact-form-manager/admin/ajax-load-elements.php') ?>",
-	data: dataStringElement,
-	cache: false,
-	success: function(html)
-	{	
+	jQuery("#xyz_cfm_elementSetting option[value='<?php echo $elementId;?>']").text(elementName);
 		
-		jQuery("#elementSettingResult").html(html);
-	}
-	});
-	
 	}else{
 		alert("Please fill all mandatory fields.");
 		return false;
@@ -472,19 +409,7 @@ jQuery('#textFieldButtonUpdate6').click(function() {
 	}
 	});
 
-	var dataStringElement = '&formId='+formId;
-	jQuery.ajax
-	({
-	type: "POST",
-	url: "<?php echo plugins_url('contact-form-manager/admin/ajax-load-elements.php') ?>",
-	data: dataStringElement,
-	cache: false,
-	success: function(html)
-	{	
-		
-		jQuery("#elementSettingResult").html(html);
-	}
-	});
+	jQuery("#xyz_cfm_elementSetting option[value='<?php echo $elementId;?>']").text(elementName);
 	
 	}else{
 		alert("Please fill all mandatory fields.");
@@ -529,19 +454,7 @@ jQuery('#textFieldButtonUpdate7').click(function() {
 	}
 	});
 
-	var dataStringElement = '&formId='+formId;
-	jQuery.ajax
-	({
-	type: "POST",
-	url: "<?php echo plugins_url('contact-form-manager/admin/ajax-load-elements.php') ?>",
-	data: dataStringElement,
-	cache: false,
-	success: function(html)
-	{	
-		
-		jQuery("#elementSettingResult").html(html);
-	}
-	});
+	jQuery("#xyz_cfm_elementSetting option[value='<?php echo $elementId;?>']").text(elementName);
 	
 	}else{
 		alert("Please fill all mandatory fields.");
@@ -587,19 +500,7 @@ jQuery('#textFieldButtonUpdate8').click(function() {
 	}
 	});
 
-	var dataStringElement = '&formId='+formId;
-	jQuery.ajax
-	({
-	type: "POST",
-	url: "<?php echo plugins_url('contact-form-manager/admin/ajax-load-elements.php') ?>",
-	data: dataStringElement,
-	cache: false,
-	success: function(html)
-	{	
-		
-		jQuery("#elementSettingResult").html(html);
-	}
-	});
+	jQuery("#xyz_cfm_elementSetting option[value='<?php echo $elementId;?>']").text(elementName);
 	
 	}else{
 		alert("Please fill all mandatory fields.");
@@ -637,19 +538,7 @@ jQuery('#textFieldButtonUpdate9').click(function() {
 	}
 	});
 
-	var dataStringElement = '&formId='+formId;
-	jQuery.ajax
-	({
-	type: "POST",
-	url: "<?php echo plugins_url('contact-form-manager/admin/ajax-load-elements.php') ?>",
-	data: dataStringElement,
-	cache: false,
-	success: function(html)
-	{	
-		
-		jQuery("#elementSettingResult").html(html);
-	}
-	});
+	jQuery("#xyz_cfm_elementSetting option[value='<?php echo $elementId;?>']").text(elementName);
 	
 	}else{
 		alert("Please fill all mandatory fields.");
@@ -692,19 +581,8 @@ jQuery('#textFieldButtonUpdate10').click(function() {
 			}
 			});
 		
-			var dataStringElement = '&formId='+formId;
-			jQuery.ajax
-			({
-			type: "POST",
-			url: "<?php echo plugins_url('contact-form-manager/admin/ajax-load-elements.php') ?>",
-			data: dataStringElement,
-			cache: false,
-			success: function(html)
-			{	
-				
-				jQuery("#elementSettingResult").html(html);
-			}
-			});
+			jQuery("#xyz_cfm_elementSetting option[value='<?php echo $elementId;?>']").text(elementName);
+			
 		}else{
 			alert("Please fill all mandatory fields.");
 			return false;
@@ -733,19 +611,7 @@ jQuery('#textFieldButtonUpdate10').click(function() {
 			}
 			});
 		
-			var dataStringElement = '&formId='+formId;
-			jQuery.ajax
-			({
-			type: "POST",
-			url: "<?php echo plugins_url('contact-form-manager/admin/ajax-load-elements.php') ?>",
-			data: dataStringElement,
-			cache: false,
-			success: function(html)
-			{	
-				
-				jQuery("#elementSettingResult").html(html);
-			}
-			});
+			jQuery("#xyz_cfm_elementSetting option[value='<?php echo $elementId;?>']").text(elementName);
 			
 		}else{
 			alert("Please fill all mandatory fields.");
@@ -784,7 +650,7 @@ if($element_result->element_type = 1){
 		</tr>
 		<tr>
 			<td style="border: none;padding-left:15px;" colspan="2">
-				<div id="textFieldResultUpdate1"></div>
+				<divstyle="margin-left:10px;"  id="textFieldResultUpdate1"></div>
 			</td>
 
 		</tr>
@@ -858,7 +724,7 @@ if($element_result->element_type = 2){
 		</tr>
 		<tr>
 			<td style="border: none;padding-left:15px;" colspan="2">
-				<div id="emailFieldResultUpdate2"></div>
+				<div style="margin-left:10px;" id="emailFieldResultUpdate2"></div>
 			</td>
 
 		</tr>
@@ -929,7 +795,7 @@ if($element_result->element_type = 3){
 		</tr>
 		<tr>
 			<td style="border: none;padding-left:15px;" colspan="2">
-				<div id="textAreaResultUpdate3"></div>
+				<div style="margin-left:10px;" id="textAreaResultUpdate3"></div>
 			</td>
 
 		</tr>
@@ -1007,7 +873,7 @@ if($element_result->element_type = 4){
 		</tr>
 		<tr>
 			<td style="border: none;padding-left:15px;" colspan="2">
-				<div id="dropDownMenuResultUpdate4"></div>
+				<div style="margin-left:10px;" id="dropDownMenuResultUpdate4"></div>
 			</td>
 
 		</tr>
@@ -1068,7 +934,7 @@ if($element_result->element_type = 5){
 		</tr>
 		<tr>
 			<td style="border: none;padding-left:15px;" colspan="2">
-				<div id="dateFieldResultUpdate5"></div>
+				<div style="margin-left:10px;" id="dateFieldResultUpdate5"></div>
 			</td>
 
 		</tr>
@@ -1122,7 +988,7 @@ if($element_result->element_type = 6){
 		</tr>
 		<tr>
 			<td style="border: none;padding-left:15px;" colspan="2">
-				<div id="checkBoxesResultUpdate6"></div>
+				<div style="margin-left:10px;" id="checkBoxesResultUpdate6"></div>
 			</td>
 
 		</tr>
@@ -1185,7 +1051,7 @@ if($element_result->element_type = 7){
 		</tr>
 		<tr>
 			<td style="border: none;padding-left:15px;" colspan="2">
-				<div id="radioButtonsResultUpdate7"></div>
+				<div style="margin-left:10px;" id="radioButtonsResultUpdate7"></div>
 			</td>
 
 		</tr>
@@ -1207,7 +1073,8 @@ if($element_result->element_type = 7){
 
 
 		<tr>
-			<td>Options<br> <input type="text" class="xyz_cfm_NoEnterSubmit"
+			<td>Options</td>
+			<td> <input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="radioOptionsUpdate7" id="radioOptionsUpdate7" value="<?php if(isset($_POST['radioOptionsUpdate7'])){ echo esc_html($_POST['radioOptionsUpdate7']);}else{ echo esc_html($element_result->options); }?>">
 				<font color="red">*</font>
 				<br /> Please use comma(,) to separate option values.
@@ -1249,7 +1116,7 @@ if($element_result->element_type = 8){
 		</tr>
 		<tr>
 			<td style="border: none;padding-left:15px;" colspan="2">
-				<div id="fileUploadResultUpdate8"></div>
+				<div style="margin-left:10px;" id="fileUploadResultUpdate8"></div>
 			</td>
 
 		</tr>
@@ -1323,7 +1190,7 @@ if($element_result->element_type = 9){
 		</tr>
 		<tr>
 			<td style="border: none;padding-left:15px;" colspan="2">
-				<div id="submitButtonResultUpdate9"></div>
+				<div style="margin-left:10px;" id="submitButtonResultUpdate9"></div>
 			</td>
 
 		</tr>
@@ -1377,7 +1244,7 @@ if($element_result->element_type = 10){
 		</tr>
 		<tr>
 			<td style="border: none;padding-left:15px;" colspan="2">
-				<div id="captchaResultUpdate10"></div>
+				<div style="margin-left:10px;" id="captchaResultUpdate10"></div>
 			</td>
 
 		</tr>

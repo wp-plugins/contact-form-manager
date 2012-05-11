@@ -8,7 +8,7 @@ global $wpdb;
 if($_POST){
 	
 // 	$xyz_cfm_credit=absint($_POST['enable']);
-	update_option('xyz_cfm_credit_link',1);
+	update_option('xyz_credit_link','cfm');
 }
 
 
