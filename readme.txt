@@ -12,7 +12,7 @@ Create and manage custom contact forms for your website.  Choose from a wide ran
 
 == Description ==
 
-A quick look into the features :
+A quick look into Contact Form Manager :
 
  ★ Supports text field, textarea, email field, dropdown, radio button & checkbox
  ★ Advanced fields like datepicker & file uploader
@@ -20,7 +20,7 @@ A quick look into the features :
  ★ Recpatcha/image verification for spam control
  ★ Multiple custom forms with shortcode support
  ★ Auto-reply and redirection options on submission
- ★ Customizable email body
+ ★ Customizable mail body
  ★ SMTP mailing settings
 
 
