@@ -8,7 +8,7 @@ Tested up to: 3.3.1
 Stable tag: 1.1
 License: GPLv2 or later
 
-Create and manage custom contact forms for your website.  Choose from a wide range of form elements .
+Create contact form for your website.  Choose from a wide range of form elements .
 
 == Description ==
 
