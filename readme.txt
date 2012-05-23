@@ -14,12 +14,13 @@ Create and manage custom contact forms for your website.  Choose from a wide ran
 
 A quick look into the features :
 
- ★ Supports text field, textarea, email field, dropdown, datepicker and much more
+ ★ Supports text field, textarea, email field, dropdown, radio button & checkbox
+ ★ Advanced fields like datepicker & file uploader
  ★ HTML editor to design form content
- ★ Recpatcha for spam control 
+ ★ Recpatcha/image verification for spam control 
  ★ Multiple custom forms with shortcode support
  ★ Auto-reply and redirection options on submission
- ★ Customizable mail contents
+ ★ Customizable email body
  ★ SMTP mailing settings
 
 = Features in Detail =
