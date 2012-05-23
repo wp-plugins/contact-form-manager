@@ -2,7 +2,7 @@
 Contributors: f1logic
 Donate link: http://xyzscripts.com/donate/
 
-Tags: contact, contact form, contact page, contact form plugin, contact us, contact manager, contact form manager, multiple contact forms, contact form with recaptcha, contact form date picker, custom contact form, contact form with auto reply, wordpress contact, TinyMCE form editor
+Tags:  contact form, contact page, contact form plugin, contact us, multiple contact forms, custom contact form, contact form with auto reply, contact form with recaptcha, contact form date picker,  contact, contact manager, contact form manager, wordpress contact, TinyMCE form editor
 Requires at least: 2.8
 Tested up to: 3.3.1
 Stable tag: 1.1
@@ -12,11 +12,19 @@ Create and manage custom contact forms for your website.  Choose from a wide ran
 
 == Description ==
 
+A quick look into the features :
+
+* ? Supports text field, textarea, email field, dropdown, datepicker etc
+* ? HTML editor to design form content
+* ? Recpatcha for spam control 
+* ? Multiple custom forms with shortcode support
+* ? Auto-reply and redirection options on submission
+
+= Features in Detail =
+
 The Contact Form Manager lets you create and manage multiple customized contact forms for your website. It supports a wide range of contact form elements such as text field, email field, textarea, dropdown list, radio button, checkbox, date picker, captcha, file uploader etc. Shortcodes are generated such that, you can modify contact form element properties without having to replace the shortcode everytime. 
 
-= Features =
-
-The main features of  the contact form manager plugin are highlighted below.
+The prominent features of  the contact form manager plugin are highlighted below.
 
 = Supported Contact Form Elements =
 
