@@ -1,4 +1,4 @@
-=== Contact Form Manager ===
+﻿=== Contact Form Manager ===
 Contributors: f1logic
 Donate link: http://xyzscripts.com/donate/
 
@@ -14,11 +14,11 @@ Create and manage custom contact forms for your website.  Choose from a wide ran
 
 A quick look into the features :
 
-* ? Supports text field, textarea, email field, dropdown, datepicker etc
-* ? HTML editor to design form content
-* ? Recpatcha for spam control 
-* ? Multiple custom forms with shortcode support
-* ? Auto-reply and redirection options on submission
+* ★ Supports text field, textarea, email field, dropdown, datepicker etc
+* ★ HTML editor to design form content
+* ★ Recpatcha for spam control 
+* ★ Multiple custom forms with shortcode support
+* ★ Auto-reply and redirection options on submission
 
 = Features in Detail =
 
