@@ -17,11 +17,12 @@ A quick look into the features :
  ★ Supports text field, textarea, email field, dropdown, radio button & checkbox
  ★ Advanced fields like datepicker & file uploader
  ★ HTML editor to design form content
- ★ Recpatcha/image verification for spam control 
+ ★ Recpatcha/image verification for spam control
  ★ Multiple custom forms with shortcode support
  ★ Auto-reply and redirection options on submission
  ★ Customizable email body
  ★ SMTP mailing settings
+
 
 = Features in Detail =
 
