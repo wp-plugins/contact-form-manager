@@ -14,14 +14,14 @@ Create and manage custom contact forms for your website.  Choose from a wide ran
 
 A quick look into Contact Form Manager :
 
-  ★ Supports text field, textarea, email field, dropdown, radiobutton & checkbox
-  ★ Advanced fields like datepicker & file uploader
-  ★ HTML editor to design form content
-  ★ Recpatcha/image verification for spam control
-  ★ Multiple custom forms with shortcode support
-  ★ Auto-reply, redirection options on submission
-  ★ Customizable mail body
-  ★ SMTP mail settings
+★ Supports text field, textarea, email field, dropdown, radiobutton & checkbox
+★ Advanced fields like datepicker & file uploader
+★ HTML editor to design form content
+★ Recpatcha/image verification for spam control
+★ Multiple custom forms with shortcode support
+★ Auto-reply, redirection options on submission
+★ Customizable mail body
+★ SMTP mail settings
 
 
 = Features in Detail =
