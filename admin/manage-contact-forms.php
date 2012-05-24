@@ -104,7 +104,7 @@ id="system_notice_area_dismiss">Dismiss</span>
 				name="textFieldButton2" value="Add New Contact Form"
 				 onClick='document.location.href="<?php echo admin_url('admin.php?page=contact-form-manager-managecontactforms&action=form-add');?>"'>
 			
-			<?
+			<?php
 			
 			
 			

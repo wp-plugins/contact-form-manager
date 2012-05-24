@@ -181,7 +181,7 @@ id="system_notice_area_dismiss">Dismiss</span>
 				style="cursor: pointer;margin-top:10px; margin-bottom:10px;" type="button"
 				name="textFieldButton2" value="Add New SMTP Account"
 				 onClick='document.location.href="<?php echo admin_url('admin.php?page=contact-form-manager-manage-smtp&action=add-smtp');?>"'>
-			<?
+			<?php
 			
 			
 			
