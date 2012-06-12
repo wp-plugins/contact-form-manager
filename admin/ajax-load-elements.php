@@ -27,7 +27,7 @@ jQuery('#xyz_cfm_elementSetting').change(function() {
 	var elementId = jQuery('#xyz_cfm_elementSetting').val();
 
 	var formId = <?php echo $formId;?>;
-	var dataString = '&elementId='+elementId;
+	var dataString = 'elementId='+elementId;
 	jQuery.ajax
 	({
 	type: "POST",
