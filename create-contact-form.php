@@ -327,8 +327,7 @@ function display_form($id){
 			if($sent == TRUE){
 				$xyz_cfm_mailSentFlag = 1;
 				
-				$msg_after_submit='<div
-	style="background: #C8FCBB; border: 1px solid green; text-align: center; -moz-border-radius: 15px; border-radius: 15px; margin-bottom: 20px;">
+				$msg_after_submit='<div	style="background: #C8FCBB; border: 1px solid green; text-align: center; -moz-border-radius: 15px; border-radius: 15px; margin-bottom: 20px;">
 	Mail successfully sent.</div>';
 
 			}else{
@@ -582,8 +581,7 @@ Mail not sent, try again.</div>';
 						//echo $formElementDetail->element_required;
 						
 						if($formElementDetail->element_required == 1){
-							$script = $script.'
-							var xyz_cfm_name_'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.' = document.getElementById("'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.'").value;	
+							$script .= 'var xyz_cfm_name_'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.' = document.getElementById("'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.'").value;	
 							if(xyz_cfm_name_'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.'.trim() == ""){
 							alert("'.__("Fill text field", "contact-form-manager").'");
 							return false;
@@ -609,20 +607,16 @@ Mail not sent, try again.</div>';
 					if($formElementDetail->element_type == 2){
 						$elementType = "email";
 						$replace = '';
-						$script = $script.'
-						var xyz_cfm_email_'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.' = document.getElementById("'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.'").value;
+						$script .='var xyz_cfm_email_'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.' = document.getElementById("'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.'").value;
 						if(xyz_cfm_email_'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.' != ""){
 						var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 						   if(reg.test(xyz_cfm_email_'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.') == false) {
 						      alert("'. __("Please provide a valid email address", "contact-form-manager").'");
 						      return false;
 						   }
-						}
-						';
+						}';
 						if($formElementDetail->element_required == 1){
-							$script = $script.'
-							
-							if(xyz_cfm_email_'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.'.trim() == ""){
+							$script .='if(xyz_cfm_email_'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.'.trim() == ""){
 							alert("'. __("Fill email field", "contact-form-manager").'");
 							return false;
 						}';
@@ -646,8 +640,7 @@ Mail not sent, try again.</div>';
 						$elementType = "textarea";
 						$replace = '';
 						if($formElementDetail->element_required == 1){
-							$script = $script.'
-							var xyz_cfm_textArea_'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.' = document.getElementById("'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.'").value;
+							$script .='var xyz_cfm_textArea_'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.' = document.getElementById("'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.'").value;
 							if(xyz_cfm_textArea_'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.'.trim() == ""){
 							alert("'.__("Fill textarea field", "contact-form-manager").'");
 							return false;
@@ -668,8 +661,7 @@ Mail not sent, try again.</div>';
 						$elementType = "dropdown";
 						$replace = '';
 						if($formElementDetail->element_required == 1){
-							$script = $script.'
-							var name_'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.' = document.getElementById("'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.'").value;
+							$script .= 'var name_'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.' = document.getElementById("'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.'").value;
 							if(name_'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.' == ""){
 							alert("'.__("Select dropdown field", "contact-form-manager").'");
 							return false;
@@ -710,8 +702,7 @@ Mail not sent, try again.</div>';
 						$replace = '';
 						if($formElementDetail->element_required == 1){
 					
-							$script = $script.'
-							var xyz_cfm_date_'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.' = document.getElementById("'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.'").value;
+							$script .='var xyz_cfm_date_'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.' = document.getElementById("'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.'").value;
 							if(xyz_cfm_date_'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.'.trim() == ""){
 							alert("'. __("Fill date field", "contact-form-manager").'");
 							return false;
@@ -744,30 +735,24 @@ Mail not sent, try again.</div>';
 						width: 205px;
 						text-align: center;
 						-moz-user-select: none;
-					
 					}
-					
 					table.calendar input,table.calendar select {
 					font-size: 10px;
 					}
-					
 					table.calendar td {
 					border: 0;
 					font-size: 10px;
 					text-align: center;
 					}
-					
 					div.mainheading {
 					margin: 2px;
 					}
-					
 					table.caldayheading {
 					border-collapse: collapse;
 					cursor: pointer;
 					empty-cells: show;
 					margin: 0 6px 0 6px;
 					}
-					
 					table.caldayheading td {
 					border: solid #CCCCCC 1px;
 					text-align: left;
@@ -775,17 +760,14 @@ Mail not sent, try again.</div>';
 					font-weight: bold;
 					width: 22px;
 					}
-					
 					table.caldayheading td.wkhead {
 					border-right: double #CCCCCC 3px;
 					}
-					
 					table.calcells {
 					border-collapse: collapse;
 					cursor: pointer;
 					margin: 0 6px 0 6px;
 					}
-					
 					table.calcells td {
 					border: solid #CCCCCC 1px;
 					vertical-align: top;
@@ -794,47 +776,37 @@ Mail not sent, try again.</div>';
 					width: 22px;
 					height: 20px;
 					}
-					
 					table.calcells td div {
 					padding: 1px;
 					margin: 0;
 					}
-					
 					table.calcells td.wkhead {
 					background-color: white;
 					text-align: center;
 					border-right: double #CCCCCC 3px;
 					color: #0054E3;
 					}
-					
 					table.calcells td.wkday {
 					background-color: #7E7777;
 					}
-					
 					table.calcells td.wkend {
 					background-color: #7E7777;
 					}
-					
 					table.calcells td.curdate {
-					
 					}
-					
 					table.calcells td.cell_selected {
 					background-color: #99CCFF;
 					color: black;
 					}
-					
 					table.calcells td.notmnth {
 					background-color: #FFFFFF;
 					color: #CCCCCC;
 					}
-					
 					table.calcells td.notallowed {
 					background-color: white;
 					color: #EEEEEE;
 					font-style: italic;
 					}
-					
 					table.calcells td.hover {
 					background-color: #999999;
 					}
@@ -857,15 +829,12 @@ Mail not sent, try again.</div>';
 						$elementType = "checkbox";
 						$replace = '';
 						if($formElementDetail->element_required == 1){
-							$script = $script.'
-							//var form_'.$formId.' = document.getElementById("form_'.$formId.'").value;
+							$script .= '	//var form_'.$formId.' = document.getElementById("form_'.$formId.'").value;
 							//if(!document.forms[form_'.$formId.'])
 							//return;
-
 							var objCheckBoxes = document.forms["form_'.$formId.'"].elements["'.$xyz_cfm_name.'"];
 							if(objCheckBoxes==null)
 							objCheckBoxes = document.forms["form_'.$formId.'"].elements["'.$xyz_cfm_name.'[]"];
-							
 							var countCheckBoxes = objCheckBoxes.length;
 							//alert(countCheckBoxes);
 							var total = 0;
@@ -874,18 +843,15 @@ Mail not sent, try again.</div>';
 							if(objCheckBoxes[i].checked == true){
 							total = total+1;
 						}
-
 						}else{
 						if(objCheckBoxes.checked == true){
 						total = total+1;
 						}
 						}
-
 						if(total == 0){
 						alert("'. __("Select atleast one checkbox", "contact-form-manager").'");
 						return false;
-						}
-						';
+						}';
 						}
 							
 						foreach ($optionsList as $key=>$value){
@@ -909,12 +875,9 @@ Mail not sent, try again.</div>';
 
 						$replace = '';
 						if($formElementDetail->element_required == 1){
-							$script = $script.'
-
-							//var form_'.$formId.' = document.getElementById("form_'.$formId.'").value;
+							$script .= '	//var form_'.$formId.' = document.getElementById("form_'.$formId.'").value;
 							//if(!document.forms[form_'.$formId.'])
 							//return;
-
 							var objRadio = document.forms["form_'.$formId.'"].elements["'.$xyz_cfm_name.'"];
 							if(objRadio==null)
 							objRadio = document.forms["form_'.$formId.'"].elements["'.$xyz_cfm_name.'[]"];
@@ -926,18 +889,15 @@ Mail not sent, try again.</div>';
 							if(objRadio[i].checked == true){
 							total = total+1;
 						}
-
 						}else{
 						if(objCheckBoxes.checked == true){
 						total = total+1;
 						}
 						}
-
 						if(total == 0){
 						alert("'. __("Select atleast one radio button", "contact-form-manager").'");
 						return false;
-						}
-						';
+						}';
 
 						}
 
@@ -963,8 +923,7 @@ Mail not sent, try again.</div>';
 						$elementType = "file";
 						$replace = '';
 						if($formElementDetail->element_required == 1){
-							$script = $script.'
-							var xyz_cfm_file_'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.' = document.getElementById("'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.'").value;
+							$script .= 'var xyz_cfm_file_'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.' = document.getElementById("'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.'").value;
 							if(xyz_cfm_file_'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.'.trim() == ""){
 							alert("'. __("Upload a file", "contact-form-manager").'");
 							return false;
@@ -993,9 +952,12 @@ Mail not sent, try again.</div>';
 							
  							$publickey = get_option('xyz_cfm_recaptcha_public_key');
  							//$replace = $replace.recaptcha_get_html($publickey); for php
-							$replace = $replace.'<div id="reCaptchaDiv"></div><font color="red">*</font><script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+							$replace = $replace.'<div id="reCaptchaDiv"></div>';
+ 							if(get_option('xyz_cfm_mandatory_sign')=="1")
+								$replace .= '<font color="red">*</font>';
+							$replace .= '<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
 							<script type="text/javascript"> 
-								Recaptcha.create("'.$publickey.'","reCaptchaDiv", {theme: "'.$cssClass.'",callback: Recaptcha.focus_response_field});
+								Recaptcha.create("'.$publickey.'","reCaptchaDiv", {theme: "'.$cssClass.'"});
 							</script><input type="hidden" name="xyz_cfm_hiddenReCaptcha" value="1" id="xyz_cfm_reCaptcha_'.$xyz_cfm_elementId.'">';
 							
 							$messageBody = str_replace("[".$elementType."-".$elementId."]",$replace,$messageBody);
@@ -1004,8 +966,7 @@ Mail not sent, try again.</div>';
 						
 						
 						if($formElementDetail->element_required == 1){
-							$script = $script.'
-							var xyz_cfm_captcha_'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.' = document.getElementById("'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.'").value;
+							$script .= 'var xyz_cfm_captcha_'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.' = document.getElementById("'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.'").value;
 							if(xyz_cfm_captcha_'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.'.trim() == ""){
 							alert("'. __("Fill captcha field", "contact-form-manager").'");
 							return false;
@@ -1017,12 +978,14 @@ Mail not sent, try again.</div>';
 						}
 						</script>';
 						}
-						$replace = $replace.'<input  class="'.$cssClass.'"  type="text" id="'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.'" name="'.$xyz_cfm_name.'" ><font color="red">*</font>
-						<span id="captcha_div">
+						$replace = $replace.'<input  class="'.$cssClass.'"  type="text" id="'.$xyz_cfm_name.'_'.$xyz_cfm_elementId.'" name="'.$xyz_cfm_name.'" >';
+ 							if(get_option('xyz_cfm_mandatory_sign')=="1")
+								$replace .='<font color="red">*</font>';
+						$replace .='<span id="captcha_div">
 						<iframe style=" margin-bottom:-17px;" frameborder="0" align="middle" width="150" height="40" scrolling="no" marginwidth="0" marginheight="0" src="'.plugins_url("contact-form-manager/captcha/random.php").'" ></iframe>
 						</span>
 						<a href="javascript:void(0);" onClick="showcaptcha();" >
-						<img  src="'.plugins_url("contact-form-manager/images/arrow-refresh.png").'" title="New Captcha Image" align="middle" height="20px" style="margin-left: -25px;">
+						<img  src="'.plugins_url("contact-form-manager/images/arrow-refresh.png").'"  align="middle" height="20px" style="margin-left: -25px;">
 						</a>';
 
 						$messageBody = str_replace("[".$elementType."-".$elementId."]",$replace,$messageBody);
