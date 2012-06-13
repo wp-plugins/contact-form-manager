@@ -2,7 +2,7 @@
 Contributors: f1logic
 Donate link: http://xyzscripts.com/donate/
 
-Tags:  contact form, contact page, contact form plugin, contact us, multiple contact forms, custom contact form, contact form with auto reply, contact form with recaptcha, contact form date picker,  contact, contact manager, contact form manager, wordpress contact, TinyMCE form editor
+Tags:  contact form, contact page, contact form plugin, contact, contact us, multiple contact forms, custom contact form, contact form with auto reply, contact form with recaptcha, contact form date picker,  contact manager, contact form manager, wordpress contact, TinyMCE form editor
 Requires at least: 2.8
 Tested up to: 3.3.1
 Stable tag: 1.1
