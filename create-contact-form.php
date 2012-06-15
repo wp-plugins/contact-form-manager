@@ -222,7 +222,7 @@ function display_form($id){
 					$xyz_cfm_email = $_POST[$elementName->element_name];
 					
 					if($xyz_cfm_email != ""){
-					$regex = '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/';
+					$regex = '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/i';
 						if (!preg_match($regex, $xyz_cfm_email)) {
 								
 							if(isset($_POST[$formButton->element_name])){
@@ -269,7 +269,8 @@ function display_form($id){
 				$phpmailer->IsSMTP();
 				$phpmailer->Host = $xyz_cfm_SmtpDetails->host;
 				$phpmailer->SMTPDebug = get_option('xyz_cfm_SmtpDebug');
-				$phpmailer->SMTPAuth = $xyz_cfm_SmtpDetails->authentication;
+				if($xyz_cfm_SmtpDetails->authentication=='true')
+					$phpmailer->SMTPAuth = $xyz_cfm_SmtpDetails->authentication;
 				$phpmailer->SMTPSecure = $xyz_cfm_SmtpDetails->security;
 				$phpmailer->Port = $xyz_cfm_SmtpDetails->port;
 				$phpmailer->Username = $xyz_cfm_SmtpDetails->user;
@@ -357,7 +358,8 @@ Mail not sent, try again.</div>';
 					$phpmailerReply->IsSMTP();
 					$phpmailerReply->Host = $xyz_cfm_SmtpDetails->host;
 					$phpmailerReply->SMTPDebug = get_option('xyz_cfm_SmtpDebug');
-					$phpmailerReply->SMTPAuth = $xyz_cfm_SmtpDetails->authentication;
+					if($xyz_cfm_SmtpDetails->authentication=='true')
+						$phpmailerReply->SMTPAuth = $xyz_cfm_SmtpDetails->authentication;
 					$phpmailerReply->SMTPSecure = $xyz_cfm_SmtpDetails->security;
 					$phpmailerReply->Port = $xyz_cfm_SmtpDetails->port;
 					$phpmailerReply->Username = $xyz_cfm_SmtpDetails->user;
