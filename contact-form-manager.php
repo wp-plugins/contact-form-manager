@@ -33,7 +33,7 @@ if ( !function_exists( 'add_action' ) )
 }
 
 ob_start();
-error_reporting(E_ALL);
+error_reporting(0);
 define('XYZ_CFM_PLUGIN_FILE',__FILE__);
 require( dirname( __FILE__ ) . '/xyz-functions.php' );
 
