@@ -1,6 +1,40 @@
+<style type="text/css">
+#xyz-wp-contactform-premium {
+	border: 1px solid #FCC328;
+	margin-bottom: 20px;
+	margin-top: 20px;
+	background-color: #FFF6D6;
+	height: 50px;
+	padding: 5px;
+	width: 98%
+}
+</style>
+<div id="xyz-wp-contactform-premium">
+
+	<div style="float: left; padding: 0 5px">
+		<h2 style="vertical-align: middle;">
+			<a target="_blank"
+				href="http://xyzscripts.com/wordpress-plugins/xyz-wp-contact-form/features">Fully
+				Featured XYZ WP Contact Form Premium Plugin</a> - Just 19 USD
+		</h2>
+	</div>
+	<div style="float: left; margin-top: 3px">
+		<a target="_blank"
+			href="http://xyzscripts.com/members/product/purchase/XYZWPCFM"><img class="hoverImages"
+			src="<?php  echo plugins_url("contact-form-manager/admin/images/orange_buynow.png"); ?>">
+		</a>
+	</div>
+	<div style="float: left; padding: 0 5px">
+	<h2 style="vertical-align: middle;text-shadow: 1px 1px 1px #686868">
+			( <a 	href="<?php echo admin_url('admin.php?page=contact-form-manager-about');?>">Compare Features</a> ) 
+	</h2>		
+	</div>
+</div>
+
+
 <style>
 	a.xyz_cfm_link:hover{text-decoration:underline;} 
-	.xyz_cfm_link{text-decoration:none;} 
+	.xyz_cfm_link{text-decoration:none;font-weight: bold;} 
 </style>
 
 <?php 
@@ -48,10 +82,6 @@ jQuery.ajax
 #ttbot {display:block; height:5px; margin-left:5px; }
 </style>
 
-
-
-
-
 <div style="margin-top: 10px">
 <table style="float:right; ">
 <tr>
@@ -59,16 +89,16 @@ jQuery.ajax
 	<a onmouseover="tooltip.show('Please help us to keep this plugin free forever by donating a dollar');" onmouseout="tooltip.hide();" class="xyz_cfm_link" style="margin-left:8px;margin-right:12px;"   target="_blank" href="http://xyzscripts.com/donate/1">Donate</a>
 </td>
 <td style="float:right;">
-	<a class="xyz_cfm_link" style="margin-left:8px;" target="_blank" href="http://kb.xyzscripts.com/category/contact-form-manager">FAQ</a>
+	<a class="xyz_cfm_link" style="margin-left:8px;" target="_blank" href="http://kb.xyzscripts.com/category/contact-form-manager">FAQ</a> |
 </td>
 <td style="float:right;">
-	<a class="xyz_cfm_link" style="margin-left:8px;" target="_blank" href="http://docs.xyzscripts.com/category/contact-form-manager">Docs</a>
+	<a class="xyz_cfm_link" style="margin-left:8px;" target="_blank" href="http://docs.xyzscripts.com/category/contact-form-manager">README</a> |
 </td>
 <td style="float:right;">
-	<a class="xyz_cfm_link" style="margin-left:8px;" target="_blank" href="http://xyzscripts.com/wordpress-plugins/contact-form-manager/details">About</a>
+	<a class="xyz_cfm_link" style="margin-left:8px;" target="_blank" href="http://xyzscripts.com/wordpress-plugins/contact-form-manager/details">About</a> |
 </td>
 <td style="float:right;">
-	<a class="xyz_cfm_link" target="_blank" href="http://xyzscripts.com">Home</a>
+	<a class="xyz_cfm_link" target="_blank" href="http://xyzscripts.com">XYZScripts</a> |
 </td>
 
 </tr>

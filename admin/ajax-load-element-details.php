@@ -1,4 +1,9 @@
 <?php
+/*
+Copyright © 22-May-2012 F1logic. All rights reserved.
+*/
+?>
+<?php
 require( dirname( __FILE__ ) . '../../../../../wp-load.php' );
 if(!current_user_can('manage_options')){
 	exit;
@@ -8,12 +13,16 @@ global $wpdb;
 $_POST = stripslashes_deep($_POST);
 
 $elementId = $_POST['elementId'];
-$element_result = $wpdb->get_results('SELECT * FROM xyz_cfm_form_elements WHERE id="'.$elementId.'"') ;
+$element_result = $wpdb->get_results('SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE id="'.$elementId.'"') ;
 $element_result = $element_result[0];
+
+if(count($element_result) == 0 ){
+	echo "<font color = 'red'>No record found</font>";
+}else{
 
 ?>
 
-<script type="text/javascript">
+<script>
 jQuery(document).ready(function() {
 
 	jQuery("#progressSelectImage").hide();
@@ -24,68 +33,53 @@ jQuery(document).ready(function() {
 		if ( e.which == 13 ) return false;
 	});
 
-	if(jQuery('#reCaptchaUpdate').attr('checked')){
-		jQuery("#reCaptchaStyleUpdate").show();
-		jQuery("#captchaStyleUpdate").hide();
-	}else{
-		jQuery("#captchaStyleUpdate").show();
-		jQuery("#reCaptchaStyleUpdate").hide();
-	}
-	
-	
 	jQuery("#reCaptchaUpdate").bind('change', function () {
 		 if (jQuery(this).is(':checked')){
-			jQuery("#elementNameUpdate10").val("");
 			jQuery("#reCaptchaStyleUpdate").show();
+			jQuery("#reCaptchaElementName").show();
 			jQuery("#captchaStyleUpdate").hide();
+			jQuery("#captchaElementName").hide();
 			
 		 }else{
 			jQuery("#reCaptchaStyleUpdate").hide();
+			jQuery("#reCaptchaElementName").hide();
 			jQuery("#captchaStyleUpdate").show();
-			jQuery("#classNameUpdate10").val("");
+			jQuery("#captchaElementName").show();
 		 }
 
 	});
 
 	
-	
 	jQuery('#closeUpdate1').click(function() {
 		jQuery("#textFieldUpdate").hide();
-		jQuery('#xyz_cfm_elementSetting').val(0);
 	});
 	jQuery('#closeUpdate2').click(function() {
 		jQuery("#emailFieldUpdate").hide();
-		jQuery('#xyz_cfm_elementSetting').val(0);
 	});
 	jQuery('#closeUpdate3').click(function() {
 		jQuery("#textAreaUpdate").hide();
-		jQuery('#xyz_cfm_elementSetting').val(0);
 	});
 	jQuery('#closeUpdate4').click(function() {
 		jQuery("#dropDownMenuUpdate").hide();
-		jQuery('#xyz_cfm_elementSetting').val(0);
 	});
 	jQuery('#closeUpdate5').click(function() {
 		jQuery("#dateFieldUpdate").hide();
-		jQuery('#xyz_cfm_elementSetting').val(0);
 	});
 	jQuery('#closeUpdate6').click(function() {
 		jQuery("#checkBoxesUpdate").hide();
-		jQuery('#xyz_cfm_elementSetting').val(0);
 	});
 	jQuery('#closeUpdate7').click(function() {
 		jQuery("#radioButtonsUpdate").hide();
-		jQuery('#xyz_cfm_elementSetting').val(0);
 	});
-	jQuery('#close8').click(function() {
+	jQuery('#closeUpdate8').click(function() {
 		jQuery("#fileUploadUpdate").hide();
-		jQuery('#xyz_cfm_elementSetting').val(0);
 	});
 	jQuery('#closeUpdate9').click(function() {
 		jQuery("#submitButtonUpdate").hide();
-		jQuery('#xyz_cfm_elementSetting').val(0);	
 	});			
-
+	jQuery('#closeUpdate10').click(function() {
+		jQuery("#captchaUpdate").hide();
+	});	
 var selectId = <?php echo $element_result->element_type;?>;
 
 if(selectId == 1){
@@ -140,7 +134,25 @@ if(selectId == 10){
 }
 
 
+function updateElementDetails(){
 
+	var formId = jQuery("#formId").val();
+	var dataString = '&formId='+formId;
+	//alert(dataString);
+	jQuery.ajax
+	({
+	type: "POST",
+	url: "<?php echo plugins_url('contact-form-manager/admin/ajax-load-elements.php') ?>",
+	data: dataString,
+	cache: false,
+	success: function(html)
+	{	
+		jQuery("#progressEditImage").hide();
+		jQuery("#elementSettingResult").html(html);
+	}
+	});
+return true;
+}
 
 jQuery('#textFieldButtonUpdate1').click(function() {
 	var selectId = 1;
@@ -153,10 +165,10 @@ jQuery('#textFieldButtonUpdate1').click(function() {
 		required = 0;
 	}
 
-	var elementName = jQuery.trim(jQuery("#elementNameUpdate1").val());
-	var className = jQuery("#classNameUpdate1").val();
-	var maxlength = jQuery("#maxlengthUpdate1").val();
-	var defaultValue = jQuery("#defaultValueUpdate1").val();
+	var elementName = encodeURIComponent(jQuery.trim(jQuery("#elementNameUpdate1").val()).replace("+", "%252b"));
+	var className = encodeURIComponent(jQuery("#classNameUpdate1").val().replace("+", "%252b"));
+	var maxlength = encodeURIComponent(jQuery("#maxlengthUpdate1").val().replace("+", "%252b"));
+	var defaultValue = encodeURIComponent(jQuery("#defaultValueUpdate1").val().replace("+", "%252b"));
 	var formId = jQuery("#formId").val();
 	
 	if(elementName != ""){
@@ -173,12 +185,12 @@ jQuery('#textFieldButtonUpdate1').click(function() {
 	cache: false,
 	success: function(html)
 	{	
-		jQuery("#progressEditImage").hide();
-		jQuery("#textFieldResultUpdate1").html(html);
+		
+		jQuery("#cfm_text").html(html);
+		updateElementDetails();
 	}
 	});
 
-	jQuery("#xyz_cfm_elementSetting option[value='<?php echo $elementId;?>']").text(elementName);
 	
 	}else{
 		alert("Please fill all mandatory fields.");
@@ -186,7 +198,6 @@ jQuery('#textFieldButtonUpdate1').click(function() {
 	}
 	
 });
-
 
 
 jQuery('#textFieldButtonUpdate2').click(function() {
@@ -200,10 +211,10 @@ jQuery('#textFieldButtonUpdate2').click(function() {
 		required = 0;
 	}
 
-	var elementName = jQuery.trim(jQuery("#elementNameUpdate2").val());
-	var className = jQuery("#classNameUpdate2").val();
-	var maxlength = jQuery("#maxlengthUpdate2").val();
-	var defaultValue = jQuery("#defaultValueUpdate2").val();
+	var elementName = encodeURIComponent(jQuery.trim(jQuery("#elementNameUpdate2").val()).replace("+", "%252b"));
+	var className = encodeURIComponent(jQuery("#classNameUpdate2").val().replace("+", "%252b"));
+	var maxlength = encodeURIComponent(jQuery("#maxlengthUpdate2").val().replace("+", "%252b"));
+	var defaultValue = encodeURIComponent(jQuery("#defaultValueUpdate2").val().replace("+", "%252b"));
 	var formId = jQuery("#formId").val();
 
 	if(elementName != ""){
@@ -221,12 +232,11 @@ jQuery('#textFieldButtonUpdate2').click(function() {
 	cache: false,
 	success: function(html)
 	{	
-		jQuery("#progressEditImage").hide();
-		jQuery("#emailFieldResultUpdate2").html(html);
+		jQuery("#cfm_email").html(html);
+		updateElementDetails();
 	}
 	});
 
-	jQuery("#xyz_cfm_elementSetting option[value='<?php echo $elementId;?>']").text(elementName);
 	
 	}else{
 		alert("Please fill all mandatory fields.");
@@ -234,7 +244,6 @@ jQuery('#textFieldButtonUpdate2').click(function() {
 	}
 	
 });
-
 
 jQuery('#textFieldButtonUpdate3').click(function() {
 	var selectId = 3;
@@ -247,11 +256,11 @@ jQuery('#textFieldButtonUpdate3').click(function() {
 		required = 0;
 	}
 
-	var elementName = jQuery.trim(jQuery("#elementNameUpdate3").val());
-	var className = jQuery("#classNameUpdate3").val();
-	var collength = jQuery("#colLengthUpdate3").val();
-	var rowlength = jQuery("#rowLengthUpdate3").val();
-	var defaultValue = jQuery("#defaultValueUpdate3").val();
+	var elementName = encodeURIComponent(jQuery.trim(jQuery("#elementNameUpdate3").val()).replace("+", "%252b"));
+	var className = encodeURIComponent(jQuery("#classNameUpdate3").val().replace("+", "%252b"));
+	var collength = encodeURIComponent(jQuery("#colLengthUpdate3").val().replace("+", "%252b"));
+	var rowlength = encodeURIComponent(jQuery("#rowLengthUpdate3").val().replace("+", "%252b"));
+	var defaultValue = encodeURIComponent(jQuery("#defaultValueUpdate3").val().replace("+", "%252b"));
 	var formId = jQuery("#formId").val();
 
 	if(elementName != ""){
@@ -269,12 +278,11 @@ jQuery('#textFieldButtonUpdate3').click(function() {
 	cache: false,
 	success: function(html)
 	{	
-		jQuery("#progressEditImage").hide();
-		jQuery("#textAreaResultUpdate3").html(html);
+		jQuery("#cfm_textarea").html(html);
+		updateElementDetails();
 	}
 	});
 
-	jQuery("#xyz_cfm_elementSetting option[value='<?php echo $elementId;?>']").text(elementName);
 	
 	}else{
 		alert("Please fill all mandatory fields.");
@@ -283,26 +291,33 @@ jQuery('#textFieldButtonUpdate3').click(function() {
 	
 });
 
+
 jQuery('#textFieldButtonUpdate4').click(function() {
 	var selectId = 4;
 	var dataString = 'id='+ selectId+'&elementId='+<?php echo $elementId;?>;
 	var required ='';
+	var multipleSelect = '';
 	
 	if(jQuery('#requiredUpdate4').attr('checked')){
 		required = 1;
 	}else{
 		required = 0;
 	}
-
-	var elementName = jQuery.trim(jQuery("#elementNameUpdate4").val());
-	var className = jQuery("#classNameUpdate4").val();
-	var options = jQuery.trim(jQuery("#dropDownOptionsUpdate4").val());
+	if(jQuery('#viewMultipleSelectDropDownUpdate').attr('checked')){
+		multipleSelect = 1;
+	}else{
+		multipleSelect = 0;
+	}
+	var elementName = encodeURIComponent(jQuery.trim(jQuery("#elementNameUpdate4").val()).replace("+", "%252b"));
+	var className = encodeURIComponent(jQuery("#classNameUpdate4").val().replace("+", "%252b"));
+	var options = encodeURIComponent(jQuery.trim(jQuery("#dropDownOptionsUpdate4").val()).replace("+", "%252b"));
+	var defaultValue = encodeURIComponent(jQuery("#dropDownOptionsUpdate4DefaultValue").val().replace("+", "%252b"));
 	var formId = jQuery("#formId").val();
 
 	if(elementName != "" && options != ""){
 	jQuery("#progressEditImage").show();
 	
-	dataString = dataString + '&required='+ required+'&elementName='+elementName+'&className='+className+'&options='+options+'&formId='+formId;
+	dataString = dataString + '&required='+ required+'&elementName='+elementName+'&className='+className+'&options='+options+'&defaultValue='+defaultValue+'&multipleSelect='+multipleSelect+'&formId='+formId;
 
 
 	//alert(dataString);
@@ -314,12 +329,11 @@ jQuery('#textFieldButtonUpdate4').click(function() {
 	cache: false,
 	success: function(html)
 	{	
-		jQuery("#progressEditImage").hide();
-		jQuery("#dropDownMenuResultUpdate4").html(html);
+		jQuery("#cfm_dropdown").html(html);
+		updateElementDetails();
 	}
 	});
 
-	jQuery("#xyz_cfm_elementSetting option[value='<?php echo $elementId;?>']").text(elementName);
 	
 	}else{
 		alert("Please fill all mandatory fields.");
@@ -327,6 +341,7 @@ jQuery('#textFieldButtonUpdate4').click(function() {
 	}
 	
 });
+
 
 jQuery('#textFieldButtonUpdate5').click(function() {
 	var selectId = 5;
@@ -339,8 +354,8 @@ jQuery('#textFieldButtonUpdate5').click(function() {
 		required = 0;
 	}
 
-	var elementName = jQuery.trim(jQuery("#elementNameUpdate5").val());
-	var className = jQuery("#classNameUpdate5").val();
+	var elementName = encodeURIComponent(jQuery.trim(jQuery("#elementNameUpdate5").val()).replace("+", "%252b"));
+	var className = encodeURIComponent(jQuery("#classNameUpdate5").val().replace("+", "%252b"));
 	var formId = jQuery("#formId").val();
 
 	if(elementName != "" ){
@@ -358,12 +373,11 @@ jQuery('#textFieldButtonUpdate5').click(function() {
 	cache: false,
 	success: function(html)
 	{	
-		jQuery("#progressEditImage").hide();
-		jQuery("#dateFieldResultUpdate5").html(html);
+		jQuery("#cfm_date").html(html);
+		updateElementDetails();
 	}
 	});
 
-	jQuery("#xyz_cfm_elementSetting option[value='<?php echo $elementId;?>']").text(elementName);
 		
 	}else{
 		alert("Please fill all mandatory fields.");
@@ -373,26 +387,34 @@ jQuery('#textFieldButtonUpdate5').click(function() {
 });
 
 
+
 jQuery('#textFieldButtonUpdate6').click(function() {
 	var selectId = 6;
 	var dataString = 'id='+ selectId+'&elementId='+<?php echo $elementId;?>;
 	var required ='';
+	var singleLineView = '';
 	
 	if(jQuery('#requiredUpdate6').attr('checked')){
 		required = 1;
 	}else{
 		required = 0;
 	}
+	if(jQuery('#viewCheckboxOptions').attr('checked')){
+		singleLineView = 1;
+	}else{
+		singleLineView = 0;
+	}
 
-	var elementName = jQuery.trim(jQuery("#elementNameUpdate6").val());
-	var className = jQuery("#classNameUpdate6").val();
-	var options = jQuery.trim(jQuery("#checkBoxOptionsUpdate6").val());
+	var elementName = encodeURIComponent(jQuery.trim(jQuery("#elementNameUpdate6").val()).replace("+", "%252b"));
+	var className = encodeURIComponent(jQuery("#classNameUpdate6").val().replace("+", "%252b"));
+	var options = encodeURIComponent(jQuery.trim(jQuery("#checkBoxOptionsUpdate6").val()).replace("+", "%252b"));
+	var defaultValue = encodeURIComponent(jQuery("#checkBoxOptionsUpdate6DefaultValue").val().replace("+", "%252b"));
 	var formId = jQuery("#formId").val();
 
 	if(elementName != "" && options != ""){
 	jQuery("#progressEditImage").show();
 	
-	dataString = dataString + '&required='+ required+'&elementName='+elementName+'&className='+className+'&options='+options+'&formId='+formId;
+	dataString = dataString + '&required='+ required+'&singleLineView='+singleLineView+'&elementName='+elementName+'&className='+className+'&options='+options+'&defaultValue='+defaultValue+'&formId='+formId;
 
 
 	//alert(dataString);
@@ -404,12 +426,11 @@ jQuery('#textFieldButtonUpdate6').click(function() {
 	cache: false,
 	success: function(html)
 	{	
-		jQuery("#progressEditImage").hide();
-		jQuery("#checkBoxesResultUpdate6").html(html);
+		jQuery("#cfm_checkbox").html(html);
+		updateElementDetails();
 	}
 	});
 
-	jQuery("#xyz_cfm_elementSetting option[value='<?php echo $elementId;?>']").text(elementName);
 	
 	}else{
 		alert("Please fill all mandatory fields.");
@@ -422,22 +443,29 @@ jQuery('#textFieldButtonUpdate7').click(function() {
 	var selectId = 7;
 	var dataString = 'id='+ selectId+'&elementId='+<?php echo $elementId;?>;
 	var required ='';
+	var singleLineView = '';
 	
 	if(jQuery('#requiredUpdate7').attr('checked')){
 		required = 1;
 	}else{
 		required = 0;
 	}
+	if(jQuery('#viewRadiobuttonOptions').attr('checked')){
+		singleLineView = 1;
+	}else{
+		singleLineView = 0;
+	}
 
-	var elementName = jQuery.trim(jQuery("#elementNameUpdate7").val());
-	var className = jQuery("#classNameUpdate7").val();
-	var options = jQuery.trim(jQuery("#radioOptionsUpdate7").val());
+	var elementName = encodeURIComponent(jQuery.trim(jQuery("#elementNameUpdate7").val()).replace("+", "%252b"));
+	var className = encodeURIComponent(jQuery("#classNameUpdate7").val().replace("+", "%252b"));
+	var options = encodeURIComponent(jQuery.trim(jQuery("#radioOptionsUpdate7").val()).replace("+", "%252b"));
+	var defaultValue = encodeURIComponent(jQuery("#radioOptionsUpdate7DefaultValue").val().replace("+", "%252b"));
 	var formId = jQuery("#formId").val();
 
 	if(elementName != "" && options != ""){
 	jQuery("#progressEditImage").show();
 	
-	dataString = dataString + '&required='+ required+'&elementName='+elementName+'&className='+className+'&options='+options+'&formId='+formId;
+	dataString = dataString + '&required='+ required+'&singleLineView='+singleLineView+'&elementName='+elementName+'&className='+className+'&options='+options+'&defaultValue='+defaultValue+'&formId='+formId;
 
 
 	//alert(dataString);
@@ -449,12 +477,11 @@ jQuery('#textFieldButtonUpdate7').click(function() {
 	cache: false,
 	success: function(html)
 	{	
-		jQuery("#progressEditImage").hide();
-		jQuery("#radioButtonsResultUpdate7").html(html);
+		jQuery("#cfm_radiobutton").html(html);
+		updateElementDetails();
 	}
 	});
 
-	jQuery("#xyz_cfm_elementSetting option[value='<?php echo $elementId;?>']").text(elementName);
 	
 	}else{
 		alert("Please fill all mandatory fields.");
@@ -462,6 +489,7 @@ jQuery('#textFieldButtonUpdate7').click(function() {
 	}
 	
 });
+
 
 jQuery('#textFieldButtonUpdate8').click(function() {
 	var selectId = 8;
@@ -474,10 +502,10 @@ jQuery('#textFieldButtonUpdate8').click(function() {
 		required = 0;
 	}
 
-	var elementName = jQuery.trim(jQuery("#elementNameUpdate8").val());
-	var className = jQuery("#classNameUpdate8").val();
-	var fileSize = jQuery("#fileSizeUpdate8").val();
-	var fileType = jQuery("#fileTypeUpdate8").val();
+	var elementName = encodeURIComponent(jQuery.trim(jQuery("#elementNameUpdate8").val()).replace("+", "%252b"));
+	var className = encodeURIComponent(jQuery("#classNameUpdate8").val().replace("+", "%252b"));
+	var fileSize = encodeURIComponent(jQuery("#fileSizeUpdate8").val().replace("+", "%252b"));
+	var fileType = encodeURIComponent(jQuery("#fileTypeUpdate8").val().replace("+", "%252b"));
 	var formId = jQuery("#formId").val();
 
 	if(elementName != ""){
@@ -495,12 +523,11 @@ jQuery('#textFieldButtonUpdate8').click(function() {
 	cache: false,
 	success: function(html)
 	{	
-		jQuery("#progressEditImage").hide();
-		jQuery("#fileUploadResultUpdate8").html(html);
+		jQuery("#cfm_file").html(html);
+		updateElementDetails();
 	}
 	});
 
-	jQuery("#xyz_cfm_elementSetting option[value='<?php echo $elementId;?>']").text(elementName);
 	
 	}else{
 		alert("Please fill all mandatory fields.");
@@ -509,13 +536,14 @@ jQuery('#textFieldButtonUpdate8').click(function() {
 	
 });
 
+
 jQuery('#textFieldButtonUpdate9').click(function() {
 	var selectId = 9;
 	var dataString = 'id='+ selectId+'&elementId='+<?php echo $elementId;?>;
 
-	var displayName = jQuery.trim(jQuery("#displayNameUpdate9").val());
-	var elementName = jQuery("#elementNameUpdate9").val();
-	var className = jQuery("#classNameUpdate9").val();
+	var displayName = encodeURIComponent(jQuery.trim(jQuery("#displayNameUpdate9").val()).replace("+", "%252b"));
+	var elementName = encodeURIComponent(jQuery("#elementNameUpdate9").val().replace("+", "%252b"));
+	var className = encodeURIComponent(jQuery("#classNameUpdate9").val().replace("+", "%252b"));
 	var formId = jQuery("#formId").val();
 
 	if(displayName != "" && elementName != ""){
@@ -533,12 +561,11 @@ jQuery('#textFieldButtonUpdate9').click(function() {
 	cache: false,
 	success: function(html)
 	{	
-		jQuery("#progressEditImage").hide();
-		jQuery("#submitButtonResultUpdate9").html(html);
+		jQuery("#cfm_submit").html(html);
+		updateElementDetails();
 	}
 	});
 
-	jQuery("#xyz_cfm_elementSetting option[value='<?php echo $elementId;?>']").text(elementName);
 	
 	}else{
 		alert("Please fill all mandatory fields.");
@@ -549,54 +576,25 @@ jQuery('#textFieldButtonUpdate9').click(function() {
 
 
 jQuery('#textFieldButtonUpdate10').click(function() {
-	var selectId = 10;
-	var dataString = 'id='+ selectId+'&elementId='+<?php echo $elementId;?>;
 	
+	
+		var selectId = 10;
+		var dataString = 'id='+ selectId+'&elementId='+<?php echo $elementId;?>;
 
-	var elementName = jQuery.trim(jQuery("#elementNameUpdate10").val());
-	
-	var formId = jQuery("#formId").val();
-	
+		var elementName = '';
+		
+		var formId = jQuery("#formId").val();
 
 
 	if(jQuery('#reCaptchaUpdate').attr('checked')){
-		
+
+		elementName = encodeURIComponent(jQuery.trim(jQuery("#reCaptchaElementNameUpdate10").val()).replace("+", "%252b"));		
 		if(elementName != ""){
 			jQuery("#progressEditImage").show();
 			
-			var className = jQuery("#reCaptchaStyleOptionUpdate").val();
+			var className = encodeURIComponent(jQuery("#reCaptchaStyleOptionUpdate").val().replace("+", "%252b"));
 			
 			dataString = dataString +'&elementName='+elementName+'&className='+className+'&formId='+formId+'&reCaptcha='+1;
-			
-			jQuery.ajax
-			({
-			type: "POST",
-			url: "<?php echo plugins_url('contact-form-manager/admin/ajax-update-element.php') ?>",
-			data: dataString,
-			cache: false,
-			success: function(html)
-			{	
-				jQuery("#progressEditImage").hide();
-				jQuery("#captchaResultUpdate10").html(html);
-			}
-			});
-		
-			jQuery("#xyz_cfm_elementSetting option[value='<?php echo $elementId;?>']").text(elementName);
-			
-		}else{
-			alert("Please fill all mandatory fields.");
-			return false;
-		}
-	
-	}else{
-		if(elementName != ""){
-			jQuery("#progressEditImage").show();
-
-			var className = jQuery("#classNameUpdate10").val();
-			
-			dataString = dataString +'&elementName='+elementName+'&className='+className+'&formId='+formId+'&reCaptcha='+0;
-		
-		
 			//alert(dataString);
 			jQuery.ajax
 			({
@@ -606,12 +604,41 @@ jQuery('#textFieldButtonUpdate10').click(function() {
 			cache: false,
 			success: function(html)
 			{	
-				jQuery("#progressEditImage").hide();
-				jQuery("#captchaResultUpdate10").html(html);
+				jQuery("#cfm_captcha").html(html);
+				updateElementDetails();
 			}
 			});
 		
-			jQuery("#xyz_cfm_elementSetting option[value='<?php echo $elementId;?>']").text(elementName);
+			
+		}else{
+			alert("Please fill all mandatory fields.");
+			return false;
+		}
+	
+	}else{
+		
+		elementName = encodeURIComponent(jQuery.trim(jQuery("#captchaElementNameUpdate10").val()).replace("+", "%252b"));		
+		if(elementName != ""){
+			jQuery("#progressEditImage").show();
+
+			var className = encodeURIComponent(jQuery("#classNameUpdate10").val().replace("+", "%252b"));
+			
+			dataString = dataString +'&elementName='+elementName+'&className='+className+'&formId='+formId+'&reCaptcha='+0;
+			//alert(dataString);
+			jQuery.ajax
+			({
+			type: "POST",
+			url: "<?php echo plugins_url('contact-form-manager/admin/ajax-update-element.php') ?>",
+			data: dataString,
+			cache: false,
+			success: function(html)
+			{	
+				
+				jQuery("#cfm_captcha").html(html);
+				updateElementDetails();
+			}
+			});
+		
 			
 		}else{
 			alert("Please fill all mandatory fields.");
@@ -635,22 +662,26 @@ if($element_result->element_type = 1){
 
 <div id="textFieldUpdate">
 
-	<div style="float: right;">
-		<span id="closeUpdate1" style="margin-right: 20px; cursor: pointer;"
-			title="close">X</span>
-	</div>
+<script>
+jQuery(document).ready(function() {
+	jQuery("#elementNameUpdate1").focus();
+});
+</script>
 
 	<input type="hidden" id="elementIdUpdate1" name="elementIdUpdate1"
 		value="<?php echo $elementId;?>">
-
+	<div id="cfm_text"></div>
 	<table class="tableStyle">
 		<tr>
 			<td colspan="2" style="padding-left:15px;">Short Code &nbsp;:&nbsp;<?php echo '['.$type1.$elementId.']';?>
+			<div style="float: right;margin-bottom:2px;">
+					<span id="closeUpdate1" style="margin-right: 20px; cursor: pointer;" title="close"><b>X</b></span>
+				</div>
 			</td>
 		</tr>
 		<tr>
 			<td style="border: none;padding-left:15px;" colspan="2">
-				<divstyle="margin-left:10px;"  id="textFieldResultUpdate1"></div>
+				<div  style="margin-left:10px;"  id="textFieldResultUpdate1"></div>
 			</td>
 
 		</tr>
@@ -664,7 +695,7 @@ if($element_result->element_type = 1){
 
 			<td>Form Element Name</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="elementNameUpdate1" id="elementNameUpdate1"
-				value = "<?php if(isset($_POST['elementNameUpdate1'])){ echo esc_html($_POST['elementNameUpdate1']);}else{ echo esc_html($element_result->element_name); }?>">
+				value = "<?php if(isset($_POST['elementNameUpdate1'])){ echo esc_attr($_POST['elementNameUpdate1']);}else{ echo esc_attr($element_result->element_name); }?>">
 				<font color="red">*</font>
 			</td>
 
@@ -674,13 +705,13 @@ if($element_result->element_type = 1){
 
 			<td>Style Class Name (optional)</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="classNameUpdate1" id="classNameUpdate1"
-				value = "<?php if(isset($_POST['classNameUpdate1'])){ echo esc_html($_POST['classNameUpdate1']);}else{ echo esc_html($element_result->css_class); }?>">
+				value = "<?php if(isset($_POST['classNameUpdate1'])){ echo esc_attr($_POST['classNameUpdate1']);}else{ echo esc_attr($element_result->css_class); }?>">
 			</td>
 			</tr>
 		<tr>
-			<td >maxlength(optional)</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
+			<td >Maxlength(optional)</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="maxlengthUpdate1" id="maxlengthUpdate1"
-				value = "<?php if(isset($_POST['maxlengthUpdate1'])){ echo esc_html($_POST['maxlengthUpdate1']);}else{ if(abs(intval($element_result->max_length)) == 0){echo "";}else{if(abs(intval($element_result->max_length)) == 0){echo "";}else{echo abs(intval($element_result->max_length));}} }?>">
+				value = "<?php if(isset($_POST['maxlengthUpdate1'])){ echo esc_attr($_POST['maxlengthUpdate1']);}else{ if(abs(intval($element_result->max_length)) == 0){echo "";}else{if(abs(intval($element_result->max_length)) == 0){echo "";}else{echo abs(intval($element_result->max_length));}} }?>">
 			</td>
 		</tr>
 
@@ -688,12 +719,13 @@ if($element_result->element_type = 1){
 		<tr>
 			<td >Default value (optional)</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="defaultValueUpdate1" id="defaultValueUpdate1"
-				value = "<?php if(isset($_POST['defaultValueUpdate1'])){ echo esc_html($_POST['defaultValueUpdate1']);}else{ echo esc_html($element_result->default_value); }?>">
+				value = "<?php if(isset($_POST['defaultValueUpdate1'])){ echo esc_attr($_POST['defaultValueUpdate1']);}else{ echo esc_attr($element_result->default_value); }?>">
 			</td>
 
 		</tr>
 		<tr>
-			<td id="bottomBorderNone"><input class="button-primary cfm_bottonWidth" id="textFieldButtonUpdate1"
+			<td id="bottomBorderNone" colspan="2">
+			<input class="button-primary cfm_bottonWidth" id="textFieldButtonUpdate1"
 				style="cursor: pointer;" type="button" name="textFieldButtonUpdate1"
 				value="Update">
 			</td>
@@ -712,14 +744,18 @@ if($element_result->element_type = 2){
 	$type2 = "email-";
 	?>
 <div id="emailFieldUpdate">
-
-	<div style="float: right;">
-		<span id="closeUpdate2" style="margin-right: 20px; cursor: pointer;"
-			title="close">X</span>
-	</div>
+<script>
+jQuery(document).ready(function() {
+	jQuery("#elementNameUpdate2").focus();
+});
+</script>	
+	<div id="cfm_email"></div>
 	<table class="tableStyle">
 		<tr>
 			<td colspan="2" style="padding-left:15px;">Short Code &nbsp;:&nbsp;<?php echo '['.$type2.$elementId.']';?>
+				<div style="float: right;margin-bottom:2px;">
+					<span id="closeUpdate2" style="margin-right: 20px; cursor: pointer;" title="close"><b>X</b></span>
+				</div>
 			</td>
 		</tr>
 		<tr>
@@ -738,7 +774,7 @@ if($element_result->element_type = 2){
 
 			<td>Form Element Name</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="elementNameUpdate2" id="elementNameUpdate2"
-				value = "<?php if(isset($_POST['elementNameUpdate2'])){ echo esc_html($_POST['elementNameUpdate2']);}else{ echo esc_html($element_result->element_name); }?>">
+				value = "<?php if(isset($_POST['elementNameUpdate2'])){ echo esc_attr($_POST['elementNameUpdate2']);}else{ echo esc_attr($element_result->element_name); }?>">
 				<font color="red">*</font>
 			</td>
 
@@ -748,13 +784,13 @@ if($element_result->element_type = 2){
 
 			<td>Style Class Name (optional)</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="classNameUpdate2" id="classNameUpdate2"
-				value = "<?php if(isset($_POST['classNameUpdate2'])){ echo esc_html($_POST['classNameUpdate2']);}else{ echo esc_html($element_result->css_class); }?>">
+				value = "<?php if(isset($_POST['classNameUpdate2'])){ echo esc_attr($_POST['classNameUpdate2']);}else{ echo esc_attr($element_result->css_class); }?>">
 			</td>
 			</tr>
 		<tr>
-			<td >maxlength(optional)</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
+			<td >Maxlength(optional)</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="maxlengthUpdate2" id="maxlengthUpdate2"
-				value = "<?php if(isset($_POST['maxlengthUpdate2'])){ echo esc_html($_POST['maxlengthUpdate2']);}else{if(abs(intval($element_result->max_length))==0){echo "";}else{echo abs(intval($element_result->max_length));} }?>">
+				value = "<?php if(isset($_POST['maxlengthUpdate2'])){ echo esc_attr($_POST['maxlengthUpdate2']);}else{if(abs(intval($element_result->max_length))==0){echo "";}else{echo abs(intval($element_result->max_length));} }?>">
 			</td>
 		</tr>
 
@@ -762,14 +798,15 @@ if($element_result->element_type = 2){
 		<tr>
 			<td >Default value (optional)</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="defaultValueUpdate2" id="defaultValueUpdate2"
-				value = "<?php if(isset($_POST['defaultValueUpdate2'])){ echo esc_html($_POST['defaultValueUpdate2']);}else{ echo esc_html($element_result->default_value); }?>">
+				value = "<?php if(isset($_POST['defaultValueUpdate2'])){ echo esc_attr($_POST['defaultValueUpdate2']);}else{ echo esc_attr($element_result->default_value); }?>">
 			</td>
 
 		</tr>
 		<tr>
-			<td id="bottomBorderNone"><input class="button-primary cfm_bottonWidth" id="textFieldButtonUpdate2"
+			<td id="bottomBorderNone" colspan="2"><input class="button-primary cfm_bottonWidth" id="textFieldButtonUpdate2"
 				style="cursor: pointer;" type="button" name="textFieldButtonUpdate2"
 				value="Update">
+				
 			</td>
 		</tr>
 		
@@ -783,14 +820,18 @@ if($element_result->element_type = 3){
 	$type3 = "textarea-";
 	?>
 <div id="textAreaUpdate">
-
-	<div style="float: right;">
-		<span id="closeUpdate3" style="margin-right: 20px; cursor: pointer;"
-			title="close">X</span>
-	</div>
+<script>
+jQuery(document).ready(function() {
+	jQuery("#elementNameUpdate3").focus();
+});
+</script>
+	<div id="cfm_textarea"></div>
 	<table class="tableStyle">
 		<tr>
 			<td colspan="2" style="padding-left:15px;">Short Code &nbsp;:&nbsp;<?php echo '['.$type3.$elementId.']';?>
+				<div style="float: right;margin-bottom:2px;">
+					<span id="closeUpdate3" style="margin-right: 20px; cursor: pointer;" title="close"><b>X</b></span>
+				</div>
 			</td>
 		</tr>
 		<tr>
@@ -809,7 +850,7 @@ if($element_result->element_type = 3){
 
 			<td>Form Element Name</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="elementNameUpdate3" id="elementNameUpdate3"
-				value = "<?php if(isset($_POST['elementNameUpdate3'])){ echo esc_html($_POST['elementNameUpdate3']);}else{ echo esc_html($element_result->element_name); }?>">
+				value = "<?php if(isset($_POST['elementNameUpdate3'])){ echo esc_attr($_POST['elementNameUpdate3']);}else{ echo esc_attr($element_result->element_name); }?>">
 				<font color="red">*</font>
 			</td>
 
@@ -820,31 +861,31 @@ if($element_result->element_type = 3){
 
 			<td>Style Class Name (optional)</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="classNameUpdate3" id="classNameUpdate3"
-				value = "<?php if(isset($_POST['classNameUpdate3'])){ echo esc_html($_POST['classNameUpdate3']);}else{ echo esc_html($element_result->css_class); }?>">
+				value = "<?php if(isset($_POST['classNameUpdate3'])){ echo esc_attr($_POST['classNameUpdate3']);}else{ echo esc_attr($element_result->css_class); }?>">
 			</td>
 			</tr>
 		<tr>
 			<td >Default value (optional)</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="defaultValueUpdate3" id="defaultValueUpdate3"
-				value = "<?php if(isset($_POST['defaultValueUpdate3'])){ echo esc_html($_POST['defaultValueUpdate3']);}else{ echo esc_html($element_result->default_value); }?>">
+				value = "<?php if(isset($_POST['defaultValueUpdate3'])){ echo esc_attr($_POST['defaultValueUpdate3']);}else{ echo esc_attr($element_result->default_value); }?>">
 			</td>
 		</tr>
 
 		<tr>
-			<td>Cols(optional)</td><td><input type="text" name="colLengthUpdate3" class="xyz_cfm_NoEnterSubmit"
+			<td>Cols (optional)</td><td><input type="text" name="colLengthUpdate3" class="xyz_cfm_NoEnterSubmit"
 				id="colLengthUpdate3" 
-				value = "<?php if(isset($_POST['colLengthUpdate3'])){ echo esc_html($_POST['colLengthUpdate3']);}else{ echo abs(intval($element_result->cols)); }?>">
+				value = "<?php if(isset($_POST['colLengthUpdate3'])){ echo esc_attr($_POST['colLengthUpdate3']);}else{ echo abs(intval($element_result->cols)); }?>">
 			</td>
 			</tr>
 		<tr>
-			<td>Rows(optional)</td><td><input type="text" name="rowLengthUpdate3" class="xyz_cfm_NoEnterSubmit"
+			<td>Rows (optional)</td><td><input type="text" name="rowLengthUpdate3" class="xyz_cfm_NoEnterSubmit"
 				id="rowLengthUpdate3" 
-				value = "<?php if(isset($_POST['rowLengthUpdate3'])){ echo esc_html($_POST['rowLengthUpdate3']);}else{ echo abs(intval($element_result->rows)); }?>">
+				value = "<?php if(isset($_POST['rowLengthUpdate3'])){ echo esc_attr($_POST['rowLengthUpdate3']);}else{ echo abs(intval($element_result->rows)); }?>">
 			</td>
 		</tr>
 
 		<tr>
-			<td id="bottomBorderNone"><input class="button-primary cfm_bottonWidth" id="textFieldButtonUpdate3"
+			<td id="bottomBorderNone" colspan="2"><input class="button-primary cfm_bottonWidth" id="textFieldButtonUpdate3"
 				style="cursor: pointer;" type="button" name="textFieldButtonUpdate3"
 				value="Update">
 			</td>
@@ -861,14 +902,18 @@ if($element_result->element_type = 4){
 	$type4 = "dropdown-";
 	?>
 <div id="dropDownMenuUpdate">
-
-	<div style="float: right;">
-		<span id="closeUpdate4" style="margin-right: 20px; cursor: pointer;"
-			title="close">X</span>
-	</div>
+<script>
+jQuery(document).ready(function() {
+	jQuery("#elementNameUpdate4").focus();
+});
+</script>
+	<div id="cfm_dropdown"></div>
 	<table class="tableStyle">
 		<tr>
 			<td colspan="2" style="padding-left:15px;">Short Code &nbsp;:&nbsp;<?php echo '['.$type4.$elementId.']';?>
+				<div style="float: right;margin-bottom:2px;">
+					<span id="closeUpdate4" style="margin-right: 20px; cursor: pointer;" title="close"><b>X</b></span>
+				</div>
 			</td>
 		</tr>
 		<tr>
@@ -887,25 +932,38 @@ if($element_result->element_type = 4){
 
 			<td>Form Element Name</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="elementNameUpdate4" id="elementNameUpdate4"
-				value = "<?php if(isset($_POST['elementNameUpdate4'])){ echo esc_html($_POST['elementNameUpdate4']);}else{ echo esc_html($element_result->element_name); }?>">
+				value = "<?php if(isset($_POST['elementNameUpdate4'])){ echo esc_attr($_POST['elementNameUpdate4']);}else{ echo esc_attr($element_result->element_name); }?>">
 				<font color="red">*</font>
 			</td>
 		</tr>
 		<tr>
 			<td>Options</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
-				name="dropDownOptionsUpdate4" id="dropDownOptionsUpdate4" value="<?php if(isset($_POST['dropDownOptionsUpdate4'])){ echo esc_textarea($_POST['dropDownOptionsUpdate4']);}else{ echo esc_html($element_result->options); }?>">
+				name="dropDownOptionsUpdate4" id="dropDownOptionsUpdate4" value="<?php if(isset($_POST['dropDownOptionsUpdate4'])){ echo esc_attr($_POST['dropDownOptionsUpdate4']);}else{ echo esc_attr($element_result->options); }?>">
 				<font color="red">*</font>
-				<br /> Please use comma(,) to separate option values.
-			</td>
-			</tr>
-		<tr>
-			<td>Style Class Name (optional)</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
-				name="classNameUpdate4" id="classNameUpdate4"
-				value = "<?php if(isset($_POST['classNameUpdate4'])){ echo esc_html($_POST['classNameUpdate4']);}else{ echo esc_html($element_result->css_class); }?>">
+				<br /><b>Example 1</b> : a,b,c,d
+				<br /><b>Example 2</b> : a=>1,b=>2,c=>3,d=>4
 			</td>
 		</tr>
 		<tr>
-			<td id="bottomBorderNone"><input class="button-primary cfm_bottonWidth" id="textFieldButtonUpdate4"
+			<td colspan="2"><input type="checkbox" name="viewMultipleSelectDropDownUpdate"
+				id="viewMultipleSelectDropDownUpdate"
+				<?php if(isset($_POST['viewMultipleSelectDropDownUpdate'])){?>checked="checked"<?php }elseif($element_result->client_view_multi_select_drop_down == 1){?>
+				checked="checked" <?php }?>	>&nbsp;Allow multi-select</td>
+		</tr>
+		<tr>
+			<td>Default Drop down value (optional)</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
+					name="dropDownOptionsUpdate4DefaultValue" id="dropDownOptionsUpdate4DefaultValue" 
+					value="<?php if(isset($_POST['dropDownOptionsUpdate4DefaultValue'])){ echo esc_attr($_POST['dropDownOptionsUpdate4DefaultValue']);}else{ echo esc_attr($element_result->default_value); }?>">
+				</td>
+		</tr>
+		<tr>
+			<td>Style Class Name (optional)</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
+				name="classNameUpdate4" id="classNameUpdate4"
+				value = "<?php if(isset($_POST['classNameUpdate4'])){ echo esc_attr($_POST['classNameUpdate4']);}else{ echo esc_attr($element_result->css_class); }?>">
+			</td>
+		</tr>
+		<tr>
+			<td id="bottomBorderNone" colspan="2"><input class="button-primary cfm_bottonWidth" id="textFieldButtonUpdate4"
 				style="cursor: pointer;" type="button" name="textFieldButtonUpdate4"
 				value="Update">
 			</td>
@@ -922,14 +980,18 @@ if($element_result->element_type = 5){
 	$type5 = "date-";
 	?>
 <div id="dateFieldUpdate">
-
-	<div style="float: right;">
-		<span id="closeUpdate5" style="margin-right: 20px; cursor: pointer;"
-			title="close">X</span>
-	</div>
+<script>
+jQuery(document).ready(function() {
+	jQuery("#elementNameUpdate5").focus();
+});
+</script>
+	<div id="cfm_date"></div>
 	<table class="tableStyle">
 		<tr>
 			<td colspan="2" style="padding-left:15px;">Short Code &nbsp;:&nbsp;<?php echo '['.$type5.$elementId.']';?>
+				<div style="float: right;margin-bottom:2px;">
+					<span id="closeUpdate5" style="margin-right: 20px; cursor: pointer;" title="close"><b>X</b></span>
+				</div>
 			</td>
 		</tr>
 		<tr>
@@ -948,18 +1010,18 @@ if($element_result->element_type = 5){
 
 			<td>Form Element Name</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="elementNameUpdate5" id="elementNameUpdate5"
-				value = "<?php if(isset($_POST['elementNameUpdate5'])){ echo esc_html($_POST['elementNameUpdate5']);}else{ echo esc_html($element_result->element_name); }?>">
+				value = "<?php if(isset($_POST['elementNameUpdate5'])){ echo esc_attr($_POST['elementNameUpdate5']);}else{ echo esc_attr($element_result->element_name); }?>">
 				<font color="red">*</font>
 			</td>
 			</tr>
 		<tr>
 			<td >Style Class Name (optional)</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="classNameUpdate5" id="classNameUpdate5"
-				value = "<?php if(isset($_POST['classNameUpdate5'])){ echo esc_html($_POST['classNameUpdate5']);}else{ echo esc_html($element_result->css_class); }?>">
+				value = "<?php if(isset($_POST['classNameUpdate5'])){ echo esc_attr($_POST['classNameUpdate5']);}else{ echo esc_attr($element_result->css_class); }?>">
 			</td>
 		</tr>
 		<tr>
-			<td id="bottomBorderNone"><input class="button-primary cfm_bottonWidth"
+			<td id="bottomBorderNone" colspan="2"><input class="button-primary cfm_bottonWidth"
 				id="textFieldButtonUpdate5" style="cursor: pointer;" type="button"
 				name="textFieldButtonUpdate5" value="Update">
 			</td>
@@ -976,14 +1038,18 @@ if($element_result->element_type = 6){
 	$type6 = "checkbox-";
 	?>
 <div id="checkBoxesUpdate">
-
-	<div style="float: right;">
-		<span id="closeUpdate6" style="margin-right: 20px; cursor: pointer;"
-			title="close">X</span>
-	</div>
+<script>
+jQuery(document).ready(function() {
+	jQuery("#checkBoxesResultUpdate6").focus();
+});
+</script>
+	<div id="cfm_checkbox"></div>
 	<table class="tableStyle">
 		<tr>
 			<td colspan="2" style="padding-left:15px;">Short Code &nbsp;:&nbsp;<?php echo '['.$type6.$elementId.']';?>
+				<div style="float: right;margin-bottom:2px;">
+					<span id="closeUpdate6" style="margin-right: 20px; cursor: pointer;" title="close"><b>X</b></span>
+				</div>
 			</td>
 		</tr>
 		<tr>
@@ -1002,7 +1068,7 @@ if($element_result->element_type = 6){
 
 			<td>Form Element Name</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="elementNameUpdate6" id="elementNameUpdate6"
-				value = "<?php if(isset($_POST['elementNameUpdate6'])){ echo esc_html($_POST['elementNameUpdate6']);}else{ echo esc_html($element_result->element_name); }?>">
+				value = "<?php if(isset($_POST['elementNameUpdate6'])){ echo esc_attr($_POST['elementNameUpdate6']);}else{ echo esc_attr($element_result->element_name); }?>">
 				<font color="red">*</font>
 			</td>
 		</tr>
@@ -1010,19 +1076,33 @@ if($element_result->element_type = 6){
 
 		<tr>
 			<td>Options</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
-				name="checkBoxOptionsUpdate6" id="checkBoxOptionsUpdate6" value="<?php if(isset($_POST['checkBoxOptionsUpdate6'])){ echo esc_textarea($_POST['checkBoxOptionsUpdate6']);}else{ echo esc_html($element_result->options); }?>">
+				name="checkBoxOptionsUpdate6" id="checkBoxOptionsUpdate6" value="<?php if(isset($_POST['checkBoxOptionsUpdate6'])){ echo esc_attr($_POST['checkBoxOptionsUpdate6']);}else{ echo esc_attr($element_result->options); }?>">
 				<font color="red">*</font>
-				<br /> Please use comma(,) to separate option values.
-			</td>
-			</tr>
-		<tr>
-			<td>Style Class Name (optional)</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
-				name="classNameUpdate6" id="classNameUpdate6"
-				value = "<?php if(isset($_POST['classNameUpdate6'])){ echo esc_html($_POST['classNameUpdate6']);}else{ echo esc_html($element_result->css_class); }?>">
+				<br /><b>Example 1</b> : a,b,c,d
+				<br /><b>Example 2</b> : a=>1,b=>2,c=>3,d=>4
 			</td>
 		</tr>
 		<tr>
-			<td id="bottomBorderNone"><input class="button-primary cfm_bottonWidth" id="textFieldButtonUpdate6"
+			<td>Default Check Box value(s) (optional)</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
+				name="checkBoxOptionsUpdate6DefaultValue" id="checkBoxOptionsUpdate6DefaultValue" 
+				value = "<?php if(isset($_POST['checkBoxOptionsUpdate6DefaultValue'])){ echo esc_attr($_POST['checkBoxOptionsUpdate6DefaultValue']);}else{ echo esc_attr($element_result->default_value); }?>">
+				<br /> Please use comma(,) to separate default option values.
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2"><input type="checkbox" name="viewCheckboxOptions"
+				id="viewCheckboxOptions" 
+				<?php if(isset($_POST['viewCheckboxOptions'])){?>checked="checked"<?php }elseif($element_result->client_view_check_radio_line_break_count == 1){?>
+				checked="checked" <?php }?>	>&nbsp;Display each option in new line</td>
+		</tr>
+		<tr>
+			<td>Style Class Name (optional)</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
+				name="classNameUpdate6" id="classNameUpdate6"
+				value = "<?php if(isset($_POST['classNameUpdate6'])){ echo esc_attr($_POST['classNameUpdate6']);}else{ echo esc_attr($element_result->css_class); }?>">
+			</td>
+		</tr>
+		<tr>
+			<td id="bottomBorderNone" colspan="2"><input class="button-primary cfm_bottonWidth" id="textFieldButtonUpdate6"
 				style="cursor: pointer;" type="button" name="textFieldButtonUpdate6"
 				value="Update">
 			</td>
@@ -1039,14 +1119,18 @@ if($element_result->element_type = 7){
 	$type7 = "radiobutton-";
 	?>
 <div id="radioButtonsUpdate">
-
-	<div style="float: right;">
-		<span id="closeUpdate7" style="margin-right: 20px; cursor: pointer;"
-			title="close">X</span>
-	</div>
+<script>
+jQuery(document).ready(function() {
+	jQuery("#elementNameUpdate7").focus();
+});
+</script>
+	<div id="cfm_radiobutton"></div>
 	<table class="tableStyle">
 		<tr>
 			<td colspan="2" style="padding-left:15px;">Short Code &nbsp;:&nbsp;<?php echo '['.$type7.$elementId.']';?>
+				<div style="float: right;margin-bottom:2px;">
+					<span id="closeUpdate7" style="margin-right: 20px; cursor: pointer;" title="close"><b>X</b></span>
+				</div>
 			</td>
 		</tr>
 		<tr>
@@ -1065,29 +1149,39 @@ if($element_result->element_type = 7){
 
 			<td>Form Element Name</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="elementNameUpdate7" id="elementNameUpdate7"
-				value = "<?php if(isset($_POST['elementNameUpdate7'])){ echo esc_html($_POST['elementNameUpdate7']);}else{ echo esc_html($element_result->element_name); }?>">
+				value = "<?php if(isset($_POST['elementNameUpdate7'])){ echo esc_attr($_POST['elementNameUpdate7']);}else{ echo esc_attr($element_result->element_name); }?>">
 				<font color="red">*</font>
 			</td>
 
 		</tr>
-
-
 		<tr>
-			<td>Options</td>
-			<td> <input type="text" class="xyz_cfm_NoEnterSubmit"
-				name="radioOptionsUpdate7" id="radioOptionsUpdate7" value="<?php if(isset($_POST['radioOptionsUpdate7'])){ echo esc_html($_POST['radioOptionsUpdate7']);}else{ echo esc_html($element_result->options); }?>">
+			<td>Options</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
+				name="radioOptionsUpdate7" id="radioOptionsUpdate7" value="<?php if(isset($_POST['radioOptionsUpdate7'])){ echo esc_attr($_POST['radioOptionsUpdate7']);}else{ echo esc_attr($element_result->options); }?>">
 				<font color="red">*</font>
-				<br /> Please use comma(,) to separate option values.
+				<br /><b>Example 1</b> : a,b,c,d
+				<br /><b>Example 2</b> : a=>1,b=>2,c=>3,d=>4
 			</td>
-			</tr>
+		</tr>
+		<tr>
+			<td>Default Radio button value (optional)</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
+					name="radioOptionsUpdate7DefaultValue" id="radioOptionsUpdate7DefaultValue" 
+					value = "<?php if(isset($_POST['radioOptionsUpdate7DefaultValue'])){ echo esc_attr($_POST['radioOptionsUpdate7DefaultValue']);}else{ echo esc_attr($element_result->default_value); }?>">
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2"><input type="checkbox" name="viewRadiobuttonOptions"
+				id="viewRadiobuttonOptions" 
+				<?php if(isset($_POST['viewRadiobuttonOptions'])){?>checked="checked"<?php }elseif($element_result->client_view_check_radio_line_break_count == 1){?>
+				checked="checked" <?php }?>	>&nbsp;Display each option in new line</td>
+		</tr>
 		<tr>
 			<td>Style Class Name (optional)</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="classNameUpdate7" id="classNameUpdate7"
-				value = "<?php if(isset($_POST['classNameUpdate7'])){ echo esc_html($_POST['classNameUpdate7']);}else{ echo esc_html($element_result->css_class); }?>">
+				value = "<?php if(isset($_POST['classNameUpdate7'])){ echo esc_attr($_POST['classNameUpdate7']);}else{ echo esc_attr($element_result->css_class); }?>">
 			</td>
 		</tr>
 		<tr>
-			<td id="bottomBorderNone"><input class="button-primary cfm_bottonWidth" id="textFieldButtonUpdate7"
+			<td id="bottomBorderNone" colspan="2"><input class="button-primary cfm_bottonWidth" id="textFieldButtonUpdate7"
 				style="cursor: pointer;" type="button" name="textFieldButtonUpdate7"
 				value="Update">
 			</td>
@@ -1104,14 +1198,18 @@ if($element_result->element_type = 8){
 	$type8 = "file-";
 	?>
 <div id="fileUploadUpdate">
-
-	<div style="float: right;">
-		<span id="closeUpdate8" style="margin-right: 20px; cursor: pointer;"
-			title="close">X</span>
-	</div>
+<script>
+jQuery(document).ready(function() {
+	jQuery("#elementNameUpdate8").focus();
+});
+</script>
+	<div id="cfm_file"></div>
 	<table class="tableStyle">
 		<tr>
 			<td colspan="2" style="padding-left:15px;">Short Code &nbsp;:&nbsp;<?php echo '['.$type8.$elementId.']';?>
+				<div style="float: right;margin-bottom:2px;">
+					<span id="closeUpdate8" style="margin-right: 20px; cursor: pointer;" title="close"><b>X</b></span>
+				</div>
 			</td>
 		</tr>
 		<tr>
@@ -1161,7 +1259,7 @@ if($element_result->element_type = 8){
 		</tr>
 
 		<tr>
-			<td id="bottomBorderNone"><input class="button-primary cfm_bottonWidth" id="textFieldButtonUpdate8"
+			<td id="bottomBorderNone" colspan="2"><input class="button-primary cfm_bottonWidth" id="textFieldButtonUpdate8"
 				style="cursor: pointer;" type="button" name="textFieldButtonUpdate8"
 				value="Update">
 			</td>
@@ -1178,14 +1276,18 @@ if($element_result->element_type = 9){
 	$type9 = "submit-";
 	?>
 <div id="submitButtonUpdate">
-
-	<div style="float: right;">
-		<span id="closeUpdate9" style="margin-right: 20px; cursor: pointer;"
-			title="close">X</span>
-	</div>
+<script>
+jQuery(document).ready(function() {
+	jQuery("#elementNameUpdate9").focus();
+});
+</script>
+	<div id="cfm_submit"></div>
 	<table class="tableStyle">
 		<tr>
 			<td colspan="2" style="padding-left:15px;">Short Code &nbsp;:&nbsp;<?php echo '['.$type9.$elementId.']';?>
+				<div style="float: right;margin-bottom:2px;">
+					<span id="closeUpdate9" style="margin-right: 20px; cursor: pointer;" title="close"><b>X</b></span>
+				</div>
 			</td>
 		</tr>
 		<tr>
@@ -1217,7 +1319,7 @@ if($element_result->element_type = 9){
 			</td>
 		</tr>
 		<tr>
-			<td id="bottomBorderNone"><input class="button-primary cfm_bottonWidth" id="textFieldButtonUpdate9"
+			<td id="bottomBorderNone" colspan="2"><input class="button-primary cfm_bottonWidth" id="textFieldButtonUpdate9"
 				style="cursor: pointer;" type="button" name="values" value="Update">
 			</td>
 		</tr>
@@ -1233,13 +1335,13 @@ if($element_result->element_type = 10){
 	?>
 <div id="captchaUpdate">
 
-	<div style="float: right;">
-		<span id="closeUpdate10" style="margin-right: 20px; cursor: pointer;"
-			title="close">X</span>
-	</div>
+	<div id="cfm_captcha"></div>
 	<table class="tableStyle">
 		<tr>
 			<td colspan="2" style="padding-left:15px;">Short Code &nbsp;:&nbsp;<?php echo '['.$type10.$elementId.']';?>
+				<div style="float: right;margin-bottom:2px;">
+					<span id="closeUpdate10" style="margin-right: 20px; cursor: pointer;" title="close"><b>X</b></span>
+				</div>
 			</td>
 		</tr>
 		<tr>
@@ -1248,6 +1350,7 @@ if($element_result->element_type = 10){
 			</td>
 
 		</tr>
+		<?php //echo "HHHH:".$element_result->re_captcha;die;?>
 		<tr>
 			<td colspan="2"><input type="checkbox" name="reCaptchaUpdate"
 				id="reCaptchaUpdate"
@@ -1255,13 +1358,30 @@ if($element_result->element_type = 10){
 				checked="checked" <?php }?>>&nbsp;ReCaptcha ?</td>
 		</tr>
 		<tr>
-			<td>Form Element Name</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
-				name="elementNameUpdate10" id="elementNameUpdate10"
-				value = "<?php if(isset($_POST['elementNameUpdate10'])){ echo esc_html($_POST['elementNameUpdate10']);}else{ echo esc_html($element_result->element_name); }?>">
+			<td>Form Element Name</td><td>
+				<span id="captchaElementName">
+				<script>
+					jQuery(document).ready(function() {
+						jQuery("#captchaElementNameUpdate10").focus();
+					});
+				</script>
+				<input type="text" class="xyz_cfm_NoEnterSubmit"
+					name="captchaElementNameUpdate10" id="captchaElementNameUpdate10"
+					value = "<?php if(isset($_POST['captchaElementNameUpdate10'])){ echo esc_html($_POST['captchaElementNameUpdate10']);}else{ echo esc_html($element_result->element_name); }?>">
+				</span>
+				<span id="reCaptchaElementName">
+				<script>
+					jQuery(document).ready(function() {
+						jQuery("#reCaptchaElementNameUpdate10").focus();
+					});
+				</script>
+				<input type="text" class="xyz_cfm_NoEnterSubmit"
+					name="reCaptchaElementNameUpdate10" id="reCaptchaElementNameUpdate10"
+					value = "<?php if(isset($_POST['reCaptchaElementNameUpdate10'])){ echo esc_html($_POST['reCaptchaElementNameUpdate10']);}else{ echo esc_html($element_result->element_name); }?>">
+				</span>
 				<font color="red">*</font>
 			</td>
 		</tr>
-		
 		<tr>
 			<td>Style Class Name (optional)</td>
 			<td><div id="captchaStyleUpdate"><input type="text" class="xyz_cfm_NoEnterSubmit"
@@ -1281,7 +1401,7 @@ if($element_result->element_type = 10){
 		
 		
 		<tr>
-			<td id="bottomBorderNone"><input class="button-primary cfm_bottonWidth" id="textFieldButtonUpdate10"
+			<td id="bottomBorderNone" colspan="2"><input class="button-primary cfm_bottonWidth" id="textFieldButtonUpdate10"
 				style="cursor: pointer;" type="button" name="values" value="Update">
 			</td>
 		</tr>
@@ -1291,4 +1411,20 @@ if($element_result->element_type = 10){
 
 <?php
 }
+}
 ?>
+<script type="text/javascript">
+jQuery(document).ready(function() {
+	if(jQuery('#reCaptchaUpdate').attr('checked')){
+		jQuery("#reCaptchaStyleUpdate").show();
+		jQuery("#reCaptchaElementName").show();
+		jQuery("#captchaStyleUpdate").hide();
+		jQuery("#captchaElementName").hide();
+	}else{
+		jQuery("#captchaStyleUpdate").show();
+		jQuery("#captchaElementName").show();
+		jQuery("#reCaptchaStyleUpdate").hide();
+		jQuery("#reCaptchaElementName").hide();
+	}
+});
+</script>

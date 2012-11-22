@@ -8,7 +8,7 @@ if(isset($_GET['pagenum'])){
 }
 $xyz_cfm_smtpMessage = '';
 if(isset($_GET['smtpmsg'])){
-	$xyz_cfm_message = $_GET['smtpmsg'];
+	$xyz_cfm_smtpMessage = $_GET['smtpmsg'];
 }
 if($xyz_cfm_smtpMessage == 1){
 
@@ -38,7 +38,6 @@ id="system_notice_area_dismiss">Dismiss</span>
 <?php
 }
 if($xyz_cfm_smtpMessage == 4){
-
 	?>
 <div class="system_notice_area_style0" id="system_notice_area">
 Default SMTP account cannot be blocked.&nbsp;&nbsp;&nbsp;<span
@@ -63,6 +62,13 @@ Default SMTP account cannot be deleted.&nbsp;&nbsp;&nbsp;<span
 id="system_notice_area_dismiss">Dismiss</span>
 </div>
 <?php
+}if($xyz_cfm_smtpMessage == 7){
+
+	?>
+<div class="system_notice_area_style1" id="system_notice_area">
+	SMTP account successfully added. &nbsp;&nbsp;&nbsp;<span id="system_notice_area_dismiss">Dismiss</span>
+</div>
+<?php
 }
 ?>
 
@@ -79,17 +85,17 @@ id="system_notice_area_dismiss">Dismiss</span>
 			$limit = get_option('xyz_cfm_paging_limit');			
 			$offset = ( $pagenum - 1 ) * $limit;
 			
-			$entries = $wpdb->get_results( "SELECT * FROM xyz_cfm_sender_email_address  ORDER BY id DESC LIMIT $offset, $limit" );
+			$entries = $wpdb->get_results( "SELECT * FROM ".$wpdb->prefix."xyz_cfm_sender_email_address  ORDER BY id DESC LIMIT $offset, $limit" );
 			?>
-			<input class="button-primary cfm_bottonWidth" id="textFieldButton2"
-				style="cursor: pointer; margin-bottom:10px;" type="button"
+			<input class="submit" id="textFieldButton2"
+				style="color:#FFFFFF;border-radius:4px;border:1px solid #1A87B9;margin-left:6px;margin-bottom:10px;" type="button"
 				name="textFieldButton2" value="Add New SMTP Account"
 				 onClick='document.location.href="<?php echo admin_url('admin.php?page=contact-form-manager-manage-smtp&action=add-smtp');?>"'>
 			
 			<table class="widefat" style="width: 99%; margin: 0 auto;border-bottom:none;">
 				<thead>
 					<tr>
-						<th scope="col" style="">Email Address</th>
+						<th scope="col" style="">Username</th>
 						<th scope="col" style="">Status</th>
 						<th scope="col" colspan="3" style="text-align: center;">Action</th>
 					</tr>
@@ -111,6 +117,9 @@ id="system_notice_area_dismiss">Dismiss</span>
 					<tr <?php echo $class; ?>>
 						<td><?php 
 						echo $entry->user;
+						if($entry->set_default == 1){
+						echo "  (default)";	
+						}
 						?></td>
 						
 						<td>
@@ -134,7 +143,7 @@ id="system_notice_area_dismiss">Dismiss</span>
 					
 						<td style="text-align: center;"><a
 							href='<?php echo admin_url('admin.php?page=contact-form-manager-manage-smtp&action=smtp-block&id='.$entry->id.'&status=1&pageno='.$pageno); ?>'><img
-								id="img" title="Activate Account"
+								id="img" title="Activate Account" style="width:25px; height: 25px;"
 								src="<?php echo plugins_url('contact-form-manager/images/active.png')?>">
 						</a>
 						</td>
@@ -146,7 +155,7 @@ id="system_notice_area_dismiss">Dismiss</span>
 					
 				<td style="text-align: center;"><a
 							href='<?php echo admin_url('admin.php?page=contact-form-manager-manage-smtp&action=smtp-activate&id='.$entry->id.'&status=0&pageno='.$pageno); ?>'><img
-								id="img" title="Block Account"
+								id="img" title="Block Account" style="width:25px; height: 25px;"
 								src="<?php echo plugins_url('contact-form-manager/images/unsubscribe.png')?>">
 						</a>
 						</td>	
@@ -156,14 +165,14 @@ id="system_notice_area_dismiss">Dismiss</span>
 				?>
 						<td style="text-align: center;"><a
 							href='<?php echo admin_url('admin.php?page=contact-form-manager-manage-smtp&action=smtp-edit&id='.$entry->id.'&pageno='.$pageno); ?>'><img
-								id="img" title="Edit Account"
+								id="img" title="Edit Account" style="width:25px; height: 25px;"
 								src="<?php echo plugins_url('contact-form-manager/images/edit.png')?>">
 						</a>
 						</td>
 						<td style="text-align: center;" ><a
 							href='<?php echo admin_url('admin.php?page=contact-form-manager-manage-smtp&action=smtp-delete&id='.$entry->id.'&pageno='.$pageno); ?>'
 							onclick="javascript: return confirm('Please click \'OK\' to confirm ');"><img
-								id="img" title="Delete Account"
+								id="img" title="Delete Account" style="width:25px; height: 25px;"
 								src="<?php echo plugins_url('contact-form-manager/images/delete.png')?>">
 						</a></td>
 					</tr>
@@ -172,20 +181,20 @@ id="system_notice_area_dismiss">Dismiss</span>
 						}
 					} else { ?>
 					<tr>
-						<td colspan="5" id="bottomBorderNone">SMTP account not found</td>
+						<td colspan="5" >SMTP account not found</td>
 					</tr>
 					<?php } ?>
 				</tbody>
 			</table>
-			<input class="button-primary cfm_bottonWidth" id="textFieldButton2"
-				style="cursor: pointer;margin-top:10px; margin-bottom:10px;" type="button"
+			<input class="submit" id="textFieldButton2"
+				style="color:#FFFFFF;border-radius:4px;border:1px solid #1A87B9;margin-left:6px;margin-top:10px; margin-bottom:10px;" type="button"
 				name="textFieldButton2" value="Add New SMTP Account"
 				 onClick='document.location.href="<?php echo admin_url('admin.php?page=contact-form-manager-manage-smtp&action=add-smtp');?>"'>
 			<?php
 			
 			
 			
-			$total = $wpdb->get_var( "SELECT COUNT(`id`) FROM xyz_cfm_sender_email_address" );
+			$total = $wpdb->get_var( "SELECT COUNT(`id`) FROM ".$wpdb->prefix."xyz_cfm_sender_email_address" );
 			$num_of_pages = ceil( $total / $limit );
 
 			$page_links = paginate_links( array(

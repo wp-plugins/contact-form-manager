@@ -21,10 +21,18 @@ function xyz_trim_deep($value) {
 
 }
 
-
-if(!function_exists('xyz_plugin_get_version'))
+if(!function_exists('esc_textarea'))
 {
-	function xyz_plugin_get_version() 
+	function esc_textarea($text)
+	{
+		$safe_text = htmlspecialchars( $text, ENT_QUOTES );
+		return $safe_text;
+	}
+}
+
+if(!function_exists('xyz_cfm_plugin_get_version'))
+{
+	function xyz_cfm_plugin_get_version() 
 	{
 		if ( ! function_exists( 'get_plugins' ) )
 			require_once( ABSPATH . 'wp-admin/includes/plugin.php' );

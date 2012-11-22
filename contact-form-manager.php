@@ -3,7 +3,7 @@
 Plugin Name: Contact Form Manager
 Plugin URI: http://xyzscripts.com/wordpress-plugins/contact-form-manager/
 Description: Create  and manage multiple contact forms for your website. The plugin supports a wide range of form elements such as text field, email field, textarea, dropdown list, radio button, checkbox, date picker, captcha, file uploader etc. Shortcodes are generated such that, you can modify form element properties without having to replace the shortcode everytime.          
-Version: 1.1
+Version: 1.2
 Author: xyzscripts.com
 Author URI: http://xyzscripts.com/
 Text Domain: contact-form-manager
@@ -26,13 +26,14 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-// if ( !function_exists( 'add_action' ) ) {
-// 	echo "Hi there!  I'm just a plugin, not much I can do when called directly.";
-// 	exit;
-// }
+if ( !function_exists( 'add_action' ) ) 
+{
+	echo "Hi there!  I'm just a plugin, not much I can do when called directly.";
+	exit;
+}
 
 ob_start();
-// error_reporting(E_ALL);
+error_reporting(E_ALL);
 define('XYZ_CFM_PLUGIN_FILE',__FILE__);
 require( dirname( __FILE__ ) . '/xyz-functions.php' );
 
@@ -59,7 +60,7 @@ if(get_option('xyz_credit_link')=="cfm"){
 
 }
 function xyz_cfm_credit() {	
-	$content = '<div style="width:100%;text-align:center; font-size:11px; ">Contact Form Powered By : <a target="_blank" title="PHP Scripts & Programs" href="http://www.xyzscripts.com" >XYZScripts.com</a></div>';
+	$content = '<div style="width:100%;text-align:center; font-size:11px; "><a target="_blank" title="Contact form" href="http://xyzscripts.com/wordpress-plugins/contact-form-manager/details" >Contact Form</a> Powered By : <a target="_blank" title="PHP Scripts & Programs" href="http://www.xyzscripts.com" >XYZScripts.com</a></div>';
 	echo $content;
 }
 

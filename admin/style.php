@@ -16,7 +16,7 @@
 	color: #000000;
 	text-align: center;
 	<?php
-	if(is_admin_bar_showing()){
+	if(function_exists('is_admin_bar_showing') && is_admin_bar_showing()){
 	?>
 	top	:28px;
 	<?php
@@ -31,53 +31,48 @@
 	}
 
 
+		.xyz_suggest,.xyz_star,.xyz_donate,.xyz_fbook,.xyz_support,.xyz_twitt,.xyz_gplus{
+	height:16px;
+	background-repeat: no-repeat;
+	background-position: left center;
+	padding-left: 20px;
+	text-decoration: none;
+	
+	vertical-align: middle;
+	display: inline-block;
+	
+	}
+	
+	.xyz_suggest{
+	
+	background-image: url('<?php echo plugins_url("images/suggest.png",__FILE__) ?>');
+}
+	
+	.xyz_star{
+	background-image: url('<?php echo plugins_url("images/star.png",__FILE__) ?>');
+}
+
+.xyz_donate{
+	
+	background-image: url('<?php echo plugins_url("images/donate.png",__FILE__) ?>');
+}
+
 	
 .xyz_fbook{
 	
 	background-image: url('<?php echo plugins_url("images/facebook.png",__FILE__) ?>');
-	height:16px;
-	background-repeat: no-repeat;
-	background-position: left center;
-	padding-left: 15px;
-	text-decoration: none;
-	
-	
-	
 }
 .xyz_support{
 	
 	background-image: url('<?php echo plugins_url("images/support.png",__FILE__) ?>');
-	height:16px;
-	background-repeat: no-repeat;
-	background-position: left center;
-	padding-left: 15px;
-	
-	
-	
-	
 }
 .xyz_twitt{
 	
 	background-image: url('<?php echo plugins_url("images/twitter.png",__FILE__) ?>');
-	height:16px;
-	background-repeat: no-repeat;
-	background-position: left center;
-	padding-left: 15px;
-	text-decoration: none;
-	
-	
-	
 }
 .xyz_gplus{
 	
 	background-image: url('<?php echo plugins_url("images/gplus.png",__FILE__) ?>');
-	height:16px;
-	background-repeat: no-repeat;
-	background-position: left center;
-	padding-left: 15px;
-	text-decoration: none;
-	
-	
 }
 
 
@@ -133,6 +128,31 @@ background-image: url('<?php echo plugins_url("images/xyz_logo.png",__FILE__) ?>
 background-repeat: no-repeat;
 background-position: left  bottom;
 
+}
+/* style for "Fully Featured XYZ WP Contact Form Premium Plugin"  */
+.xyz-premium-comparison
+{
+width: 99%;
+padding:0px;
+ border: 1px solid #CCCCCC;
+}
+.xyz-premium-comparison td
+{
+ padding: 1px;
+ border: 1px solid #CCCCCC;
+ height: 25px; 
+}
+
+/* Buy Now - button bounce style*/
+img.hoverImages {
+	margin-bottom:20px;
+	-webkit-transition: margin 0.2s ease-out;
+    -moz-transition: margin 0.2s ease-out;
+    -o-transition: margin 0.2s ease-out;
+}
+img.hoverImages:hover {
+	cursor:pointer;
+    margin-top: 5px;
 }
 
 </style>

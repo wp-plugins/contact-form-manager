@@ -1600,7 +1600,8 @@ Date.prototype.dateFormat = function(format)
 
 	if(!format) { // the default date format to use - can be customized to the current locale
 
-		format = 'm/d/Y';
+		//format = 'm/d/Y';
+		format = xyz_cfm_date_format;
 
 	}
 

@@ -32,10 +32,12 @@ id="system_notice_area_dismiss">Dismiss</span>
 			$limit = get_option('xyz_cfm_paging_limit');			
 			$offset = ( $pagenum - 1 ) * $limit;
 			
-			$entries = $wpdb->get_results( "SELECT * FROM xyz_cfm_form  ORDER BY id DESC LIMIT $offset, $limit" );
+			
+			$entries = $wpdb->get_results( "SELECT * FROM ".$wpdb->prefix."xyz_cfm_form  ORDER BY id DESC LIMIT $offset,$limit" );
+			
 			?>
-			<input class="button-primary cfm_bottonWidth" id="textFieldButton2"
-				style="cursor: pointer; margin-bottom:10px;" type="button"
+			<input class="submit" id="textFieldButton2"
+				style="color:#FFFFFF;border-radius:4px;border:1px solid #1A87B9;margin-left:6px; margin-bottom:10px;" type="button"
 				name="textFieldButton2" value="Add New Contact Form"
 				 onClick='document.location.href="<?php echo admin_url('admin.php?page=contact-form-manager-managecontactforms&action=form-add');?>"'>
 			<table class="widefat" style="width: 99%; margin: 0 auto; border-bottom:none;">
@@ -77,14 +79,14 @@ id="system_notice_area_dismiss">Dismiss</span>
 						
 						<td style="text-align: center;"><a
 							href='<?php echo admin_url('admin.php?page=contact-form-manager-managecontactforms&action=form-edit&formId='.$entry->id.'&pageno='.$pagenum); ?>'><img
-								id="img" title="Edit Form"
+								class="img" title="Edit Form"
 								src="<?php echo plugins_url('contact-form-manager/images/edit.png')?>">
 						</a>
 						</td>
 						<td style="text-align: center;" ><a
 							href='<?php echo admin_url('admin.php?page=contact-form-manager-managecontactforms&action=form-delete&id='.$entry->id.'&pageno='.$pagenum); ?>'
 							onclick="javascript: return confirm('Please click \'OK\' to confirm ');"><img
-								id="img" title="Delete Form"
+								class="img" title="Delete Form"
 								src="<?php echo plugins_url('contact-form-manager/images/delete.png')?>">
 						</a></td>
 					</tr>
@@ -93,14 +95,14 @@ id="system_notice_area_dismiss">Dismiss</span>
 						}
 					} else { ?>
 					<tr>
-						<td colspan="5" id="bottomBorderNone">Contact forms not found</td>
+						<td colspan="5" >Contact forms not found</td>
 					</tr>
 					<?php } ?>
 				</tbody>
 			</table>
 			
-			<input class="button-primary cfm_bottonWidth" id="textFieldButton2"
-				style="cursor: pointer; margin-top:10px;" type="button"
+			<input class="submit" id="textFieldButton2"
+				style="color:#FFFFFF;border-radius:4px;border:1px solid #1A87B9;margin-left:6px; margin-top:10px;" type="button"
 				name="textFieldButton2" value="Add New Contact Form"
 				 onClick='document.location.href="<?php echo admin_url('admin.php?page=contact-form-manager-managecontactforms&action=form-add');?>"'>
 			
@@ -108,7 +110,7 @@ id="system_notice_area_dismiss">Dismiss</span>
 			
 			
 			
-			$total = $wpdb->get_var( "SELECT COUNT(`id`) FROM xyz_cfm_form" );
+			$total = $wpdb->get_var( "SELECT COUNT(`id`) FROM ".$wpdb->prefix."xyz_cfm_form" );
 			$num_of_pages = ceil( $total / $limit );
 
 			$page_links = paginate_links( array(

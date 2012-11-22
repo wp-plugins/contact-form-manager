@@ -116,11 +116,11 @@ wp_enqueue_script('jquery');
 if(is_admin()){
 
 
-	wp_register_script( 'notice_script', plugins_url('contact-form-manager/js/notice.js') );
-	wp_enqueue_script( 'notice_script' );
+	wp_register_script( 'xyz_notice_script', plugins_url('contact-form-manager/js/notice.js') );
+	wp_enqueue_script( 'xyz_notice_script' );
 	
-	wp_register_script( 'tooltip_script', plugins_url('contact-form-manager/js/tooltip.js') );
-	wp_enqueue_script( 'tooltip_script' );
+	wp_register_script( 'xyz_tooltip_script', plugins_url('contact-form-manager/js/tooltip.js') );
+	wp_enqueue_script( 'xyz_tooltip_script' );
 
 	wp_register_style( 'xyz_cfm_style', plugins_url('contact-form-manager/css/xyz_cfm_styles.css'));
 	wp_enqueue_style( 'xyz_cfm_style');

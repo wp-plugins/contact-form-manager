@@ -5,10 +5,10 @@ Donate link: http://xyzscripts.com/donate/
 Tags:  contact form, contact page, contact form plugin, contact, contact us, multiple contact forms, custom contact form, contact form with auto reply, contact form with recaptcha, contact form date picker,  contact manager, contact form manager, wordpress contact, TinyMCE form editor
 Requires at least: 2.8
 Tested up to: 3.4.2
-Stable tag: 1.1
+Stable tag: 1.2
 License: GPLv2 or later
 
-Create contact form for your website.  Choose from a wide range of form elements .
+Create contact forms for your website.  Choose from a wide range of form elements .
 
 == Description ==
 
@@ -93,12 +93,12 @@ Please check the wordpress version you are using. Make sure it meets the minimum
 
 = 2. How can I display the contact form in my website ? =
 
-First you need to create a new contact form. Now in the XYZ Contact > Contact Forms page you can see the newly created contact form and its short code. Please copy this short code and paste in your contact page.
+First you need to create a new contact form. Now in the XYZ Contact > Contact Forms page you can see the newly created contact form and its short code. After making any necessary changes to the form save the contact form. Please copy this short code and paste in your contact page.
 
 
 = 3. How can I add a field to my contact form ? =
 
-To add a new field in the contact form, please click the edit contact form or add a new contact form link. Now you can see a section Form Elements and from here please select the Add Elements. No you can select the and create a new element or field.
+To add a new field in the contact form, please click the edit contact form or add a new contact form link. Now you can see a section Form Elements and from here please select the Add Elements. No you can select the and create a new element or field. Once the new filed is created, copy teh shortcode of the field to form content.
 
 = 4. Should I replace my contact form shortcode after editing the contact form element settings ? =
 
@@ -143,6 +143,18 @@ While editing the 'Mail to site admin' section of a contact form, you need to sp
 
 But in some servers, they don't allow to send emails with from addresses that are outside the server domain. So in such conditions, you need to add your own email address with the same domain extension of your server in the 'from email' section.
 
+= 10. Does the plugin save the contact requests in database so that admin can view it from admin panel =
+
+Yes, you need to purchase the premium version to have this feature.
+
+= 11. Is it possible to duplicate a form with its current settings =
+
+Yes, we have this feature in the premium  version of the plugin.
+
+= 12. Where can i get the premium version ? =
+
+The premium version can be purchased from our site [xyzscripts.com](http://xyzscripts.com/wordpress-plugins/xyz-wp-contact-form/ "XYZ WP Contact Form").
+
 More questions ? [Drop a mail](http://xyzscripts.com/members/support/ "XYZScripts Support") and we shall get back to you with the answers.
 
 
@@ -152,6 +164,24 @@ More questions ? [Drop a mail](http://xyzscripts.com/members/support/ "XYZScript
 2. This is a sample contact form.
 
 == Changelog ==
+
+= 1.2 =
+* Support for Wordpress table prefix 
+* Option to delete form elements
+* Support for multiple css classnames for form fields  
+* Support for default selection  in dropdown,checkbox,radiobutton
+* Support for multi-select in dropdown
+* Support for multi-line view in checkbox,radiobutton
+* Support for key=>value format for comma separated values in checkbox, radiobutton and dropdown
+* Allow html tag in checkbox, radiobutton, dropdown text thereby providing support for images and style classes
+* Option to specify date format for date field
+* Support for multiple "to" && "cc"  email by separating with commas
+* Option to specify  user submitted  values as "To Email"  and "CC" in email to admin
+* Option to specify  user submitted  values as "Sender Email"  and "Reply Sender Name" in auto reply to user
+* Option to specify  user submitted  values  in redirection url
+* Option to re-display empty form after submission
+* Fix for resubmission of on pressing F5  
+
 
 = 1.1 =
 * Support for SMTP mailing
@@ -165,7 +195,7 @@ More questions ? [Drop a mail](http://xyzscripts.com/members/support/ "XYZScript
 * First official launch.
 
 == Upgrade Notice ==
-If you require to use SMTP mailing, consider doing this upgrade. Also a few bugs such as character encoding issue in emails, multiple contact forms in same page were fixed.
+Some bugs have been fixed and quite a few new features have been added. Some notable fearures are  multiple installation in same db, deletion of form elements, more flexility in dropdown,checkbox and radiobutton, support for user submitted values in all email related fields and redirection url, multiple "to" and "cc" email support.
 
 == More Information ==
 

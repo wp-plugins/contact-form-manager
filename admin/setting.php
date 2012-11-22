@@ -14,7 +14,7 @@ if ($_POST['xyz_cfm_pagelimit']!= ""){
 	
 	if($xyz_cfm_sendViaSmtp == 1){
 		
-		$checkSMTP = $wpdb->get_results("SELECT * FROM xyz_cfm_sender_email_address WHERE set_default='1'");
+		$checkSMTP = $wpdb->get_results("SELECT * FROM ".$wpdb->prefix."xyz_cfm_sender_email_address WHERE set_default='1'");
 		if(count($checkSMTP) == 0){
 			$xyz_cfm_SmtpFlag = 1;
 		}
@@ -36,11 +36,14 @@ if ($_POST['xyz_cfm_pagelimit']!= ""){
 			
 			$xyz_cfm_sendViaSmtp = $_POST['xyz_cfm_sendViaSmtp'];
 			$xyz_cfm_SmtpDebug = $_POST['xyz_cfm_SmtpDebug'];
-
+			$xyz_cfm_DateFormat = $_POST['xyz_cfm_DateFormat'];
+			
 			update_option('xyz_cfm_paging_limit',$xyz_cfm_pagelimit);
 			update_option('xyz_cfm_tinymce_filter',$xyz_cfm_filter);
 			update_option('xyz_cfm_mandatory_sign',$xyz_cfm_mandatory);
 			update_option('xyz_credit_link',$xyz_cfm_credit);
+			
+			update_option('xyz_cfm_DateFormat',$xyz_cfm_DateFormat);
 			
 			update_option('xyz_cfm_recaptcha_private_key',$xyz_cfm_recaptchaPrivateKey);
 			update_option('xyz_cfm_recaptcha_public_key',$xyz_cfm_recaptchaPublicKey);
@@ -134,9 +137,9 @@ jQuery(document).ready(function() {
 				</td>
 				<td><select name="xyz_cfm_credit" id="xyz_cfm_credit">
 						<option value="cfm"
-						<?php if(isset($_POST['xyz_cfm_credit']) && $_POST['xyz_cfm_credit']=='cfm') { echo 'selected';}elseif(get_option('xyz_cfm_credit_link')=="cfm"){echo 'selected';} ?>>Enable</option>
+						<?php if(isset($_POST['xyz_cfm_credit']) && $_POST['xyz_cfm_credit']=='cfm') { echo 'selected';}elseif(get_option('xyz_credit_link')=="cfm"){echo 'selected';} ?>>Enable</option>
 						<option value="0"
-						<?php if(isset($_POST['xyz_cfm_credit']) && $_POST['xyz_cfm_credit']!='cfm') { echo 'selected';}elseif(get_option('xyz_cfm_credit_link')!="cfm"){echo 'selected';} ?>>Disable</option>
+						<?php if(isset($_POST['xyz_cfm_credit']) && $_POST['xyz_cfm_credit']!='cfm') { echo 'selected';}elseif(get_option('xyz_credit_link')!="cfm"){echo 'selected';} ?>>Disable</option>
 
 				</select>
 				</td>
@@ -166,6 +169,18 @@ jQuery(document).ready(function() {
 				</td>
 			</tr>
 			<tr valign="top">
+				<td scope="row" ><label for="xyz_cfm_SmtpDebug">Date format for date picker field</label>
+				</td>
+				<td><select name="xyz_cfm_DateFormat" id="xyz_cfm_DateFormat">
+						<option value="1"
+						<?php if(isset($_POST['xyz_cfm_DateFormat']) && $_POST['xyz_cfm_DateFormat']=='1') { echo 'selected';}elseif(get_option('xyz_cfm_DateFormat')=="1"){echo 'selected';} ?>>dd/mm/yyyy</option>
+						<option value="2"
+						<?php if(isset($_POST['xyz_cfm_DateFormat']) && $_POST['xyz_cfm_DateFormat']=='2') { echo 'selected';}elseif(get_option('xyz_cfm_DateFormat')=="2"){echo 'selected';} ?>>mm/dd/yyyy</option>
+
+				</select>
+				</td>
+			</tr>
+			<tr valign="top">
 				<td scope="row" class=" settingInput" ><label for="xyz_cfm_pagelimit">Pagination limit</label>
 				</td>
 				<td ><input  name="xyz_cfm_pagelimit" type="text"
@@ -190,7 +205,7 @@ jQuery(document).ready(function() {
 			</tr>
 			<tr>
 				<td colspan=2  style="text-align: center;" id="bottomBorderNone">
-				<div style="height:50px;" id="bottomBorderNone"><input style="margin-left:-170px; margin-top:10px;"  class="button-primary" name="btnSubmit" type="submit" value=" Update Settings " /></div>
+				<div style="height:50px;" id="bottomBorderNone"><input   class="submit" style="margin-left:-170px; margin-top:10px;color:#FFFFFF;border-radius:4px;border:1px solid #1A87B9;" name="btnSubmit" type="submit" value=" Update Settings " /></div>
 				
 				</td>
 			</tr>
