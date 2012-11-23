@@ -1562,14 +1562,15 @@ td {
 														<td><input type="text" class="xyz_cfm_NoEnterSubmit"
 															name="checkBoxOptions6" id="checkBoxOptions6"><font
 															color="red">*</font> <br /> Please use comma(,) to
-															separate option values.</td>
+															separate option values.<br /> <b>Example 1</b>
+															: a,b,c,d <br /> <b>Example 2</b> : a=>1,b=>2,c=>3,d=>4</td>
 													</tr>
 													<tr>
 														<td>Default Check Box value(s) (optional)</td>
 														<td><input type="text" class="xyz_cfm_NoEnterSubmit"
 															name="checkBoxOptions6DefaultValue"
-															id="checkBoxOptions6DefaultValue"> <br /> <b>Example 1</b>
-															: a,b,c,d <br /> <b>Example 2</b> : a=>1,b=>2,c=>3,d=>4</td>
+															id="checkBoxOptions6DefaultValue"> 
+															</td>
 													</tr>
 													<tr>
 														<td colspan="2"><input type="checkbox"
