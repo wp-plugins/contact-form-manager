@@ -130,7 +130,7 @@ Yes, you can embed the contact form into your template file. You cannot directly
 For changing language of contact form, please check the [how-to-change-the-language-in-contact-form-manager](http://docs.xyzscripts.com/contact-form-manager/how-to-change-the-language-in-contact-form-manager/ "Contact Form Manager Documentation - Changing Language") section in our docs.
 
 
-= 8. Why is not CAPTCHA working in my contact form ?=
+= 8. Why is not CAPTCHA working in my contact form ? =
 
 We are using 2 types of captcha in the contact form plugin.
 
@@ -154,7 +154,7 @@ But in some servers, the host does not allow to send emails with from addresses 
 
 Yes, you need to purchase the premium version of contact form manager plugin to have this feature.
 
-= 11. Is it possible to duplicate a contact form with its current settings ?=
+= 11. Is it possible to duplicate a contact form with its current settings ? =
 
 Yes, we have this feature in the premium  version of contact form plugin.
 
