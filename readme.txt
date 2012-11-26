@@ -88,6 +88,11 @@ If you need any further help, you may contact our [support desk](http://xyzscrip
 
 == Frequently Asked Questions ==
 
+= ★ My forms are gone when I upgraded to latest version !!! ★ =
+
+Afraid not! Please deactivate and reactivate the plugin. All your forms should come back. If they don't, please contact our  [support desk](http://xyzscripts.com/support/ "XYZScripts Support").
+
+
 = 1. The Contact Form Manager is not working properly. =
 
 Please check the wordpress version you are using. Make sure it meets the minimum version recommended by us. Make sure all files of the `contact form manager` plugin are uploaded to the folder `wp-content/plugins/`
