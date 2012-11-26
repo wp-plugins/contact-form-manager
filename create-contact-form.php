@@ -1149,7 +1149,7 @@ function display_form($id){
 					if($formElementDetail->element_type == 9){
 						$elementType = "submit";
 						$replace = '';
-						$replace = $replace.'<input class=" submit  '.$cssClass.'"  type="submit" name="'.$xyz_cfm_elementName.'" id="'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'" value="'.esc_html($formElementDetail->element_diplay_name).'"  >';
+						$replace = $replace.'<input class="'.$cssClass.'"  type="submit" name="'.$xyz_cfm_elementName.'" id="'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'" value="'.esc_html($formElementDetail->element_diplay_name).'"  >';
 						$messageBody = str_replace("[".$elementType."-".$elementId."]",$replace,$messageBody);
 					}
 					
@@ -1211,25 +1211,6 @@ function display_form($id){
 				}
 				
 				$contactForm = $msg_after_submit.'<style>
-				.submit{
-				background:#25A6E1;
-				background:-moz-linear-gradient(top,#25A6E1 0%,#188BC0 100%);
-				background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#25A6E1),color-stop(100%,#188BC0));
-				background:-webkit-linear-gradient(top,#25A6E1 0%,#188BC0 100%);
-				background:-o-linear-gradient(top,#25A6E1 0%,#188BC0 100%);
-				background:-ms-linear-gradient(top,#25A6E1 0%,#188BC0 100%);
-				background:linear-gradient(top,#25A6E1 0%,#188BC0 100%);
-				filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#25A6E1",endColorstr="#188BC0",GradientType=0);
-				padding:1px 13px;
-				color:#fff;
-				font-family:"Helvetica Neue",sans-serif;
-				font-size:15px;
-				border-radius:4px;
-				-moz-border-radius:4px;
-				-webkit-border-radius:4px;
-				border:1px solid #1A87B9;
-				cursor:pointer;
-				}
 				.textAreaStyle{
 					width:350px;
 				}				
