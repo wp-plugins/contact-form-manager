@@ -430,12 +430,12 @@ function display_form($id){
 			}
 				
 
-			$phpmailer->Subject = $mailSubject;
+			$phpmailer->Subject = do_shortcode($mailSubject);
 			if($formAllData->mail_type == 1){
-				$phpmailer->MsgHTML($mailBody);
+				$phpmailer->MsgHTML(do_shortcode($mailBody));
 			}
 			if($formAllData->mail_type == 2){
-				$phpmailer->Body = $mailBody;
+				$phpmailer->Body = do_shortcode($mailBody);
 			}
 
 			if($formAllData->cc_email != ""){
@@ -502,13 +502,13 @@ function display_form($id){
 						
 					}
 						
-					$phpmailerReply->Subject = $mailReplaySubject;
+					$phpmailerReply->Subject = do_shortcode($mailReplaySubject);
 						
 					if($formAllData->mail_type == 1){
-						$phpmailerReply->MsgHTML($mailReplayBody);
+						$phpmailerReply->MsgHTML(do_shortcode($mailReplayBody));
 					}
 					if($formAllData->mail_type == 2){
-						$phpmailerReply->Body = $mailReplayBody;
+						$phpmailerReply->Body = do_shortcode($mailReplayBody);
 					}
 					
 					$phpmailerReply->AddAddress($mailReplayToEmail);
@@ -982,7 +982,7 @@ function display_form($id){
 							}';
 						}
 						$j=0;
-						$replace = $replace.'<div style ="border:1px solid #FFFFFF;float:left;">';
+						$replace = $replace.'<div style ="float:left;">';
 						foreach ($optionsList as $key=>$value){
 					
 							$lineBreakCount = $formElementDetail->client_view_check_radio_line_break_count;
@@ -1047,7 +1047,7 @@ function display_form($id){
 							}';
 						}
 						$j = 0;
-						$replace = $replace.'<div style ="border:1px solid #FFFFFF;float:left;">';
+						$replace = $replace.'<div style ="float:left;">';
 						$defaultValue=explode("=>", $defaultValue);
 						foreach ($optionsList as $key=>$value){
 					
@@ -1163,7 +1163,7 @@ function display_form($id){
 								//$replace = $replace.recaptcha_get_html($publickey); for php
 								$replace = $replace.'<div id="reCaptchaDiv_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'"></div><font color="red">*</font><script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
 								<script type="text/javascript">
-								Recaptcha.create("'.$publickey.'","reCaptchaDiv_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'", {theme: "'.$cssClass.'",callback: Recaptcha.focus_response_field});
+								Recaptcha.create("'.$publickey.'","reCaptchaDiv_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'", {theme: "'.$cssClass.'"});
 								</script><input type="hidden" name="xyz_cfm_hiddenReCaptcha" value="1" id="xyz_cfm_reCaptcha_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'">';
 								$replace = $replace.'<div style="font-weight: normal;color:red;" id="'.$elementType.'_'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'">';
 							}else{
