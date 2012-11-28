@@ -88,9 +88,9 @@ If you need any further help, you may contact our [support desk](http://xyzscrip
 
 == Frequently Asked Questions ==
 
-= ★ My forms are gone when I upgraded to latest version !!! ★ =
+= ★ I can't see my  contact forms after I upgraded to latest version ! ★ =
 
-Afraid not! Please deactivate and reactivate the plugin. All your forms should come back. If they don't, please contact our  [support desk](http://xyzscripts.com/support/ "XYZScripts Support").
+Please deactivate and reactivate the plugin. All your contact  forms should come back. If they don't, please contact our  [support desk](http://xyzscripts.com/support/ "XYZScripts Support").
 
 
 = 1. The Contact Form Manager is not working properly. =
