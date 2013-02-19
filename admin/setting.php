@@ -106,7 +106,7 @@ jQuery(document).ready(function() {
 	<form method="post" name="xyz_cfm_settings" id="xyz_cfm_settings">
 	<div style="width: 100%">
 	<fieldset style=" width:99%; border:1px solid #F7F7F7; padding:10px 0px;">
-	<legend >General</legend>
+	<legend><b>General</b></legend>
 	<table class="widefat"  style="width:99%;margin: 0 auto">
 			<tr valign="top">
 				<td scope="row" ><label for="xyz_cfm_filter">Tiny MCE filters to prevent auto removal of  &lt;br&gt; and &lt;p&gt; tags </label>
@@ -121,7 +121,7 @@ jQuery(document).ready(function() {
 				</td>
 			</tr>
 			<tr valign="top">
-				<td scope="row" ><label for="xyz_cfm_mandatory">Enable <font color="red">*</font>&nbsp;symbol for mandatory form fields</label>
+				<td scope="row" ><label for="xyz_cfm_mandatory">Enable <span style="color:red;">*</span>&nbsp;symbol for mandatory form fields</label>
 				</td>
 				<td><select name="xyz_cfm_mandatory" id="xyz_cfm_mandatory">
 						<option value="1"
@@ -205,7 +205,7 @@ jQuery(document).ready(function() {
 			</tr>
 			<tr>
 				<td colspan=2  style="text-align: center;" id="bottomBorderNone">
-				<div style="height:50px;" id="bottomBorderNone"><input   class="submit" style="margin-left:-170px; margin-top:10px;color:#FFFFFF;border-radius:4px;border:1px solid #1A87B9;" name="btnSubmit" type="submit" value=" Update Settings " /></div>
+				<div style="height:50px;" id="bottomBorderNone"><input   class="submit_cfm" style="margin-left:-170px; margin-top:10px;color:#FFFFFF;border-radius:4px;border:1px solid #1A87B9;" name="btnSubmit" type="submit" value=" Update Settings " /></div>
 				
 				</td>
 			</tr>

@@ -1,13 +1,9 @@
 <?php
-/*
-Copyright © 22-May-2012 F1logic. All rights reserved.
-*/
-?>
-<?php
-require( dirname( __FILE__ ) . '../../../../../wp-load.php' );
-if(!current_user_can('manage_options')){
-	exit;
-}
+add_action('wp_ajax_ajax_load_element_details', 'xyz_cfm_ajax_load_element_details');
+
+function xyz_cfm_ajax_load_element_details() {
+	
+
 global $wpdb;
 
 $_POST = stripslashes_deep($_POST);
@@ -137,26 +133,20 @@ if(selectId == 10){
 function updateElementDetails(){
 
 	var formId = jQuery("#formId").val();
-	var dataString = '&formId='+formId;
-	//alert(dataString);
-	jQuery.ajax
-	({
-	type: "POST",
-	url: "<?php echo plugins_url('contact-form-manager/admin/ajax-load-elements.php') ?>",
-	data: dataString,
-	cache: false,
-	success: function(html)
-	{	
+	var dataString = { 
+			action: 'ajax_load_elements', 
+			formId: formId 
+		};
+	jQuery.post(ajaxurl, dataString, function(response) {
 		jQuery("#progressEditImage").hide();
-		jQuery("#elementSettingResult").html(html);
-	}
+		jQuery("#elementSettingResult").html(response);
 	});
+	
 return true;
 }
 
 jQuery('#textFieldButtonUpdate1').click(function() {
 	var selectId = 1;
-	var dataString = 'id='+ selectId+'&elementId='+<?php echo $elementId;?>;
 	var required ='';
 	
 	if(jQuery('#requiredUpdate1').attr('checked')){
@@ -174,24 +164,24 @@ jQuery('#textFieldButtonUpdate1').click(function() {
 	if(elementName != ""){
 	jQuery("#progressEditImage").show();
 
+	var dataString = { 
+			action: 'ajax_update_element', 
+			id: selectId, 
+			elementId: <?php echo $elementId;?>,
+			required: required, 
+			elementName: elementName, 
+			className: className, 
+			maxlength: maxlength,
+			defaultValue: defaultValue, 
+			formId: formId 
+		};
 	
-	dataString = dataString + '&required='+ required+'&elementName='+elementName+'&className='+className+'&maxlength='+maxlength+'&defaultValue='+defaultValue+'&formId='+formId;
-	//alert(dataString);
-	jQuery.ajax
-	({
-	type: "POST",
-	url: "<?php echo plugins_url('contact-form-manager/admin/ajax-update-element.php') ?>",
-	data: dataString,
-	cache: false,
-	success: function(html)
-	{	
-		
-		jQuery("#cfm_text").html(html);
+	jQuery.post(ajaxurl, dataString, function(response) {
+		jQuery("#cfm_text").html(response);
 		updateElementDetails();
-	}
+		document.getElementById('editDiv').scrollTop=0;
 	});
 
-	
 	}else{
 		alert("Please fill all mandatory fields.");
 		return false;
@@ -202,7 +192,6 @@ jQuery('#textFieldButtonUpdate1').click(function() {
 
 jQuery('#textFieldButtonUpdate2').click(function() {
 	var selectId = 2;
-	var dataString = 'id='+ selectId+'&elementId='+<?php echo $elementId;?>;
 	var required ='';
 	
 	if(jQuery('#requiredUpdate2').attr('checked')){
@@ -219,25 +208,24 @@ jQuery('#textFieldButtonUpdate2').click(function() {
 
 	if(elementName != ""){
 	jQuery("#progressEditImage").show();
-	
-	dataString = dataString + '&required='+ required+'&elementName='+elementName+'&className='+className+'&maxlength='+maxlength+'&defaultValue='+defaultValue+'&formId='+formId;
+	var dataString = { 
+			action: 'ajax_update_element', 
+			id: selectId, 
+			elementId: <?php echo $elementId;?>,
+			required: required, 
+			elementName: elementName, 
+			className: className, 
+			maxlength: maxlength,
+			defaultValue: defaultValue, 
+			formId:formId 
+		};
 
-
-	//alert(dataString);
-	jQuery.ajax
-	({
-	type: "POST",
-	url: "<?php echo plugins_url('contact-form-manager/admin/ajax-update-element.php') ?>",
-	data: dataString,
-	cache: false,
-	success: function(html)
-	{	
-		jQuery("#cfm_email").html(html);
+	jQuery.post(ajaxurl, dataString, function(response) {
+		jQuery("#cfm_email").html(response);
 		updateElementDetails();
-	}
+		document.getElementById('editDiv').scrollTop=0;
 	});
-
-	
+		
 	}else{
 		alert("Please fill all mandatory fields.");
 		return false;
@@ -247,7 +235,6 @@ jQuery('#textFieldButtonUpdate2').click(function() {
 
 jQuery('#textFieldButtonUpdate3').click(function() {
 	var selectId = 3;
-	var dataString = 'id='+ selectId+'&elementId='+<?php echo $elementId;?>;
 	var required ='';
 	
 	if(jQuery('#requiredUpdate3').attr('checked')){
@@ -265,24 +252,24 @@ jQuery('#textFieldButtonUpdate3').click(function() {
 
 	if(elementName != ""){
 	jQuery("#progressEditImage").show();
-	
-	dataString = dataString + '&required='+ required+'&elementName='+elementName+'&className='+className+'&collength='+collength+'&rowlength='+rowlength+'&defaultValue='+defaultValue+'&formId='+formId;
+	var dataString = { 
+			action: 'ajax_update_element', 
+			id: selectId, 
+			elementId: <?php echo $elementId;?>,
+			required: required, 
+			elementName: elementName, 
+			className: className, 
+			collength: collength,
+			rowlength: rowlength, 
+			defaultValue: defaultValue, 
+			formId: formId 
+		};
 
-
-	//alert(dataString);
-	jQuery.ajax
-	({
-	type: "POST",
-	url: "<?php echo plugins_url('contact-form-manager/admin/ajax-update-element.php') ?>",
-	data: dataString,
-	cache: false,
-	success: function(html)
-	{	
-		jQuery("#cfm_textarea").html(html);
+	jQuery.post(ajaxurl, dataString, function(response) {
+		jQuery("#cfm_textarea").html(response);
 		updateElementDetails();
-	}
+		document.getElementById('editDiv').scrollTop=0;
 	});
-
 	
 	}else{
 		alert("Please fill all mandatory fields.");
@@ -294,7 +281,6 @@ jQuery('#textFieldButtonUpdate3').click(function() {
 
 jQuery('#textFieldButtonUpdate4').click(function() {
 	var selectId = 4;
-	var dataString = 'id='+ selectId+'&elementId='+<?php echo $elementId;?>;
 	var required ='';
 	var multipleSelect = '';
 	
@@ -316,24 +302,24 @@ jQuery('#textFieldButtonUpdate4').click(function() {
 
 	if(elementName != "" && options != ""){
 	jQuery("#progressEditImage").show();
-	
-	dataString = dataString + '&required='+ required+'&elementName='+elementName+'&className='+className+'&options='+options+'&defaultValue='+defaultValue+'&multipleSelect='+multipleSelect+'&formId='+formId;
+	var dataString = { 
+			action: 'ajax_update_element', 
+			id: selectId, 
+			elementId: <?php echo $elementId;?>,
+			required: required, 
+			elementName: elementName, 
+			className: className, 
+			options: options, 
+			defaultValue: defaultValue, 
+			multipleSelect: multipleSelect, 
+			formId: formId 
+		};
 
-
-	//alert(dataString);
-	jQuery.ajax
-	({
-	type: "POST",
-	url: "<?php echo plugins_url('contact-form-manager/admin/ajax-update-element.php') ?>",
-	data: dataString,
-	cache: false,
-	success: function(html)
-	{	
-		jQuery("#cfm_dropdown").html(html);
+	jQuery.post(ajaxurl, dataString, function(response) {
+		jQuery("#cfm_dropdown").html(response);
 		updateElementDetails();
-	}
+		document.getElementById('editDiv').scrollTop=0;
 	});
-
 	
 	}else{
 		alert("Please fill all mandatory fields.");
@@ -345,7 +331,6 @@ jQuery('#textFieldButtonUpdate4').click(function() {
 
 jQuery('#textFieldButtonUpdate5').click(function() {
 	var selectId = 5;
-	var dataString = 'id='+ selectId+'&elementId='+<?php echo $elementId;?>;
 	var required ='';
 	
 	if(jQuery('#requiredUpdate5').attr('checked')){
@@ -360,24 +345,21 @@ jQuery('#textFieldButtonUpdate5').click(function() {
 
 	if(elementName != "" ){
 	jQuery("#progressEditImage").show();
-	
-	dataString = dataString + '&required='+ required+'&elementName='+elementName+'&className='+className+'&formId='+formId;
+	var dataString = { 
+			action: 'ajax_update_element', 
+			id: selectId, 
+			elementId: <?php echo $elementId;?>,
+			required: required, 
+			elementName: elementName, 
+			className: className, 
+			formId: formId 
+		};
 
-
-	//alert(dataString);
-	jQuery.ajax
-	({
-	type: "POST",
-	url: "<?php echo plugins_url('contact-form-manager/admin/ajax-update-element.php') ?>",
-	data: dataString,
-	cache: false,
-	success: function(html)
-	{	
-		jQuery("#cfm_date").html(html);
+	jQuery.post(ajaxurl, dataString, function(response) {
+		jQuery("#cfm_date").html(response);
 		updateElementDetails();
-	}
+		document.getElementById('editDiv').scrollTop=0;
 	});
-
 		
 	}else{
 		alert("Please fill all mandatory fields.");
@@ -390,7 +372,6 @@ jQuery('#textFieldButtonUpdate5').click(function() {
 
 jQuery('#textFieldButtonUpdate6').click(function() {
 	var selectId = 6;
-	var dataString = 'id='+ selectId+'&elementId='+<?php echo $elementId;?>;
 	var required ='';
 	var singleLineView = '';
 	
@@ -413,24 +394,24 @@ jQuery('#textFieldButtonUpdate6').click(function() {
 
 	if(elementName != "" && options != ""){
 	jQuery("#progressEditImage").show();
-	
-	dataString = dataString + '&required='+ required+'&singleLineView='+singleLineView+'&elementName='+elementName+'&className='+className+'&options='+options+'&defaultValue='+defaultValue+'&formId='+formId;
+	var dataString = { 
+			action: 'ajax_update_element', 
+			id: selectId, 
+			elementId: <?php echo $elementId;?>,
+			required: required, 
+			singleLineView: singleLineView, 
+			elementName: elementName, 
+			className: className,
+			options: options, 
+			defaultValue: defaultValue, 
+			formId: formId 
+		};
 
-
-	//alert(dataString);
-	jQuery.ajax
-	({
-	type: "POST",
-	url: "<?php echo plugins_url('contact-form-manager/admin/ajax-update-element.php') ?>",
-	data: dataString,
-	cache: false,
-	success: function(html)
-	{	
-		jQuery("#cfm_checkbox").html(html);
+	jQuery.post(ajaxurl, dataString, function(response) {
+		jQuery("#cfm_checkbox").html(response);
 		updateElementDetails();
-	}
+		document.getElementById('editDiv').scrollTop=0;
 	});
-
 	
 	}else{
 		alert("Please fill all mandatory fields.");
@@ -441,7 +422,6 @@ jQuery('#textFieldButtonUpdate6').click(function() {
 
 jQuery('#textFieldButtonUpdate7').click(function() {
 	var selectId = 7;
-	var dataString = 'id='+ selectId+'&elementId='+<?php echo $elementId;?>;
 	var required ='';
 	var singleLineView = '';
 	
@@ -464,24 +444,24 @@ jQuery('#textFieldButtonUpdate7').click(function() {
 
 	if(elementName != "" && options != ""){
 	jQuery("#progressEditImage").show();
-	
-	dataString = dataString + '&required='+ required+'&singleLineView='+singleLineView+'&elementName='+elementName+'&className='+className+'&options='+options+'&defaultValue='+defaultValue+'&formId='+formId;
+	var dataString = { 
+			action: 'ajax_update_element', 
+			id: selectId, 
+			elementId: <?php echo $elementId;?>,
+			required: required, 
+			singleLineView: singleLineView, 
+			elementName: elementName, 
+			className: className,
+			options: options, 
+			defaultValue: defaultValue, 
+			formId: formId 
+		};
 
-
-	//alert(dataString);
-	jQuery.ajax
-	({
-	type: "POST",
-	url: "<?php echo plugins_url('contact-form-manager/admin/ajax-update-element.php') ?>",
-	data: dataString,
-	cache: false,
-	success: function(html)
-	{	
-		jQuery("#cfm_radiobutton").html(html);
+	jQuery.post(ajaxurl, dataString, function(response) {
+		jQuery("#cfm_radiobutton").html(response);
 		updateElementDetails();
-	}
+		document.getElementById('editDiv').scrollTop=0;
 	});
-
 	
 	}else{
 		alert("Please fill all mandatory fields.");
@@ -493,7 +473,6 @@ jQuery('#textFieldButtonUpdate7').click(function() {
 
 jQuery('#textFieldButtonUpdate8').click(function() {
 	var selectId = 8;
-	var dataString = 'id='+ selectId+'&elementId='+<?php echo $elementId;?>;
 	var required ='';
 	
 	if(jQuery('#requiredUpdate8').attr('checked')){
@@ -510,24 +489,23 @@ jQuery('#textFieldButtonUpdate8').click(function() {
 
 	if(elementName != ""){
 	jQuery("#progressEditImage").show();
-	
-	dataString = dataString + '&required='+ required+'&elementName='+elementName+'&className='+className+'&fileSize='+fileSize+'&fileType='+fileType+'&formId='+formId;
+	var dataString = { 
+			action: 'ajax_update_element', 
+			id: selectId, 
+			elementId: <?php echo $elementId;?>,
+			required: required, 
+			elementName: elementName, 
+			className: className, 
+			fileSize: fileSize, 
+			fileType:fileType,
+			formId: formId 
+		};
 
-
-	//alert(dataString);
-	jQuery.ajax
-	({
-	type: "POST",
-	url: "<?php echo plugins_url('contact-form-manager/admin/ajax-update-element.php') ?>",
-	data: dataString,
-	cache: false,
-	success: function(html)
-	{	
-		jQuery("#cfm_file").html(html);
+	jQuery.post(ajaxurl, dataString, function(response) {
+		jQuery("#cfm_file").html(response);
 		updateElementDetails();
-	}
+		document.getElementById('editDiv').scrollTop=0;
 	});
-
 	
 	}else{
 		alert("Please fill all mandatory fields.");
@@ -539,7 +517,6 @@ jQuery('#textFieldButtonUpdate8').click(function() {
 
 jQuery('#textFieldButtonUpdate9').click(function() {
 	var selectId = 9;
-	var dataString = 'id='+ selectId+'&elementId='+<?php echo $elementId;?>;
 
 	var displayName = encodeURIComponent(jQuery.trim(jQuery("#displayNameUpdate9").val()).replace("+", "%252b"));
 	var elementName = encodeURIComponent(jQuery("#elementNameUpdate9").val().replace("+", "%252b"));
@@ -548,24 +525,21 @@ jQuery('#textFieldButtonUpdate9').click(function() {
 
 	if(displayName != "" && elementName != ""){
 	jQuery("#progressEditImage").show();
-	
-	dataString = dataString +'&displayName='+displayName+'&elementName='+elementName+'&className='+className+'&formId='+formId;
+	var dataString = { 
+			action: 'ajax_update_element', 
+			id: selectId, 
+			elementId: <?php echo $elementId;?>,
+			displayName: displayName, 
+			elementName: elementName, 
+			className: className, 
+			formId:formId 
+		};
 
-
-	//alert(dataString);
-	jQuery.ajax
-	({
-	type: "POST",
-	url: "<?php echo plugins_url('contact-form-manager/admin/ajax-update-element.php') ?>",
-	data: dataString,
-	cache: false,
-	success: function(html)
-	{	
-		jQuery("#cfm_submit").html(html);
+	jQuery.post(ajaxurl, dataString, function(response) {
+		jQuery("#cfm_submit").html(response);
 		updateElementDetails();
-	}
+		document.getElementById('editDiv').scrollTop=0;
 	});
-
 	
 	}else{
 		alert("Please fill all mandatory fields.");
@@ -579,7 +553,6 @@ jQuery('#textFieldButtonUpdate10').click(function() {
 	
 	
 		var selectId = 10;
-		var dataString = 'id='+ selectId+'&elementId='+<?php echo $elementId;?>;
 
 		var elementName = '';
 		
@@ -594,21 +567,21 @@ jQuery('#textFieldButtonUpdate10').click(function() {
 			
 			var className = encodeURIComponent(jQuery("#reCaptchaStyleOptionUpdate").val().replace("+", "%252b"));
 			
-			dataString = dataString +'&elementName='+elementName+'&className='+className+'&formId='+formId+'&reCaptcha='+1;
-			//alert(dataString);
-			jQuery.ajax
-			({
-			type: "POST",
-			url: "<?php echo plugins_url('contact-form-manager/admin/ajax-update-element.php') ?>",
-			data: dataString,
-			cache: false,
-			success: function(html)
-			{	
-				jQuery("#cfm_captcha").html(html);
+			var dataString = { 
+					action: 'ajax_update_element', 
+					id: selectId, 
+					elementId: <?php echo $elementId;?>,
+					elementName: elementName, 
+					className: className, 
+					formId: formId, 
+					reCaptcha: 1 
+				};
+			
+			jQuery.post(ajaxurl, dataString, function(response) {
+				jQuery("#cfm_captcha").html(response);
 				updateElementDetails();
-			}
+				document.getElementById('editDiv').scrollTop=0;
 			});
-		
 			
 		}else{
 			alert("Please fill all mandatory fields.");
@@ -623,22 +596,21 @@ jQuery('#textFieldButtonUpdate10').click(function() {
 
 			var className = encodeURIComponent(jQuery("#classNameUpdate10").val().replace("+", "%252b"));
 			
-			dataString = dataString +'&elementName='+elementName+'&className='+className+'&formId='+formId+'&reCaptcha='+0;
-			//alert(dataString);
-			jQuery.ajax
-			({
-			type: "POST",
-			url: "<?php echo plugins_url('contact-form-manager/admin/ajax-update-element.php') ?>",
-			data: dataString,
-			cache: false,
-			success: function(html)
-			{	
-				
-				jQuery("#cfm_captcha").html(html);
+			var dataString = { 
+					action: 'ajax_update_element', 
+					id: selectId, 
+					elementId: <?php echo $elementId;?>,
+					elementName: elementName, 
+					className: className, 
+					formId: formId, 
+					reCaptcha: 0 
+				};
+			
+			jQuery.post(ajaxurl, dataString, function(response) {
+				jQuery("#cfm_captcha").html(response);
 				updateElementDetails();
-			}
+				document.getElementById('editDiv').scrollTop=0;
 			});
-		
 			
 		}else{
 			alert("Please fill all mandatory fields.");
@@ -696,7 +668,7 @@ jQuery(document).ready(function() {
 			<td>Form Element Name</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="elementNameUpdate1" id="elementNameUpdate1"
 				value = "<?php if(isset($_POST['elementNameUpdate1'])){ echo esc_attr($_POST['elementNameUpdate1']);}else{ echo esc_attr($element_result->element_name); }?>">
-				<font color="red">*</font>
+				<span style="color:red;">*</span>
 			</td>
 
 		</tr>
@@ -775,7 +747,7 @@ jQuery(document).ready(function() {
 			<td>Form Element Name</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="elementNameUpdate2" id="elementNameUpdate2"
 				value = "<?php if(isset($_POST['elementNameUpdate2'])){ echo esc_attr($_POST['elementNameUpdate2']);}else{ echo esc_attr($element_result->element_name); }?>">
-				<font color="red">*</font>
+				<span style="color:red;">*</span>
 			</td>
 
 		</tr>
@@ -851,7 +823,7 @@ jQuery(document).ready(function() {
 			<td>Form Element Name</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="elementNameUpdate3" id="elementNameUpdate3"
 				value = "<?php if(isset($_POST['elementNameUpdate3'])){ echo esc_attr($_POST['elementNameUpdate3']);}else{ echo esc_attr($element_result->element_name); }?>">
-				<font color="red">*</font>
+				<span style="color:red;">*</span>
 			</td>
 
 		</tr>
@@ -933,13 +905,13 @@ jQuery(document).ready(function() {
 			<td>Form Element Name</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="elementNameUpdate4" id="elementNameUpdate4"
 				value = "<?php if(isset($_POST['elementNameUpdate4'])){ echo esc_attr($_POST['elementNameUpdate4']);}else{ echo esc_attr($element_result->element_name); }?>">
-				<font color="red">*</font>
+				<span style="color:red;">*</span>
 			</td>
 		</tr>
 		<tr>
 			<td>Options</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="dropDownOptionsUpdate4" id="dropDownOptionsUpdate4" value="<?php if(isset($_POST['dropDownOptionsUpdate4'])){ echo esc_attr($_POST['dropDownOptionsUpdate4']);}else{ echo esc_attr($element_result->options); }?>">
-				<font color="red">*</font>
+				<span style="color:red;">*</span>
 				<br /><b>Example 1</b> : a,b,c,d
 				<br /><b>Example 2</b> : a=>1,b=>2,c=>3,d=>4
 			</td>
@@ -1011,7 +983,7 @@ jQuery(document).ready(function() {
 			<td>Form Element Name</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="elementNameUpdate5" id="elementNameUpdate5"
 				value = "<?php if(isset($_POST['elementNameUpdate5'])){ echo esc_attr($_POST['elementNameUpdate5']);}else{ echo esc_attr($element_result->element_name); }?>">
-				<font color="red">*</font>
+				<span style="color:red;">*</span>
 			</td>
 			</tr>
 		<tr>
@@ -1069,7 +1041,7 @@ jQuery(document).ready(function() {
 			<td>Form Element Name</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="elementNameUpdate6" id="elementNameUpdate6"
 				value = "<?php if(isset($_POST['elementNameUpdate6'])){ echo esc_attr($_POST['elementNameUpdate6']);}else{ echo esc_attr($element_result->element_name); }?>">
-				<font color="red">*</font>
+				<span style="color:red;">*</span>
 			</td>
 		</tr>
 
@@ -1077,7 +1049,7 @@ jQuery(document).ready(function() {
 		<tr>
 			<td>Options</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="checkBoxOptionsUpdate6" id="checkBoxOptionsUpdate6" value="<?php if(isset($_POST['checkBoxOptionsUpdate6'])){ echo esc_attr($_POST['checkBoxOptionsUpdate6']);}else{ echo esc_attr($element_result->options); }?>">
-				<font color="red">*</font>
+				<span style="color:red;">*</span>
 				<br /><b>Example 1</b> : a,b,c,d
 				<br /><b>Example 2</b> : a=>1,b=>2,c=>3,d=>4
 			</td>
@@ -1150,14 +1122,14 @@ jQuery(document).ready(function() {
 			<td>Form Element Name</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="elementNameUpdate7" id="elementNameUpdate7"
 				value = "<?php if(isset($_POST['elementNameUpdate7'])){ echo esc_attr($_POST['elementNameUpdate7']);}else{ echo esc_attr($element_result->element_name); }?>">
-				<font color="red">*</font>
+				<span style="color:red;">*</span>
 			</td>
 
 		</tr>
 		<tr>
 			<td>Options</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="radioOptionsUpdate7" id="radioOptionsUpdate7" value="<?php if(isset($_POST['radioOptionsUpdate7'])){ echo esc_attr($_POST['radioOptionsUpdate7']);}else{ echo esc_attr($element_result->options); }?>">
-				<font color="red">*</font>
+				<span style="color:red;">*</span>
 				<br /><b>Example 1</b> : a,b,c,d
 				<br /><b>Example 2</b> : a=>1,b=>2,c=>3,d=>4
 			</td>
@@ -1229,7 +1201,7 @@ jQuery(document).ready(function() {
 			<td>Form Element Name</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="elementNameUpdate8" id="elementNameUpdate8"
 				value = "<?php if(isset($_POST['elementNameUpdate8'])){ echo esc_html($_POST['elementNameUpdate8']);}else{ echo esc_html($element_result->element_name); }?>">
-				<font color="red">*</font>
+				<span style="color:red;">*</span>
 			</td>
 		</tr>
 
@@ -1300,13 +1272,13 @@ jQuery(document).ready(function() {
 			<td>Form Element Name</td><td><input type="text" class="xyz_cfm_NoEnterSubmit"
 				name="elementNameUpdate9" id="elementNameUpdate9"
 				value = "<?php if(isset($_POST['elementNameUpdate9'])){ echo esc_html($_POST['elementNameUpdate9']);}else{ echo esc_html($element_result->element_name); }?>">
-				<font color="red">*</font>
+				<span style="color:red;">*</span>
 			</td>
 			</tr>
 		<tr>
 			<td>Display Name</td><td><input type="text" name="displayNameUpdate9" id="displayNameUpdate9" class="xyz_cfm_NoEnterSubmit"
 				value = "<?php if(isset($_POST['displayNameUpdate9'])){ echo esc_html($_POST['displayNameUpdate9']);}else{ echo esc_html($element_result->element_diplay_name); }?>">
-				<font color="red">*</font>
+				<span style="color:red;">*</span>
 			</td>
 		</tr>
 
@@ -1379,7 +1351,7 @@ if($element_result->element_type = 10){
 					name="reCaptchaElementNameUpdate10" id="reCaptchaElementNameUpdate10"
 					value = "<?php if(isset($_POST['reCaptchaElementNameUpdate10'])){ echo esc_html($_POST['reCaptchaElementNameUpdate10']);}else{ echo esc_html($element_result->element_name); }?>">
 				</span>
-				<font color="red">*</font>
+				<span style="color:red;">*</span>
 			</td>
 		</tr>
 		<tr>
@@ -1428,3 +1400,7 @@ jQuery(document).ready(function() {
 	}
 });
 </script>
+<?php 
+die();
+}
+?>

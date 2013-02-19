@@ -1,8 +1,9 @@
 <?php
-require( dirname( __FILE__ ) . '../../../../../wp-load.php' );
-if(!current_user_can('manage_options')){
-	exit;
-}
+add_action('wp_ajax_ajax_insert_element', 'xyz_cfm_ajax_insert_element');
+
+function xyz_cfm_ajax_insert_element() {
+	
+
 global $wpdb;
 // echo '<pre>';
 // print_r($_POST);die;
@@ -139,8 +140,8 @@ if($_POST){
 			$className = str_replace('%2b','+',urldecode($_POST['className']));
 			
 			
-			$options = str_replace('%2b','+',urldecode($_POST['options']));
-			$defaultValue = str_replace('%2b','+',urldecode($_POST['defaultValue']));
+			$options = xyz_cfm_trimOptions(str_replace('%2b','+',urldecode($_POST['options'])));
+			$defaultValue = xyz_cfm_trimOptions(str_replace('%2b','+',urldecode($_POST['defaultValue'])));
 			$multipleSelect = $_POST['multipleSelect'];
 			$formId = $_POST['formId'];
 			$elementType = 4;
@@ -204,8 +205,8 @@ if($_POST){
 		if(ctype_alnum($elementNameTest) && ctype_alpha($elementNameTest[0])){
 				
 			$className = str_replace('%2b','+',urldecode($_POST['className']));
-			$options = str_replace('%2b','+',urldecode($_POST['options']));
-			$defaultValue = str_replace('%2b','+',urldecode($_POST['defaultValue']));
+			$options = xyz_cfm_trimOptions(str_replace('%2b','+',urldecode($_POST['options'])));
+			$defaultValue = xyz_cfm_trimOptions(str_replace('%2b','+',urldecode($_POST['defaultValue'])));
 			$formId = $_POST['formId'];
 			$singleLineView = $_POST['singleLineView'];
 			$elementType = 6;
@@ -238,8 +239,8 @@ if($_POST){
 		if(ctype_alnum($elementNameTest) && ctype_alpha($elementNameTest[0])){
 				
 			$className = str_replace('%2b','+',urldecode($_POST['className']));
-			$options = str_replace('%2b','+',urldecode($_POST['options']));
-			$defaultValue = str_replace('%2b','+',urldecode($_POST['defaultValue']));
+			$options = xyz_cfm_trimOptions(str_replace('%2b','+',urldecode($_POST['options'])));
+			$defaultValue = xyz_cfm_trimOptions(str_replace('%2b','+',urldecode($_POST['defaultValue'])));
 			$formId = $_POST['formId'];
 			$singleLineView = $_POST['singleLineView'];
 			$elementType = 7;
@@ -361,3 +362,6 @@ if($_POST){
 	}
 
 }
+die();
+}
+?>

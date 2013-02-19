@@ -247,7 +247,14 @@ developed and maintained by
 	</tr>
 	
 	<tr>
-		<td rowspan="9"><h4>Form Submission</h4></td>
+		<td rowspan="12"><h4>Form Submission</h4></td>
+		<td>Capture contact to XYZ Newsletter</td>
+		<td><img src="<?php echo plugins_url("images/tick.png",__FILE__);?>">
+		</td>
+		<td><img src="<?php echo plugins_url("images/tick.png",__FILE__);?>">
+		</td>
+	</tr>
+	<tr>
 		<td>Autoreply on contact form submission</td>
 		<td><img src="<?php echo plugins_url("images/tick.png",__FILE__);?>">
 		</td>
@@ -268,6 +275,24 @@ developed and maintained by
 		<td><img src="<?php echo plugins_url("images/tick.png",__FILE__);?>">
 		</td>
 	</tr>
+	
+	<tr>
+		<td> Option to display submitted data</td>
+		<td><img src="<?php echo plugins_url("images/cross.png",__FILE__);?>">
+		</td>
+		<td><img src="<?php echo plugins_url("images/tick.png",__FILE__);?>">
+		</td>
+	</tr>
+	<tr>
+		<td> Attach files with autoreply</td>
+		<td><img src="<?php echo plugins_url("images/cross.png",__FILE__);?>">
+		</td>
+		<td><img src="<?php echo plugins_url("images/tick.png",__FILE__);?>">
+		</td>
+	</tr>
+	
+	
+	
 	<tr>
 		<td>Store form submission requests</td>
 		<td><img src="<?php echo plugins_url("images/cross.png",__FILE__);?>">

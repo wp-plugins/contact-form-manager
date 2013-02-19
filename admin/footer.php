@@ -38,10 +38,10 @@
     
     .xyz_feedback{
     background: #CEEAF7; /* Old browsers */
-border: 1px solid #64cfe8;
-width: 98%;    
-height:30px;
-    padding-left: 10px;
+	border: 1px solid #64cfe8;
+	width: 98%;    
+	height:30px;
+    padding-top:10px;
     font-weight: bold;
     
     }
@@ -54,11 +54,11 @@ height:30px;
     
     .xyz_subscribe{
     background: #bae598; /* Old browsers */
-border: 1px solid #4d8a1d;
-width: 98%;    
+	border: 1px solid #4d8a1d;
+	width: 98%;    
     padding-left: 10px;
-height:35px;
-    
+	height:35px;
+    padding-top:10px;
     }
   .xyz_subscribe  td{
     padding:0;
@@ -145,8 +145,8 @@ function verify_fields()
 <?php global $current_user; get_currentuserinfo(); ?>
 <form action=http://xyzscripts.com/newsletter/index.php?page=list/subscribe method="post" name="email_subscription" id="email_subscription" >
 <input type="hidden" name="fieldNameIds" value="1,">
-<input type="hidden" name="redirActive" value="http://xyzscripts.com/subscription/pending/XYZWPCM">
-<input type="hidden" name="redirPending" value="http://xyzscripts.com/subscription/active/XYZWPCM">
+<input type="hidden" name="redirActive" value="http://xyzscripts.com/subscription/pending/XYZWPCFM">
+<input type="hidden" name="redirPending" value="http://xyzscripts.com/subscription/active/XYZWPCFM">
 <input type="hidden" name="mode" value="1">
    
 <b>Stay tuned to our updates :</b>  
@@ -173,7 +173,7 @@ Email Address :
 type="text" value="<?php 	echo $current_user->user_email; ?>" /><span style="color:#FF0000">*</span>           
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<input class="submit" style="color:#FFFFFF;border-radius:4px;border:1px solid #1A87B9;" type="submit" value="Subscribe" name="Submit"  onclick="javascript: if(!verify_fields()) return false; " />
+<input class="submit_cfm" style="color:#FFFFFF;border-radius:4px;border:1px solid #1A87B9;" type="submit" value="Subscribe" name="Submit"  onclick="javascript: if(!verify_fields()) return false; " />
 
 <input type="hidden" name="listName" value="5,1,"/>
 </form>

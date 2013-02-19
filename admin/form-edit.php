@@ -12,7 +12,7 @@ $_GET = stripslashes_deep($_GET);
 
 $_POST = xyz_trim_deep($_POST);
 
-$xyz_cfm_formId = $_GET['formId'];
+$xyz_cfm_formId = $_GET['id'];
 
 $xyz_cfm_code = '';
 if(isset($_POST) && isset($_POST['addSubmit'])){
@@ -25,7 +25,11 @@ if(isset($_POST) && isset($_POST['addSubmit'])){
 	$xyz_cfm_generatedCode = $_POST['generatedCode'];
 	$xyz_cfm_to = $_POST['to'];
 	
-	$xyz_cfm_from_email_id = $_POST['xyz_cfm_senderEmailId'];//from email id
+	if(get_option('xyz_cfm_sendViaSmtp') == 1){
+		$xyz_cfm_from_email_id = $_POST['xyz_cfm_senderEmailIdSmtp'];//from email id
+	}else{
+		$xyz_cfm_from_email_id = 0;//if smtp is off,  email id set to 0
+	}
 
 	$xyz_cfm_from_email = $_POST['from'];//from email address
 	
@@ -63,10 +67,11 @@ if(isset($_POST) && isset($_POST['addSubmit'])){
 
 	$xyz_cfm_senderName = $_POST['senderName'];
 	$xyz_cfm_replaySenderName = $_POST['replaySenderName'];
-	
-	$xyz_cfm_replaySenderEmailId = $_POST['xyz_cfm_replaySenderEmailId'];//reply email id
-	
-	$xyz_cfm_replaySenderEmail = $_POST['replaySenderEmail'];//freply email address
+	$xyz_cfm_replaySenderEmailId = 0;
+	if(isset($_POST['xyz_cfm_replaySenderEmailId'])){
+		$xyz_cfm_replaySenderEmailId = $_POST['xyz_cfm_replaySenderEmailId'];//reply email id
+	}
+	$xyz_cfm_replaySenderEmail = $_POST['replaySenderEmail'];//reply email address
 	
 	$xyz_cfm_enableReply = $_POST['enableReply'];
 	
@@ -76,31 +81,143 @@ if(isset($_POST) && isset($_POST['addSubmit'])){
 	
 	$xyz_cfm_redispalyOption = $_POST['redisplayOption'];
 	
+	
+	/*
+	 * for newsletter subscription
+	* */
+	
+	$newsletterSubscriptionErrorFlag = 0;
+	
+	$newsletterActiveFlag = 0;
 
-	if($xyz_cfm_toEmailReply != "" && $xyz_cfm_formName != "" && 
-			$xyz_cfm_generatedCode != "" && $xyz_cfm_to != "" && ($xyz_cfm_from_email != "" || $xyz_cfm_from_email_id != "") &&
-			 $xyz_cfm_subject != "" && $xyz_cfm_mailBody != "" && $xyz_cfm_subjectReplay != "" && $xyz_cfm_mailBodyReplay != ""){
-		
-		$element_count = $wpdb->query( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form WHERE id!="'.$xyz_cfm_formId.'" AND name="'.$xyz_cfm_formName.'" LIMIT 0,1' ) ;
-		if($element_count == 0){
-			
-			if(get_option('xyz_cfm_sendViaSmtp') == 1){
-			
-				$wpdb->update($wpdb->prefix.'xyz_cfm_form',
-				array('name'=>$xyz_cfm_formName,'status'=>'1','form_content'=>$xyz_cfm_generatedCode,'submit_mode'=>$xyz_cfm_submitMode,
-				'to_email'=>$xyz_cfm_to,'from_email_id'=>$xyz_cfm_from_email_id,'sender_name'=>$xyz_cfm_senderName,'reply_sender_name'=>$xyz_cfm_replaySenderName,'reply_sender_email_id'=>$xyz_cfm_replaySenderEmailId,'cc_email'=>$xyz_cfm_cc,
-				'mail_type'=>$xyz_cfm_mailType,'mail_subject'=>$xyz_cfm_subject,'mail_body'=>$xyz_cfm_mailBody,'to_email_reply'=>$xyz_cfm_toEmailReply,'reply_subject'=>$xyz_cfm_subjectReplay,
-				'reply_body'=>$xyz_cfm_mailBodyReplay,'reply_mail_type'=>$xyz_cfm_mailTypeReplay,'enable_reply'=>$xyz_cfm_enableReply,'redirection_link'=>$xyz_cfm_redirectionLink,'redisplay_option'=>$xyz_cfm_redispalyOption),array('id'=>$xyz_cfm_formId));
-				
+	$newsletterSubscriptionCode = '';
+	
+	if ( is_plugin_active('newsletter-manager/newsletter-manager.php')  ||  is_plugin_active('xyz-wp-newsletter/xyz-wp-newsletter.php') ) {
+	
+	$newsletterActiveFlag = 1;
+	
+	$newsletterOptinMode = $_POST['xyz_newsletterOptinMode'];
+	
+	if($_POST['newsletterSubscription'] == 1) {
+	
+		if($_POST['newsletterSubscriptionVersion'] == 'std'){
+			if($_POST['newsletterEmailShortcodeStd'] != ''){
+				$emailShortcode = $_POST['newsletterEmailShortcodeStd'];
 			}else{
-				$wpdb->update($wpdb->prefix.'xyz_cfm_form',array('name'=>$xyz_cfm_formName,'status'=>'1','form_content'=>$xyz_cfm_generatedCode,
-				'submit_mode'=>$xyz_cfm_submitMode,'to_email'=>$xyz_cfm_to,'from_email'=>$xyz_cfm_from_email,'sender_name'=>$xyz_cfm_senderName,
-				'reply_sender_name'=>$xyz_cfm_replaySenderName,'reply_sender_email'=>$xyz_cfm_replaySenderEmail,'cc_email'=>$xyz_cfm_cc,
-				'mail_type'=>$xyz_cfm_mailType,'mail_subject'=>$xyz_cfm_subject,'mail_body'=>$xyz_cfm_mailBody,'to_email_reply'=>$xyz_cfm_toEmailReply,
-				'reply_subject'=>$xyz_cfm_subjectReplay,'reply_body'=>$xyz_cfm_mailBodyReplay,'reply_mail_type'=>$xyz_cfm_mailTypeReplay,
-				'enable_reply'=>$xyz_cfm_enableReply,'redirection_link'=>$xyz_cfm_redirectionLink,'redisplay_option'=>$xyz_cfm_redispalyOption),array('id'=>$xyz_cfm_formId));
+				$newsletterSubscriptionErrorFlag = 1;
+			}
+			
+			$nameShortcode = explode(',', $_POST['newsletterNameShortcodeStd']);
+			$customFields = serialize($nameShortcode);
+			
+			$emailListId = 1;
+			if($newsletterSubscriptionErrorFlag == 0){
+				$newsletterSubscriptionCode = array('newsletter_email_shortcode'=>$emailShortcode, 'newsletter_email_list'=>$emailListId,'newsletter_custom_fields'=>$customFields,'newsletter_optin_mode'=>$newsletterOptinMode,'newsletter_subscription_status'=>1);
+			}
+		}
+	
+		if($_POST['newsletterSubscriptionVersion'] == 'pre'){
+			
+			if($_POST['newsletterEmailShortcodePre'] != ''){
+				$emailShortcode = $_POST['newsletterEmailShortcodePre'];
+			}else{
+				$newsletterSubscriptionErrorFlag = 1;
+			}
+			
+			if(isset($_POST['newsletterEmailListId'])){
+				$emailListId = implode(",",$_POST['newsletterEmailListId']);
+			}else{
+				$newsletterSubscriptionErrorFlag = 1;
+			}
+			
+				
+			$additionalFieldInfoDetails = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'xyz_em_additional_field_info' ) ;
+			$fieldValue = array();
+			foreach ($additionalFieldInfoDetails as $InfoDetails){
+				if($_REQUEST['xyz_em_cfm_'.$InfoDetails->field_name] != ''){
+					$fieldExistFlag = 1;
+					//$fieldId = 'field'.$InfoDetails->id;
+					$fieldValue[$InfoDetails->id] = $_REQUEST['xyz_em_cfm_'.$InfoDetails->field_name];
+				}
 			}
 				
+			if(count($fieldValue)){
+				$customFields = serialize($fieldValue);
+			}else{
+				$customFields = '';
+			}
+
+			if($newsletterSubscriptionErrorFlag == 0){
+				$newsletterSubscriptionCode = array('newsletter_email_shortcode'=>$emailShortcode,'newsletter_email_list'=>$emailListId,'newsletter_custom_fields'=>$customFields,'newsletter_optin_mode'=>$newsletterOptinMode,'newsletter_subscription_status'=>1);
+			}
+				
+		}
+	} elseif($_POST['newsletterSubscription'] == 2) {
+		$newsletterSubscriptionCode = array('newsletter_email_shortcode'=>'','newsletter_email_list'=>'','newsletter_custom_fields'=>'','newsletter_optin_mode'=>'','newsletter_subscription_status'=>0);
+	}
+	
+	}
+	
+	/*
+	 * for newsletter subscription
+	* */
+	
+	$senderErrorFlag = 0;
+	
+	if(get_option('xyz_cfm_sendViaSmtp') == 1){
+		if($xyz_cfm_from_email_id == ''){
+			$senderErrorFlag = 1;
+		}
+	}else{
+		if($xyz_cfm_from_email == ''){
+			$senderErrorFlag = 1;
+		}
+	}
+	
+
+	if(($newsletterSubscriptionErrorFlag == 0) && $xyz_cfm_toEmailReply != "" && $xyz_cfm_formName != "" && 
+			$xyz_cfm_generatedCode != "" && $xyz_cfm_to != "" && ($senderErrorFlag == 0) &&
+			 $xyz_cfm_subject != "" && $xyz_cfm_mailBody != "" && $xyz_cfm_subjectReplay != "" && $xyz_cfm_mailBodyReplay != ""){
+		
+		$element_count = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form WHERE id!="'.$xyz_cfm_formId.'" AND name="'.$xyz_cfm_formName.'" LIMIT 0,1' ) ;
+		if(count($element_count) == 0){
+			
+				$wpdb->update($wpdb->prefix.'xyz_cfm_form',
+				array(
+						'name'=>$xyz_cfm_formName,
+						'status'=>'1',
+						'form_content'=>$xyz_cfm_generatedCode,
+						'submit_mode'=>$xyz_cfm_submitMode,
+						'to_email'=>$xyz_cfm_to,
+						'from_email_id'=>$xyz_cfm_from_email_id,
+						'from_email'=>$xyz_cfm_from_email,
+						'sender_name'=>$xyz_cfm_senderName,
+						'reply_sender_name'=>$xyz_cfm_replaySenderName,
+						'reply_sender_email_id'=>$xyz_cfm_replaySenderEmailId,
+						'reply_sender_email'=>$xyz_cfm_replaySenderEmail,
+						'cc_email'=>$xyz_cfm_cc,
+						'mail_type'=>$xyz_cfm_mailType,
+						'mail_subject'=>$xyz_cfm_subject,
+						'mail_body'=>$xyz_cfm_mailBody,
+						'to_email_reply'=>$xyz_cfm_toEmailReply,
+						'reply_subject'=>$xyz_cfm_subjectReplay,
+						'reply_body'=>$xyz_cfm_mailBodyReplay,
+						'reply_mail_type'=>$xyz_cfm_mailTypeReplay,
+						'enable_reply'=>$xyz_cfm_enableReply,
+						'redirection_link'=>$xyz_cfm_redirectionLink,
+						'redisplay_option'=>$xyz_cfm_redispalyOption),array('id'=>$xyz_cfm_formId));
+				
+				/*
+				 * for newsletter subscription
+				* */
+				
+				if(($newsletterSubscriptionCode != '') && ($newsletterActiveFlag == 1)) {
+					$wpdb->update($wpdb->prefix.'xyz_cfm_form',$newsletterSubscriptionCode, array('id'=>$xyz_cfm_formId));
+				}
+				
+				/*
+				 * for newsletter subscription
+				* */
 			?>
 			<div class="system_notice_area_style1" id="system_notice_area">
 			Contact form successfully updated. &nbsp;&nbsp;&nbsp;<span id="system_notice_area_dismiss">Dismiss</span>
@@ -165,23 +282,16 @@ jQuery(document).ready(function() {
 	
 
 	var formId = jQuery("#formId").val();
-	var dataString = '&formId='+<?php echo $xyz_cfm_formId;?>;
-	//alert(dataString);
-	jQuery.ajax
-	({
-	type: "POST",
-	url: "<?php echo plugins_url('contact-form-manager/admin/ajax-load-elements.php') ?>",
-	data: dataString,
-	cache: false,
-	success: function(html)
-	{	
+	var dataString = { 
+			action: 'ajax_load_elements', 
+			formId: <?php echo $xyz_cfm_formId;?> 
+		};
+
+	jQuery.post(ajaxurl, dataString, function(response) {
 		jQuery("#progressEditImage").hide();
-		jQuery("#elementSettingResult").html(html);
-	}
+		jQuery("#elementSettingResult").html(response);
 	});
 	
-	
-
 	jQuery('#element').val(0);	
 	
 	jQuery("#textField").hide();
@@ -206,7 +316,7 @@ jQuery(document).ready(function() {
 		var from = jQuery.trim(jQuery("#from").val());
 		if(from == ''){
 
-			from = jQuery("#xyz_cfm_senderEmailId").val();
+			from = jQuery("#xyz_cfm_senderEmailIdSmtp").val();
 			
 		}
 		
@@ -438,7 +548,6 @@ jQuery(document).ready(function() {
 	jQuery('#textFieldButton1').click(function() {
 
 		var selectId = 1;
-		var dataString = 'id='+ selectId;
 		var required ='';
 		
 		if(jQuery('#required1').attr('checked')){
@@ -454,22 +563,22 @@ jQuery(document).ready(function() {
 		var formId = jQuery("#formId").val();
 		
 		if(elementName != ""){
-			jQuery("#progressSelectImage").show();
-		
-		dataString = dataString + '&required='+ required+'&elementName='+elementName+'&className='+className+'&maxlength='+maxlength+'&defaultValue='+defaultValue+'&formId='+formId;
+		jQuery("#progressSelectImage").show();
+		var dataString = { 
+				action: 'ajax_insert_element', 
+				id: selectId,
+				required: required,
+				elementName: elementName, 
+				className: className, 
+				maxlength: maxlength, 
+				defaultValue: defaultValue, 
+				formId: formId 
+			};
 
-		jQuery.ajax
-		({
-		type: "POST",
-		url: "<?php echo plugins_url('contact-form-manager/admin/ajax-insert-element.php') ?>",
-		data: dataString,
-		cache: false,
-		success: function(html)
-		{	
+		jQuery.post(ajaxurl, dataString, function(response) {
 			jQuery("#progressSelectImage").hide();
-			jQuery("#textFieldResult").html(html);
+			jQuery("#textFieldResult").html(response);
 			addNewElementFlag = 1;
-		}
 		});
 		
 		}else{
@@ -484,7 +593,6 @@ jQuery(document).ready(function() {
 	jQuery('#textFieldButton2').click(function() {
 
 		var selectId = 2;
-		var dataString = 'id='+ selectId;
 		var required ='';
 		
 		if(jQuery('#required2').attr('checked')){
@@ -500,25 +608,23 @@ jQuery(document).ready(function() {
 		var formId = jQuery("#formId").val();
 
 		if(elementName != ""){
-			jQuery("#progressSelectImage").show();
-		dataString = dataString + '&required='+ required+'&elementName='+elementName+'&className='+className+'&maxlength='+maxlength+'&defaultValue='+defaultValue+'&formId='+formId;
-
-
-		//alert(dataString);
-		jQuery.ajax
-		({
-		type: "POST",
-		url: "<?php echo plugins_url('contact-form-manager/admin/ajax-insert-element.php') ?>",
-		data: dataString,
-		cache: false,
-		success: function(html)
-		{	
+		jQuery("#progressSelectImage").show();
+		var dataString = { 
+				action: 'ajax_insert_element', 
+				id: selectId,	
+				required: required, 
+				elementName: elementName, 
+				className: className, 
+				maxlength: maxlength, 
+				defaultValue: defaultValue, 
+				formId: formId 
+			};
+		
+		jQuery.post(ajaxurl, dataString, function(response) {
 			jQuery("#progressSelectImage").hide();
-			jQuery("#emailFieldResult").html(html);
+			jQuery("#emailFieldResult").html(response);
 			addNewElementFlag = 1;
-		}
 		});
-
 		
 		}else{
 			alert("Please fill all mandatory fields.");
@@ -531,7 +637,6 @@ jQuery(document).ready(function() {
 	jQuery('#textFieldButton3').click(function() {
 
 		var selectId = 3;
-		var dataString = 'id='+ selectId;
 		var required ='';
 		
 		if(jQuery('#required3').attr('checked')){
@@ -548,25 +653,24 @@ jQuery(document).ready(function() {
 		var formId = jQuery("#formId").val();
 
 		if(elementName != ""){
-			jQuery("#progressSelectImage").show();
-		dataString = dataString + '&required='+ required+'&elementName='+elementName+'&className='+className+'&collength='+collength+'&rowlength='+rowlength+'&defaultValue='+defaultValue+'&formId='+formId;
-
-
-		//alert(dataString);
-		jQuery.ajax
-		({
-		type: "POST",
-		url: "<?php echo plugins_url('contact-form-manager/admin/ajax-insert-element.php') ?>",
-		data: dataString,
-		cache: false,
-		success: function(html)
-		{	
+		jQuery("#progressSelectImage").show();
+		var dataString = { 
+				action: 'ajax_insert_element', 
+				id: selectId,
+				required: required, 
+				elementName: elementName, 
+				className: className, 
+				collength: collength, 
+				rowlength: rowlength, 
+				defaultValue: defaultValue, 
+				formId: formId 
+			};
+		
+		jQuery.post(ajaxurl, dataString, function(response) {
 			jQuery("#progressSelectImage").hide();
-			jQuery("#textAreaResult").html(html);
+			jQuery("#textAreaResult").html(response);
 			addNewElementFlag = 1;
-		}
 		});
-
 		
 		}else{
 			alert("Please fill all mandatory fields.");
@@ -578,7 +682,6 @@ jQuery(document).ready(function() {
 	jQuery('#textFieldButton4').click(function() {
 
 		var selectId = 4;
-		var dataString = 'id='+ selectId;
 		var required = '';
 		var multipleSelect = '';
 		
@@ -600,25 +703,24 @@ jQuery(document).ready(function() {
 		var formId = jQuery("#formId").val();
 
 		if(elementName != "" && options != ""){
-			jQuery("#progressSelectImage").show();
-		dataString = dataString + '&required='+ required+'&elementName='+elementName+'&className='+className+'&options='+options+'&defaultValue='+defaultValue+'&multipleSelect='+multipleSelect+'&formId='+formId;
-
-
-		//alert(dataString);return false;
-		jQuery.ajax
-		({
-		type: "POST",
-		url: "<?php echo plugins_url('contact-form-manager/admin/ajax-insert-element.php') ?>",
-		data: dataString,
-		cache: false,
-		success: function(html)
-		{	
+		jQuery("#progressSelectImage").show();
+		var dataString = { 
+				action: 'ajax_insert_element', 
+				id: selectId,
+				required: required, 
+				elementName: elementName, 
+				className: className, 
+				options: options, 
+				defaultValue: defaultValue, 
+				multipleSelect: multipleSelect, 
+				formId: formId 
+			};
+		
+		jQuery.post(ajaxurl, dataString, function(response) {
 			jQuery("#progressSelectImage").hide();
-			jQuery("#dropDownMenuResult").html(html);
+			jQuery("#dropDownMenuResult").html(response);
 			addNewElementFlag = 1;
-		}
 		});
-
 		
 		}else{
 			alert("Please fill all mandatory fields.");
@@ -630,7 +732,6 @@ jQuery(document).ready(function() {
 	jQuery('#textFieldButton5').click(function() {
 
 		var selectId = 5;
-		var dataString = 'id='+ selectId;
 		var required ='';
 		
 		if(jQuery('#required5').attr('checked')){
@@ -644,25 +745,21 @@ jQuery(document).ready(function() {
 		var formId = jQuery("#formId").val();
 
 		if(elementName != "" ){
-			jQuery("#progressSelectImage").show();
-		dataString = dataString + '&required='+ required+'&elementName='+elementName+'&className='+className+'&formId='+formId;
-
-
-		//alert(dataString);
-		jQuery.ajax
-		({
-		type: "POST",
-		url: "<?php echo plugins_url('contact-form-manager/admin/ajax-insert-element.php') ?>",
-		data: dataString,
-		cache: false,
-		success: function(html)
-		{	
+		jQuery("#progressSelectImage").show();
+		var dataString = { 
+				action: 'ajax_insert_element', 
+				id: selectId,
+				required: required, 
+				elementName: elementName, 
+				className: className, 
+				formId:formId 
+			};
+		
+		jQuery.post(ajaxurl, dataString, function(response) {
 			jQuery("#progressSelectImage").hide();
-			jQuery("#dateFieldResult").html(html);
+			jQuery("#dateFieldResult").html(response);
 			addNewElementFlag = 1;
-		}
 		});
-
 		
 		}else{
 			alert("Please fill all mandatory fields.");
@@ -674,7 +771,6 @@ jQuery(document).ready(function() {
 	
 	jQuery('#textFieldButton6').click(function() {
 		var selectId = 6;
-		var dataString = 'id='+ selectId;
 		var required ='';
 		var singleLineView = '';
 		if(jQuery('#required6').attr('checked')){
@@ -696,25 +792,24 @@ jQuery(document).ready(function() {
 		var formId = jQuery("#formId").val();
 
 		if(elementName != "" && options != ""){
-			jQuery("#progressSelectImage").show();
-		dataString = dataString + '&required='+ required+'&singleLineView='+singleLineView+'&elementName='+elementName+'&className='+className+'&options='+options+'&defaultValue='+defaultValue+'&formId='+formId;
-
-
-		//alert(dataString);return false;
-		jQuery.ajax
-		({
-		type: "POST",
-		url: "<?php echo plugins_url('contact-form-manager/admin/ajax-insert-element.php') ?>",
-		data: dataString,
-		cache: false,
-		success: function(html)
-		{	
+		jQuery("#progressSelectImage").show();
+		var dataString = { 
+				action: 'ajax_insert_element', 
+				id: selectId,
+				required: required, 
+				singleLineView: singleLineView, 
+				elementName: elementName, 
+				className: className, 
+				options: options,
+				defaultValue: defaultValue, 
+				formId:formId 
+			};
+		
+		jQuery.post(ajaxurl, dataString, function(response) {
 			jQuery("#progressSelectImage").hide();
-			jQuery("#checkBoxesResult").html(html);
+			jQuery("#checkBoxesResult").html(response);
 			addNewElementFlag = 1;
-		}
 		});
-
 		
 		}else{
 			alert("Please fill all mandatory fields.");
@@ -726,7 +821,6 @@ jQuery(document).ready(function() {
 	jQuery('#textFieldButton7').click(function() {
 
 		var selectId = 7;
-		var dataString = 'id='+ selectId;
 		var required ='';
 		var singleLineView = '';
 		
@@ -749,25 +843,24 @@ jQuery(document).ready(function() {
 		var formId = jQuery("#formId").val();
 
 		if(elementName != "" && options != ""){
-			jQuery("#progressSelectImage").show();
-		dataString = dataString + '&required='+ required+'&singleLineView='+singleLineView+'&elementName='+elementName+'&className='+className+'&options='+options+'&defaultValue='+defaultValue+'&formId='+formId;
-
-
-		//alert(dataString);return false;
-		jQuery.ajax
-		({
-		type: "POST",
-		url: "<?php echo plugins_url('contact-form-manager/admin/ajax-insert-element.php') ?>",
-		data: dataString,
-		cache: false,
-		success: function(html)
-		{	
+		jQuery("#progressSelectImage").show();
+		var dataString = { 
+				action: 'ajax_insert_element', 
+				id: selectId,
+				required: required, 
+				singleLineView: singleLineView, 
+				elementName: elementName, 
+				className: className, 
+				options: options,
+				defaultValue: defaultValue, 
+				formId:formId 
+			};
+		
+		jQuery.post(ajaxurl, dataString, function(response) {
 			jQuery("#progressSelectImage").hide();
-			jQuery("#radioButtonsResult").html(html);
+			jQuery("#radioButtonsResult").html(response);
 			addNewElementFlag = 1;
-		}
 		});
-
 		
 		}else{
 			alert("Please fill all mandatory fields.");
@@ -779,7 +872,6 @@ jQuery(document).ready(function() {
 	jQuery('#textFieldButton8').click(function() {
 
 		var selectId = 8;
-		var dataString = 'id='+ selectId;
 		var required ='';
 		
 		if(jQuery('#required8').attr('checked')){
@@ -795,26 +887,24 @@ jQuery(document).ready(function() {
 		var formId = jQuery("#formId").val();
 
 		if(elementName != ""){
-			jQuery("#progressSelectImage").show();
-		dataString = dataString + '&required='+ required+'&elementName='+elementName+'&className='+className+'&fileSize='+fileSize+'&fileType='+fileType+'&formId='+formId;
-
-
-		//alert(dataString);
-		jQuery.ajax
-		({
-		type: "POST",
-		url: "<?php echo plugins_url('contact-form-manager/admin/ajax-insert-element.php') ?>",
-		data: dataString,
-		cache: false,
-		success: function(html)
-		{	
+		jQuery("#progressSelectImage").show();
+		var dataString = { 
+				action: 'ajax_insert_element', 
+				id: selectId,
+				required: required, 
+				elementName: elementName, 
+				className: className, 
+				fileSize: fileSize, 
+				fileType: fileType, 
+				formId: formId 
+			};
+		
+		jQuery.post(ajaxurl, dataString, function(response) {
 			jQuery("#progressSelectImage").hide();
-			jQuery("#fileUploadResult").html(html);
+			jQuery("#fileUploadResult").html(response);
 			addNewElementFlag = 1;
-		}
 		});
 
-		
 		}else{
 			alert("Please fill all mandatory fields.");
 			return false;
@@ -825,7 +915,6 @@ jQuery(document).ready(function() {
 	jQuery('#textFieldButton9').click(function() {
 
 		var selectId = 9;
-		var dataString = 'id='+ selectId;
 
 		var displayName = encodeURIComponent(jQuery.trim(jQuery("#displayName9").val()).replace("+", "%252b"));
 		var elementName = encodeURIComponent(jQuery.trim(jQuery("#elementName9").val()).replace("+", "%252b"));
@@ -833,25 +922,21 @@ jQuery(document).ready(function() {
 		var formId = jQuery("#formId").val();
 
 		if(displayName != "" && elementName != ""){
-			jQuery("#progressSelectImage").show();
-		dataString = dataString +'&displayName='+displayName+'&elementName='+elementName+'&className='+className+'&formId='+formId;
-
-
-		//alert(dataString);
-		jQuery.ajax
-		({
-		type: "POST",
-		url: "<?php echo plugins_url('contact-form-manager/admin/ajax-insert-element.php') ?>",
-		data: dataString,
-		cache: false,
-		success: function(html)
-		{	
+		jQuery("#progressSelectImage").show();
+		var dataString = { 
+				action: 'ajax_insert_element', 
+				id: selectId,
+				displayName: displayName, 
+				elementName: elementName, 
+				className: className, 
+				formId: formId 
+			};
+		
+		jQuery.post(ajaxurl, dataString, function(response) {
 			jQuery("#progressSelectImage").hide();
-			jQuery("#submitButtonResult").html(html);
+			jQuery("#submitButtonResult").html(response);
 			addNewElementFlag = 1;
-		}
 		});
-
 		
 		}else{
 			alert("Please fill all mandatory fields.");
@@ -862,7 +947,6 @@ jQuery(document).ready(function() {
 
 	jQuery('#textFieldButton10').click(function() {
 		var selectId = 10;
-		var dataString = 'id='+ selectId;
 		
 		var elementName = '';
 		
@@ -876,22 +960,21 @@ jQuery(document).ready(function() {
 				jQuery("#progressSelectImage").show();
 
 				var className = encodeURIComponent(jQuery("#reCaptchaStyleOption").val().replace("+", "%252b"));
-				
-				dataString = dataString +'&elementName='+elementName+'&className='+className+'&formId='+formId+'&reCaptcha='+1;
-				
-				jQuery.ajax
-				({
-				type: "POST",
-				url: "<?php echo plugins_url('contact-form-manager/admin/ajax-insert-element.php') ?>",
-				data: dataString,
-				cache: false,
-				success: function(html)
-				{	
+				var dataString = { 
+						action: 'ajax_insert_element', 
+						id: selectId,
+						elementName: elementName, 
+						className: className, 
+						formId: formId, 
+						reCaptcha:1 
+					};
+
+				jQuery.post(ajaxurl, dataString, function(response) {
 					jQuery("#progressSelectImage").hide();
-					jQuery("#captchaResult").html(html);
+					jQuery("#captchaResult").html(response);
 					addNewElementFlag = 1;
-				}
 				});
+				
 			}else{
 				alert("Please fill all mandatory fields.");
 				return false;
@@ -903,24 +986,20 @@ jQuery(document).ready(function() {
 			if(elementName != ""){
 				jQuery("#progressSelectImage").show();
 				var className = encodeURIComponent(jQuery("#className10").val().replace("+", "%252b"));
-				
-				dataString = dataString +'&elementName='+elementName+'&className='+className+'&formId='+formId+'&reCaptcha='+0;
-		
-			//alert(dataString);return false;
-				jQuery.ajax
-				({
-				type: "POST",
-				url: "<?php echo plugins_url('contact-form-manager/admin/ajax-insert-element.php') ?>",
-				data: dataString,
-				cache: false,
-				success: function(html)
-				{	
-					jQuery("#progressSelectImage").hide();
-					jQuery("#captchaResult").html(html);
-					addNewElementFlag = 1;
-				}
-				});
-		
+				var dataString = { 
+						action: 'ajax_insert_element', 
+						id: selectId,
+						elementName: elementName, 
+						className: className, 
+						formId: formId, 
+						reCaptcha: 0 
+					};
+			
+			jQuery.post(ajaxurl, dataString, function(response) {
+				jQuery("#progressSelectImage").hide();
+				jQuery("#captchaResult").html(response);
+				addNewElementFlag = 1;
+			});
 				
 			}else{
 				alert("Please fill all mandatory fields.");
@@ -975,19 +1054,16 @@ jQuery(document).ready(function() {
 			var formId = jQuery("#formId").val();
 	
 			var dataStringElement = '&formId='+formId;
-			jQuery.ajax
-			({
-			type: "POST",
-			url: "<?php echo plugins_url('contact-form-manager/admin/ajax-load-elements.php') ?>",
-			data: dataStringElement,
-			cache: false,
-			success: function(html)
-			{	
+
+			var dataStringElement = { 
+					action: 'ajax_load_elements', 
+					formId: formId 
+				};
+
+			jQuery.post(ajaxurl, dataStringElement, function(response) {
 				jQuery("#progressEditImage").hide();
-				jQuery("#elementSettingResult").html(html);
-			}
+				jQuery("#elementSettingResult").html(response);
 			});
-			
 		}
 		
 		jQuery("#selectElement").css("font-weight","normal");
@@ -1065,6 +1141,9 @@ global $wpdb;
 $formDetails = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form WHERE id="'.$xyz_cfm_formId.'" LIMIT 0,1' ) ;
 $formDetails = $formDetails[0];
 
+// echo '<pre>';
+// print_r($formDetails);die;
+
 ?>
 <style>
 <!--
@@ -1114,7 +1193,7 @@ td {
 				<table style="width: 98%; background-color: #F9F9F9; border: 1px solid #E4E4E4; border-width: 1px;margin-left:10px;margin-right:10px;">
 					<tr valign="top">
 						<td style="border-bottom: none;"><div
-								style="width: 200px; float: left;"><font color="red">*</font>Form Name</div> <input
+								style="width: 200px; float: left;"><span style="color:red;">*</span>Form Name</div> <input
 							type="text" name="formName" id="formName"
 							value="<?php if(isset($_POST['formName'])){ echo esc_html($_POST['formName']);}else{ echo esc_html($formDetails->name); }?>"></td>
 
@@ -1136,13 +1215,13 @@ td {
 				</table>
 			</div>
 			<div style="height: 20px;">&nbsp;</div>
-			<table style="width:99%;margin-left:10px; border:1px solid #E4E4E4;">
+			<table style="width:98%;margin-left:10px; border:1px solid #E4E4E4;">
 				<tr>
 					<td style="width:50%;">
 						<table
-							style="width: 100%; background-color: #F9F9F9; border: 1px solid #E4E4E4; border-width: 1px; float: left;">
+							style="width: 99%; background-color: #F9F9F9; border: 1px solid #E4E4E4; border-width: 1px; float: left;">
 							<tr>
-								<td><font size="5">Form</font></td>
+								<td><span style="font-size: 22px;">Form</span></td>
 							</tr>
 							<tr valign="top">
 								<td style="border-bottom: none; height: 600px;"><?php 
@@ -1159,10 +1238,10 @@ td {
 					</td>
 					<td style="width: 50%; vertical-align: text-top;">
 						<table
-							style="width: 98%; float: right; height: 487px; border: 1px solid #E4E4E4;">
+							style="width: 99%; float: left; height: 487px; border: 1px solid #E4E4E4;">
 							<tr>
 								<td style="padding-bottom: 15px; padding-top: 12px;"
-									id="bottomBorderNone"><font size="5">Form Elements</font>
+									id="bottomBorderNone"><span style="font-size: 22px;">Form Elements</span>
 							
 							</tr>
 							<tr>
@@ -1250,7 +1329,7 @@ td {
 
 														<td>Form Element Name</td>
 														<td><input type="text" class="xyz_cfm_NoEnterSubmit"
-															name="elementName1" id="elementName1"><font color="red">*</font>
+															name="elementName1" id="elementName1"><span style="color:red;">*</span>
 														</td>
 
 													</tr>
@@ -1316,7 +1395,7 @@ td {
 
 														<td>Form Element Name</td>
 														<td><input type="text" class="xyz_cfm_NoEnterSubmit"
-															name="elementName2" id="elementName2"><font color="red">*</font>
+															name="elementName2" id="elementName2"><span style="color:red;">*</span>
 														</td>
 
 													</tr>
@@ -1377,7 +1456,7 @@ td {
 
 														<td>Form Element Name</td>
 														<td><input type="text" class="xyz_cfm_NoEnterSubmit"
-															name="elementName3" id="elementName3"><font color="red">*</font>
+															name="elementName3" id="elementName3"><span style="color:red;">*</span>
 														</td>
 
 													</tr>
@@ -1446,15 +1525,15 @@ td {
 
 														<td>Form Element Name</td>
 														<td><input type="text" class="xyz_cfm_NoEnterSubmit"
-															name="elementName4" id="elementName4"><font color="red">*</font>
+															name="elementName4" id="elementName4"><span style="color:red;">*</span>
 														</td>
 													</tr>
 													<tr>
 
 														<td>Options</td>
 														<td><input type="text" class="xyz_cfm_NoEnterSubmit"
-															name="dropDownOptions4" id="dropDownOptions4"><font
-															color="red">*</font> <br /> <b>Example 1</b> : a,b,c,d <br />
+															name="dropDownOptions4" id="dropDownOptions4"><span 
+															style="color:red;">*</span> <br /> <b>Example 1</b> : a,b,c,d <br />
 															<b>Example 2</b> : a=>1,b=>2,c=>3,d=>4</td>
 													</tr>
 													<tr>
@@ -1509,7 +1588,7 @@ td {
 
 														<td>Form Element Name</td>
 														<td><input type="text" class="xyz_cfm_NoEnterSubmit"
-															name="elementName5" id="elementName5"><font color="red">*</font>
+															name="elementName5" id="elementName5"><span style="color:red;">*</span>
 														</td>
 													</tr>
 													<tr>
@@ -1553,15 +1632,15 @@ td {
 
 														<td>Form Element Name</td>
 														<td><input type="text" class="xyz_cfm_NoEnterSubmit"
-															name="elementName6" id="elementName6"><font color="red">*</font>
+															name="elementName6" id="elementName6"><span style="color:red;">*</span>
 														</td>
 													</tr>
 													<tr>
 
 														<td>Options</td>
 														<td><input type="text" class="xyz_cfm_NoEnterSubmit"
-															name="checkBoxOptions6" id="checkBoxOptions6"><font
-															color="red">*</font> <br /> Please use comma(,) to
+															name="checkBoxOptions6" id="checkBoxOptions6"><span
+															style="color:red;">*</span> <br /> Please use comma(,) to
 															separate option values.<br /> <b>Example 1</b>
 															: a,b,c,d <br /> <b>Example 2</b> : a=>1,b=>2,c=>3,d=>4</td>
 													</tr>
@@ -1617,7 +1696,7 @@ td {
 
 														<td>Form Element Name</td>
 														<td><input type="text" class="xyz_cfm_NoEnterSubmit"
-															name="elementName7" id="elementName7"><font color="red">*</font>
+															name="elementName7" id="elementName7"><span style="color:red;">*</span>
 														</td>
 
 													</tr>
@@ -1626,7 +1705,7 @@ td {
 													<tr>
 														<td>Options</td>
 														<td><input type="text" class="xyz_cfm_NoEnterSubmit"
-															name="radioOptions7" id="radioOptions7"><font color="red">*</font>
+															name="radioOptions7" id="radioOptions7"><span style="color:red;">*</span>
 															<br /> <b>Example 1</b> : a,b,c,d <br /> <b>Example 2</b>
 															: a=>1,b=>2,c=>3,d=>4</td>
 													</tr>
@@ -1681,7 +1760,7 @@ td {
 
 														<td>Form Element Name</td>
 														<td><input type="text" class="xyz_cfm_NoEnterSubmit"
-															name="elementName8" id="elementName8"><font color="red">*</font>
+															name="elementName8" id="elementName8"><span style="color:red;">*</span>
 														</td>
 													</tr>
 
@@ -1740,14 +1819,14 @@ td {
 													<tr>
 														<td>Form Element Name</td>
 														<td><input type="text" class="xyz_cfm_NoEnterSubmit"
-															name="elementName9" id="elementName9"><font color="red">*</font>
+															name="elementName9" id="elementName9"><span style="color:red;">*</span>
 														</td>
 													</tr>
 													<tr>
 														<td>Display Name</td>
 														<td><input type="text" name="displayName9"
-															class="xyz_cfm_NoEnterSubmit" id="displayName9"><font
-															color="red">*</font>
+															class="xyz_cfm_NoEnterSubmit" id="displayName9"><span
+															style="color:red;">*</span>
 														</td>
 													</tr>
 
@@ -1795,7 +1874,7 @@ td {
 															<span id="reCaptchaElementName"><input type="text"
 																class="xyz_cfm_NoEnterSubmit"
 																name="reCaptchaElementName10"
-																id="reCaptchaElementName10"> </span> <font color="red">*</font>
+																id="reCaptchaElementName10"> </span> <span style="color:red;">*</span>
 														</td>
 													</tr>
 													<tr>
@@ -1831,7 +1910,7 @@ td {
 							</tr>
 						</table>
 						<table class="widefat"
-							style="width: 99%; float: right; margin-top: 25px">
+							style="width: 99%; float: left; margin-top: 25px">
 							<tr>
 								<td><b>Options after form submission</b>
 								</td>
@@ -1870,15 +1949,14 @@ td {
 				<tr>
 					<td>
 						<table
-							style="width: 99%; background-color: #F9F9F9; border: 1px solid #E4E4E4; border-width: 1px; float: left;">
+							style="width: 99%; background-color: #F9F9F9; border: 1px solid #E4E4E4; border-width: 1px; float: left; ">
 							<tr>
-								<td style="border-bottom: 1px solid #F9F9F9;"><font size="5">Mail
-										to site admin</font>
+								<td style="border-bottom: 1px solid #F9F9F9;"><span style="font-size: 22px;">Mail to site admin</span>
 								</td>
 							</tr>
 
 							<tr>
-								<td><font color="red">*</font>To Email&nbsp;:&nbsp;<br> <input
+								<td><span style="color:red;">*</span>To Email&nbsp;:&nbsp;<br> <input
 									style="width: 350px;" type="text" name="to" id="to"
 									value="<?php if(isset($_POST['to'])){ echo esc_html($_POST['to']);}elseif($formDetails->to_email!=''){ echo esc_html($formDetails->to_email); }else echo $current_user->user_email;?>">
 								</td>
@@ -1889,18 +1967,22 @@ td {
 									value="<?php if(isset($_POST['cc'])){ echo esc_html($_POST['cc']);}else{ echo esc_html($formDetails->cc_email); }?>">
 								</td>
 							</tr>
-							<tr>
-								<td><font color="red">*</font>From Email&nbsp;:&nbsp;<br> <?php 
-									
+							<?php 
 								if(get_option('xyz_cfm_sendViaSmtp') == 1){
+							?>
+							<tr>
+								<td>
+								<span style="color:red;">*</span>
+								SMTP Account&nbsp;:&nbsp;<br> <?php 
+									
 								$xyz_cfm_getSenderdetails = $wpdb->get_results("SELECT * FROM ".$wpdb->prefix."xyz_cfm_sender_email_address");
-								?> <select name="xyz_cfm_senderEmailId"
-									id="xyz_cfm_senderEmailId">
+								?> <select name="xyz_cfm_senderEmailIdSmtp"
+									id="xyz_cfm_senderEmailIdSmtp">
 										<?php
 										foreach ($xyz_cfm_getSenderdetails as $xyz_cfm_getSender){
 								?>
 										<option value="<?php echo $xyz_cfm_getSender->id;?>"
-										<?php if(isset($_POST['xyz_cfm_senderEmailId']) && $_POST['xyz_cfm_senderEmailId']==$xyz_cfm_getSender->id){?>
+										<?php if(isset($_POST['xyz_cfm_senderEmailIdSmtp']) && $_POST['xyz_cfm_senderEmailIdSmtp']==$xyz_cfm_getSender->id){?>
 											selected="selected"
 											<?php } elseif($formDetails->from_email_id == $xyz_cfm_getSender->id){?>
 											selected="selected" <?php }?>>
@@ -1909,21 +1991,31 @@ td {
 										<?php
 								}
 								?>
-								</select> <input type="hidden" name="from"
-									value="<?php echo $formDetails->from_email ;?>"> <?php 
-
-							}else{
-
-							?> <input type="hidden" name="xyz_cfm_senderEmailId"
-									value="<?php echo $formDetails->from_email_id ;?>"> <input
+								</select> 
+								</td>
+							</tr>
+							<?php 
+							}
+							?>
+							<tr>
+								<td>
+								
+								<?php 
+								if(get_option('xyz_cfm_sendViaSmtp') != 1){
+								?>
+								<span style="color:red;">*</span>
+								<?php 
+								}
+								?>
+								
+								From Email&nbsp;:&nbsp;<br> 
+								 <input
 									style="width: 350px;" type="text" name="from" id="from"
 									value="<?php if(isset($_POST['from'])){ echo esc_html($_POST['from']);}else{ echo esc_html($formDetails->from_email); }?>">
-									<?php 
-
-							}
-
-							?></td>
+									</td>
 							</tr>
+							
+							
 							<tr>
 								<td>Sender Name&nbsp;:&nbsp;<br> <input style="width: 350px;"
 									type="text" name="senderName" id="senderName"
@@ -1931,7 +2023,7 @@ td {
 								</td>
 							</tr>
 							<tr>
-								<td><font color="red">*</font>Subject&nbsp;:&nbsp;<br> <input
+								<td><span style="color:red;">*</span>Subject&nbsp;:&nbsp;<br> <input
 									style="width: 350px;" type="text" name="subject" id="subject"
 									value="<?php if(isset($_POST['subject'])){ echo esc_html($_POST['subject']);}else{ echo esc_html($formDetails->mail_subject); }?>">
 								</td>
@@ -1950,7 +2042,7 @@ td {
 								</td>
 							</tr>
 							<tr valign="top">
-								<td style="width: 45%; border-bottom: none;"><font color="red">*</font>Mail
+								<td style="width: 45%; border-bottom: none;"><span style="color:red;">*</span>Mail
 									Body&nbsp;:&nbsp;<br>
 									<div id="htmlMail">
 
@@ -1975,12 +2067,14 @@ td {
 							</tr>
 
 						</table>
+						
+
 					</td>
 					<td>
 						<table
 							style="width: 99%; background-color: #F9F9F9; border: 1px solid #E4E4E4; border-width: 1px;">
 							<tr>
-								<td style="border-bottom: 1px solid #F9F9F9;"><font size="5">Auto-reply</font>
+								<td style="border-bottom: 1px solid #F9F9F9;"><span style="font-size: 22px;">Auto-reply</span>
 								</td>
 							</tr>
 							<tr>
@@ -1997,10 +2091,13 @@ td {
 							<tr>
 								<td></td>
 							</tr>
+								<?php
+								if(get_option('xyz_cfm_sendViaSmtp') == 1)
+								{
+								?>
 							<tr>
-								<td>Reply Sender Email&nbsp;:&nbsp;<br> <?php 
+								<td>Reply Sender SMTP Account&nbsp;:&nbsp;<br> <?php 
 									
-								if(get_option('xyz_cfm_sendViaSmtp') == 1){
 								$xyz_cfm_getSenderdetails = $wpdb->get_results("SELECT * FROM ".$wpdb->prefix."xyz_cfm_sender_email_address");
 								?> <select name="xyz_cfm_replaySenderEmailId"
 									id="xyz_cfm_replaySenderEmailId">
@@ -2018,24 +2115,22 @@ td {
 										<?php
 								}
 								?>
-								</select> <input type="hidden" name="replaySenderEmail"
-									value="<?php echo $formDetails->reply_sender_email ;?>"> <?php 
-
-							}else{
-
-							?> <input type="hidden" name="xyz_cfm_replaySenderEmailId"
-									value="<?php echo $formDetails->reply_sender_email_id ;?>"> <input
+								</select> 
+								</td>
+							</tr>
+								<?php
+									}
+								?>
+							<tr>
+								<td>Reply Sender Email&nbsp;:&nbsp;<br>
+								<input
 									style="width: 350px;" type="text" name="replaySenderEmail"
 									id="replaySenderEmail"
 									value="<?php if(isset($_POST['replaySenderEmail'])){ echo esc_html($_POST['replaySenderEmail']);}else{ echo esc_html($formDetails->reply_sender_email); }?>">
-
-									<?php 
-
-							}
-
-							?>
 								</td>
 							</tr>
+							
+							
 							<tr>
 								<td>Reply Sender Name&nbsp;:&nbsp;<br> <input
 									style="width: 350px;" type="text" name="replaySenderName"
@@ -2044,14 +2139,14 @@ td {
 								</td>
 							</tr>
 							<tr>
-								<td><font color="red">*</font>To Email&nbsp;:&nbsp;<br> <input
+								<td><span style="color:red;">*</span>To Email&nbsp;:&nbsp;<br> <input
 									style="width: 350px;" type="text" name="toEmailReply"
 									id="toEmailReply"
 									value="<?php if(isset($_POST['toEmailReply'])){ echo esc_html($_POST['toEmailReply']);}else{ echo esc_html($formDetails->to_email_reply); }?>">
 								</td>
 							</tr>
 							<tr>
-								<td><font color="red">*</font>Subject&nbsp;:&nbsp;<br> <input
+								<td><span style="color:red;">*</span>Subject&nbsp;:&nbsp;<br> <input
 									style="width: 350px;" type="text" name="subjectReplay"
 									id="subjectReplay"
 									value="<?php if(isset($_POST['subjectReplay'])){ echo esc_html($_POST['subjectReplay']);}else{ echo esc_html($formDetails->reply_subject); }?>">
@@ -2071,7 +2166,7 @@ td {
 								</td>
 							</tr>
 							<tr valign="top">
-								<td style="border-bottom: none;"><font color="red">*</font>Mail
+								<td style="border-bottom: none;"><span style="color:red;">*</span>Mail
 									Body&nbsp;:&nbsp;<br>
 									<div id="htmlReply" style="">
 										<?php 
@@ -2100,14 +2195,264 @@ td {
 						</table>
 					</td>
 				</tr>
-				<tr>
-					<td colspan="2"><div style="text-align: center; width: 100%;">
-							<input class="submit"
+
+			</table>
+			<div style="height: 20px;">&nbsp;</div>
+			<div>
+						<?php 
+						
+						/*
+						 * for newsletter subscription
+						* */
+						
+// 						$fieldArray = unserialize($formDetails->newsletter_custom_fields);
+// 						echo '<pre>';
+// 						print_r($fieldArray);
+// 						die;
+						
+						$newsletterPremiumActiveFlag = 0;
+						$newsletterStandardActiveFlag = 0;
+						
+						if ( is_plugin_active('newsletter-manager/newsletter-manager.php') ) {
+							$newsletterStandardActiveFlag = 1;
+							$pluginType = "std";
+						} else if ( is_plugin_active('xyz-wp-newsletter/xyz-wp-newsletter.php') ) {
+							$newsletterPremiumActiveFlag = 1;
+							$pluginType = "pre";
+						}
+						
+						if(($newsletterStandardActiveFlag == 1) || ($newsletterPremiumActiveFlag == 1)) {
+						?>	
+							<input type="hidden" name="newsletterSubscriptionVersion" value="<?php echo $pluginType;?>">
+							
+							<table class="widefat" style="width: 98%; background-color: #F9F9F9; border: 1px solid #E4E4E4; border-width: 1px;margin-left:10px;margin-right:10px;" >
+								<tr>
+									<td colspan="3" style="border-bottom: 1px solid #F9F9F9; padding-top:20px;padding-bottom:20px;"><span style="font-size: 22px;">XYZ Newsletter Subscription Settings</span>
+									<br/><b>Requires XYZ Newsletter
+									<?php  
+									if($pluginType == 'std'){echo ' Version - 1.2.2';}elseif($pluginType == 'pre'){echo ' Version - 1.0.2';}
+									?>
+									</b>
+									</td>
+								</tr>
+								<tr>
+									<td style="border: none;">Add contact to Newsletter</td>
+										<td style="border:none;">&nbsp;:&nbsp;</td>
+										<td style="border:none;"> 
+									<div style="width: 100%;">
+												<input style="" type="radio" name="newsletterSubscription"
+												value="1"
+												<?php if(isset($_POST['newsletterSubscription']) && ($_POST['newsletterSubscription'] == 1)){?>
+												checked="checked"
+												<?php  }elseif($formDetails->newsletter_subscription_status == 1){?>
+												checked="checked" <?php }?>>Yes 
+												<input style=""
+												type="radio" name="newsletterSubscription" value="2"
+												<?php if(isset($_POST['newsletterSubscription']) && ($_POST['newsletterSubscription'] == 2)){?>
+												checked="checked"
+												<?php  }elseif(($formDetails->newsletter_subscription_status == 2) || ($formDetails->newsletter_subscription_status == 0)){?>
+												checked="checked"
+												<?php }?>>No
+										</div> 
+									</td>
+								</tr>
+								<tr>
+									<td style="border:none;" colspan="3">&nbsp;</td>
+								</tr>
+								<tr>
+									<td style="border: none;">Opt-in Mode</td>
+									<td style="border:none;">&nbsp;:&nbsp;</td>
+									<td style="border:none;"> 
+										<select name="xyz_newsletterOptinMode">
+											<option value='Active' <?php if(isset($_POST['xyz_newsletterOptinMode']) && ($_POST['xyz_newsletterOptinMode'] == 'Active') ){?> selected="selected"<?php }?>>Single Optin</option>
+											<option value='Pending' <?php if(isset($_POST['xyz_newsletterOptinMode']) && ($_POST['xyz_newsletterOptinMode'] == 'Pending') ){?> selected="selected"<?php }?>>Double Optin</option>
+										</select>
+									</td>
+								</tr>
+								<?php 
+								
+								if($newsletterStandardActiveFlag == 1) {
+								
+
+								?>
+								<tr>
+									<td style="border:none;" colspan="3">&nbsp;</td>
+								</tr>
+								<tr>
+									<td style="border:none;">Email field short code <span style="color:red;">*</span></td>
+									<td style="border:none;">&nbsp;:&nbsp;</td> 
+									<td style="border:none;">
+									<input
+										style="width: 350px;" type="text" name="newsletterEmailShortcodeStd" id="newsletterEmailShortcodeStd"
+										value="<?php if(isset($_POST['newsletterEmailShortcodeStd'])){ echo esc_html($_POST['newsletterEmailShortcodeStd']);}elseif($formDetails->newsletter_email_shortcode!=''){ echo esc_html($formDetails->newsletter_email_shortcode); }?>">
+									</td>
+								</tr>
+								
+								<tr>
+									<td style="border:none;" colspan="3">&nbsp;</td>
+								</tr>
+								<tr>
+									<td style="border:none;">Name field short code</td>
+									<td style="border:none;">&nbsp;:&nbsp;</td> 
+									<td style="border:none;">
+									<input
+										style="width: 350px;" type="text" name="newsletterNameShortcodeStd" id="newsletterNameShortcodeStd"
+										value="<?php 
+										if(isset($_POST['newsletterNameShortcodeStd'])){ 
+											echo esc_html($_POST['newsletterNameShortcodeStd']);
+										}elseif($formDetails->newsletter_custom_fields !=''){ 
+												
+											$fieldArray = array();
+												
+											$fieldArray = unserialize($formDetails->newsletter_custom_fields);
+											
+											if(count($fieldArray) == 1){
+												
+												echo implode(',', $fieldArray);
+												
+											}
+											
+										}?>">
+									</td>
+								</tr>
+								
+								<tr>
+									<td colspan="2" style="border:none;">&nbsp;</td>
+								</tr>
+								
+								<?php 
+								}
+								
+								if($newsletterPremiumActiveFlag == 1) {
+
+								$xyz_em_getEmailListdetails = $wpdb->get_results("SELECT * FROM ".$wpdb->prefix."xyz_em_email_list");
+								if(count($xyz_em_getEmailListdetails) > 0){
+								
+								?>
+								<tr>
+									<td colspan="3"  style="border:none;">&nbsp;</td>
+								</tr>
+								<tr>
+									<td style="border:none; width:250px;">Select the email list <span style="color:red;">*</span></td>
+									<td style="border:none;">&nbsp;:&nbsp;</td>
+									<td style="border:none;">
+										<select name="newsletterEmailListId[]" multiple>
+											<?php 
+											foreach ($xyz_em_getEmailListdetails as $xyz_em_getEmailList){
+											?>
+											<option value="<?php echo $xyz_em_getEmailList->id;?>" <?php if(isset($_POST['newsletterEmailListId']) && in_array($xyz_em_getEmailList->id,$_POST['newsletterEmailListId'])){?>selected='selected'<?php }else{if(in_array($xyz_em_getEmailList->id,explode(",",$formDetails->newsletter_email_list))){?>selected='selected'<?php }}?>><?php echo $xyz_em_getEmailList->name;?></option>
+											<?php 
+											}
+											?>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="3" style="border:none;">&nbsp;</td>
+								</tr>
+								<tr>
+									<td style="border:none;">Email field short code <span style="color:red;">*</span></td>
+									<td style="border:none;">&nbsp;:&nbsp;</td> 
+									<td style="border:none;"><input
+										type="text" name="newsletterEmailShortcodePre" id="newsletterEmailShortcodePre"
+										value="<?php if(isset($_POST['newsletterEmailShortcodePre'])){ echo esc_html($_POST['newsletterEmailShortcodePre']);}elseif($formDetails->newsletter_email_shortcode!=''){ echo esc_html($formDetails->newsletter_email_shortcode); }?>">
+									</td>
+								</tr>
+								<tr>
+									<td colspan="3" style="border:none;">&nbsp;</td>
+								</tr>
+								
+								<?php 
+								$additionalFieldInfoDetails = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'xyz_em_additional_field_info' ) ;
+								//$additionalFieldValueDetails = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'xyz_em_additional_field_value') ;
+ 								//$additionalFieldValueDetails = $additionalFieldValueDetails[0];
+
+								foreach ($additionalFieldInfoDetails as $infoDetails){
+									?>
+											<tr>
+												<td style="border:none;"><label for="xyz_em_<?php echo $infoDetails->field_name;?>"><?php echo $infoDetails->field_name;?> - short code</label>
+												</td>
+												<td style="border:none;">&nbsp;:&nbsp;</td>
+												<td style="border:none;">
+															
+												<input name="xyz_em_cfm_<?php echo $infoDetails->field_name;?>" type="text" id="xyz_em_cfm_<?php echo $infoDetails->field_name;?>"
+													value="<?php
+																if(isset($_POST['xyz_em_cfm_'.$infoDetails->field_name]) ){
+																	echo esc_attr($_POST['xyz_em_cfm_'.$infoDetails->field_name]);
+																}else{				
+																	$field = "field".$infoDetails->id;				
+																	//echo esc_attr($additionalFieldValueDetails->$field);
+																	
+																	$fieldArray = array();
+																	
+																	$fieldArray = unserialize($formDetails->newsletter_custom_fields);
+																	
+																	if(isset($fieldArray[$infoDetails->id])){
+																		echo $fieldArray[$infoDetails->id];
+																	}
+																}
+													?>" />
+												
+												</td>
+											</tr>
+											<tr>
+												<td colspan="3" style="border:none;">&nbsp;</td>
+											</tr>
+											<?php 
+											}
+											
+											?>
+								
+								<?php 
+								}
+								}
+								
+								?>
+								<tr>
+								<td colspan="3" style="border:none;">
+									<?php if($newsletterStandardActiveFlag == 1) { ?>
+									<b>Note :</b> If you select add contact to Newsletter,  email shortcode is mandatory.
+									<?php }
+									if($newsletterPremiumActiveFlag == 1){?>
+									<b>Note :</b> If you select add contact to Newsletter, email list and email shortcode are mandatory.
+									<?php }?>
+								</td>
+								</tr>
+							</table>
+						<div style="height: 20px;">&nbsp;</div>	
+						<?php 
+						}else{
+						?>
+						<table class="widefat">
+							<tr>
+								<td colspan="3"
+									style="border-bottom: 1px solid #F9F9F9; padding-top: 20px; padding-bottom: 20px;">
+
+									<span style="font-size: 22px;">XYZ Newsletter Subscription
+										Setting</span> <br />
+								<b>Requires Newsletter Manager Version - 1.2.2 / XYZ WP Newsletter
+										Version 1.0.2</b>
+								</td>
+							</tr>
+						</table> 
+						<?php 			
+						}
+						
+						/*
+						 * for newsletter subscription
+						* */
+						
+						?>	
+						
+				</div>
+				<br/>
+				<div style="text-align: center; width: 100%;">
+							<input class="submit_cfm"
 								style="color: #FFFFFF; border-radius: 4px; border: 1px solid #1A87B9;"
 								type="submit" name="addSubmit" value="Update">
-						</div></td>
-				</tr>
-			</table>
-		</form>
+						</div>
+						
+			
+			</form>
 	</fieldset>
 </div>

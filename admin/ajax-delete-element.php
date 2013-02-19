@@ -1,8 +1,9 @@
 <?php
-require( dirname( __FILE__ ) . '../../../../../wp-load.php' );
-if(!current_user_can('manage_options')){
-	exit;
-}
+add_action('wp_ajax_ajax_delete_element', 'xyz_cfm_ajax_delete_element');
+
+function xyz_cfm_ajax_delete_element() {
+	
+
 global $wpdb;
 
 if($_POST){
@@ -15,5 +16,6 @@ if($_POST){
 	$wpdb->query('DELETE FROM '.$wpdb->prefix.'xyz_cfm_form_elements where id="'.$elementId.'" AND form_id="'.$formId.'"');
 
 }
-
+die();
+}
 ?>

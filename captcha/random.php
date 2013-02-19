@@ -2,7 +2,7 @@
 
 session_start();
 $formId = $_GET['formId'];
-$formName = $_GET['formName'];
+$formNameId = $_GET['formName'];
 
   function random_string($len=5, $str='')
   {
@@ -32,8 +32,8 @@ $rand_str=strtoupper($rand_str);
 //$_SESSION['image_random_value'] = md5($rand_str);
 //setcookie("image_random_value_".$formName.'_'.$formId,md5($rand_str),0,"/");
 
-//setcookie("image_random_value_".$formName.$formId,md5($rand_str),0,"/");
-setcookie("image_random_value_".$formName,md5($rand_str),0,"/");
+setcookie("image_random_value_".$formNameId.$formId,md5($rand_str),0,"/");
+//setcookie("image_random_value_".$formNameId,md5($rand_str),0,"/");
                               
 //Get each letter in one valiable, we will format all letters different
 $letter1=substr($rand_str,0,1);

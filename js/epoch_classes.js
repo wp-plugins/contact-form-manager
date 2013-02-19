@@ -103,6 +103,8 @@ function Epoch(name,mode,targetelement,multiselect)
 		this.tgt = targetelement;
 
 		this.calendar.style.position = 'absolute';
+		
+		this.calendar.style.zIndex = 10000001;
 
 		this.topOffset = this.tgt.offsetHeight; // the vertical distance (in pixels) to display the calendar from the Top of its input element
 

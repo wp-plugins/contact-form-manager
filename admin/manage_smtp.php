@@ -78,7 +78,7 @@ id="system_notice_area_dismiss">Dismiss</span>
 	<form method="post">
 		<fieldset
 			style="width: 99%; border: 1px solid #F7F7F7; padding: 10px 0px;">
-			<legend>SMTP Account List</legend>
+			<legend><b>SMTP Account List</b></legend>
 			<?php 
 			global $wpdb;
 			$pagenum = isset( $_GET['pagenum'] ) ? absint( $_GET['pagenum'] ) : 1;
@@ -87,7 +87,7 @@ id="system_notice_area_dismiss">Dismiss</span>
 			
 			$entries = $wpdb->get_results( "SELECT * FROM ".$wpdb->prefix."xyz_cfm_sender_email_address  ORDER BY id DESC LIMIT $offset, $limit" );
 			?>
-			<input class="submit" id="textFieldButton2"
+			<input class="submit_cfm" id="textFieldButton2"
 				style="color:#FFFFFF;border-radius:4px;border:1px solid #1A87B9;margin-left:6px;margin-bottom:10px;" type="button"
 				name="textFieldButton2" value="Add New SMTP Account"
 				 onClick='document.location.href="<?php echo admin_url('admin.php?page=contact-form-manager-manage-smtp&action=add-smtp');?>"'>
@@ -186,7 +186,7 @@ id="system_notice_area_dismiss">Dismiss</span>
 					<?php } ?>
 				</tbody>
 			</table>
-			<input class="submit" id="textFieldButton2"
+			<input class="submit_cfm" id="textFieldButton2"
 				style="color:#FFFFFF;border-radius:4px;border:1px solid #1A87B9;margin-left:6px;margin-top:10px; margin-bottom:10px;" type="button"
 				name="textFieldButton2" value="Add New SMTP Account"
 				 onClick='document.location.href="<?php echo admin_url('admin.php?page=contact-form-manager-manage-smtp&action=add-smtp');?>"'>

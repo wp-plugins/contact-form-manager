@@ -48,23 +48,18 @@ if(get_option('xyz_credit_link')=="0"){
 jQuery(document).ready(function() {
 
 	jQuery('#xyz_cfm_backlink').click(function() {
-	
-jQuery.ajax
-	({
-	type: "POST",
-	url: "<?php echo plugins_url('contact-form-manager/admin/ajax-backlink.php') ?>",
-	data: 'enable=1',
-	cache: false,
-	success: function(html)
-	{	
-		jQuery("#xyz_backlink_div").html('Thank you for enabling backlink !');
-		jQuery("#xyz_backlink_div").css('background-color', '#D8E8DA');
-		jQuery("#xyz_backlink_div").css('border', '1px solid #0F801C');
-	}
-	});
-	
 
-});
+		var dataString = { 
+				action: 'ajax_backlink', 
+				enable: 1 
+			};
+
+		jQuery.post(ajaxurl, dataString, function(response) {
+			jQuery("#xyz_backlink_div").html('Thank you for enabling backlink !');
+			jQuery("#xyz_backlink_div").css('background-color', '#D8E8DA');
+			jQuery("#xyz_backlink_div").css('border', '1px solid #0F801C');
+		});
+	});
 });
 </script>
 </div>

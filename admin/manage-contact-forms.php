@@ -25,7 +25,7 @@ id="system_notice_area_dismiss">Dismiss</span>
 	<form method="post">
 		<fieldset
 			style="width: 99%; border: 1px solid #F7F7F7; padding: 10px 0px;">
-			<legend>Forms List</legend>
+			<legend><b>Forms List</b></legend>
 			<?php 
 			global $wpdb;
 			$pagenum = isset( $_GET['pagenum'] ) ? absint( $_GET['pagenum'] ) : 1;
@@ -36,7 +36,7 @@ id="system_notice_area_dismiss">Dismiss</span>
 			$entries = $wpdb->get_results( "SELECT * FROM ".$wpdb->prefix."xyz_cfm_form  ORDER BY id DESC LIMIT $offset,$limit" );
 			
 			?>
-			<input class="submit" id="textFieldButton2"
+			<input class="submit_cfm" id="textFieldButton2"
 				style="color:#FFFFFF;border-radius:4px;border:1px solid #1A87B9;margin-left:6px; margin-bottom:10px;" type="button"
 				name="textFieldButton2" value="Add New Contact Form"
 				 onClick='document.location.href="<?php echo admin_url('admin.php?page=contact-form-manager-managecontactforms&action=form-add');?>"'>
@@ -78,7 +78,7 @@ id="system_notice_area_dismiss">Dismiss</span>
 						</td>
 						
 						<td style="text-align: center;"><a
-							href='<?php echo admin_url('admin.php?page=contact-form-manager-managecontactforms&action=form-edit&formId='.$entry->id.'&pageno='.$pagenum); ?>'><img
+							href='<?php echo admin_url('admin.php?page=contact-form-manager-managecontactforms&action=form-edit&id='.$entry->id.'&pageno='.$pagenum); ?>'><img
 								class="img" title="Edit Form"
 								src="<?php echo plugins_url('contact-form-manager/images/edit.png')?>">
 						</a>
@@ -101,7 +101,7 @@ id="system_notice_area_dismiss">Dismiss</span>
 				</tbody>
 			</table>
 			
-			<input class="submit" id="textFieldButton2"
+			<input class="submit_cfm" id="textFieldButton2"
 				style="color:#FFFFFF;border-radius:4px;border:1px solid #1A87B9;margin-left:6px; margin-top:10px;" type="button"
 				name="textFieldButton2" value="Add New Contact Form"
 				 onClick='document.location.href="<?php echo admin_url('admin.php?page=contact-form-manager-managecontactforms&action=form-add');?>"'>

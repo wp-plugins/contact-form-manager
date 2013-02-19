@@ -89,14 +89,40 @@ function cfm_install(){
 		}
 	
 	}
-	
-	
 	if($group_flag==0)
 	{
 		mysql_query("ALTER TABLE ".$wpdb->prefix."xyz_cfm_form ADD (`redisplay_option` int not null default 2)");
 		echo mysql_error();
 		
 	}
+	
+	$group_flag=0;
+	$tblcolums = mysql_query("SHOW COLUMNS FROM  ".$wpdb->prefix."xyz_cfm_form");
+	while ($row = mysql_fetch_array($tblcolums))
+	{
+		if( $row['Field']=="newsletter_email_shortcode")
+		{
+			$group_flag=1;
+		}
+	
+	}
+	
+	
+	if($group_flag==0)
+	{
+		mysql_query("ALTER TABLE ".$wpdb->prefix."xyz_cfm_form ADD
+				(`newsletter_email_shortcode` varchar(225) COLLATE utf8_unicode_ci NOT NULL,
+				`newsletter_email_list` text COLLATE utf8_unicode_ci NOT NULL,
+				`newsletter_custom_fields` text COLLATE utf8_unicode_ci NOT NULL,
+				`newsletter_optin_mode` varchar(225) COLLATE utf8_unicode_ci NOT NULL,
+				`newsletter_subscription_status` int(11) NOT NULL )");
+		echo mysql_error();
+	}
+	
+	
+	/*for newsletter subscription*/
+	
+	
 	
 	$xyz_cfm_FormElements = $wpdb->get_results('SHOW TABLE STATUS WHERE name="xyz_cfm_form_elements"');
 	if(count($xyz_cfm_FormElements) > 0){
@@ -183,41 +209,58 @@ function cfm_install(){
 		$last_id= $wpdb->get_var("select max(id) from ".$wpdb->prefix."xyz_cfm_form");
 		$last_id=($last_id=='')?1:$last_id+1;
 		
-		$wpdb->insert($wpdb->prefix.'xyz_cfm_form', array('name' => 'form'.$last_id),array('%s'));
+		/*create default contact form*/
+		$wpdb->insert($wpdb->prefix.'xyz_cfm_form', array('name' => 'form'.$last_id, 'status'=>1,'form_content'=>'','submit_mode'=>2,
+				'to_email'=>'','from_email'=>'','sender_name'=>'','reply_sender_name'=>'','reply_sender_email'=>'','cc_email'=>'',
+				'mail_type'=>1,'mail_subject'=>'','mail_body'=>'','to_email_reply'=>'','reply_subject'=>'','reply_body'=>'','reply_mail_type'=>1,
+				'enable_reply'=>1,'redirection_link'=>'','from_email_id'=>0,'reply_sender_email_id'=>0,'redisplay_option'=>2,
+				'newsletter_email_shortcode'=>'','newsletter_email_list'=>'','newsletter_custom_fields'=>'',
+				'newsletter_subscription_status'=>0),
+				array('%s','%d','%s','%d','%s','%s','%s','%s','%s','%s','%d','%s','%s','%s','%s','%s','%d','%d','%s','%d','%d','%d','%s','%s','%s','%d'));
 		$lastid = $wpdb->insert_id;
 		
-		$wpdb->insert($wpdb->prefix.'xyz_cfm_form_elements', array('form_id' =>$lastid,'element_name'=>'yourName',
-				'element_type'=>'1','element_required'=>'1'),
-				array('%d','%s','%s','%d','%d'));
+		/*User name*/
+		$wpdb->insert($wpdb->prefix.'xyz_cfm_form_elements', array(
+				'form_id' =>$lastid,'element_name'=>'yourName','element_type'=>'1','element_required'=>'1','element_diplay_name'=>'','css_class'=>'',
+				'max_length'=>'','default_value'=>'','cols'=>'','rows'=>'','options'=>'','file_size'=>'','file_type'=>'','re_captcha'=>0),
+				array('%d','%s','%d','%d','%s','%s','%s','%s','%s','%s','%s','%s','%s','%d'));
 		$yourNameId = $wpdb->insert_id;
 		$nameCode = "[text-".$yourNameId."]";
 		
+		/*User email*/
 		$wpdb->insert($wpdb->prefix.'xyz_cfm_form_elements', array('form_id' =>$lastid,'element_name'=>'yourEmail',
-				'element_type'=>'2','element_required'=>'1'),
-				array('%d','%s','%s','%d','%d'));
+				'element_type'=>'2','element_required'=>'1','element_diplay_name'=>'','css_class'=>'',
+				'max_length'=>'','default_value'=>'','cols'=>'','rows'=>'','options'=>'','file_size'=>'','file_type'=>'','re_captcha'=>0),
+				array('%d','%s','%d','%d','%s','%s','%s','%s','%s','%s','%s','%s','%s','%d'));
 		$yourEmailId = $wpdb->insert_id;
 		$emailCode = "[email-".$yourEmailId."]";
 		
+		/*Subject*/
 		$wpdb->insert($wpdb->prefix.'xyz_cfm_form_elements', array('form_id' =>$lastid,'element_name'=>'subject',
-				'element_type'=>'1','element_required'=>'1'),
-				array('%d','%s','%s','%d','%d'));
+				'element_type'=>'1','element_required'=>'1','element_diplay_name'=>'','css_class'=>'',
+				'max_length'=>'','default_value'=>'','cols'=>'','rows'=>'','options'=>'','file_size'=>'','file_type'=>'','re_captcha'=>0),
+				array('%d','%s','%d','%d','%s','%s','%s','%s','%s','%s','%s','%s','%s','%d'));
 		$xyz_cfm_subjectId = $wpdb->insert_id;
 		$xyz_cfm_subjectCode = "[text-".$xyz_cfm_subjectId."]";
 		
-		
+		/*Message*/
 		$wpdb->insert($wpdb->prefix.'xyz_cfm_form_elements', array('form_id' =>$lastid,'element_name'=>'message',
-				'element_type'=>'3','element_required'=>'1','cols'=>45,'rows'=>6),
-				array('%d','%s','%s','%d','%d'));
+				'element_type'=>'3','element_required'=>'1','element_diplay_name'=>'','css_class'=>'',
+				'max_length'=>'','default_value'=>'','cols'=>45,'rows'=>6,'options'=>'','file_size'=>'','file_type'=>'','re_captcha'=>0),
+				array('%d','%s','%d','%d','%s','%s','%s','%s','%s','%s','%s','%s','%s','%d'));
 		$messageId = $wpdb->insert_id;
 		$messageCode = "[textarea-".$messageId."]";
 		
-		$wpdb->insert($wpdb->prefix.'xyz_cfm_form_elements', array('form_id' =>$lastid,'element_diplay_name'=>'Send','element_name'=>'submit',
-				'element_type'=>'9'),
-				array('%d','%s','%s','%d'));
+		/*Submit*/
+		$wpdb->insert($wpdb->prefix.'xyz_cfm_form_elements', array('form_id' =>$lastid,'element_name'=>'submit','element_type'=>'9',
+				'element_required'=>'1','element_diplay_name'=>'Send','css_class'=>'','max_length'=>'','default_value'=>'',
+				'cols'=>'','rows'=>'','options'=>'','file_size'=>'','file_type'=>'','re_captcha'=>0),
+				array('%d','%s','%d','%d','%s','%s','%s','%s','%s','%s','%s','%s','%s','%d'));
 		$submitId = $wpdb->insert_id;
 		$submitCode = "[submit-".$submitId."]";
 		
-		$xyz_cfm_pageCodeDefault ='<table width="100%">
+		
+		$xyz_cfm_pageCodeDefault ='<table style="width:100%;">
 			<tr>
 				<td>Your Name</td><td>&nbsp;:&nbsp;</td><td>'.$nameCode.'</td>
 			</tr>

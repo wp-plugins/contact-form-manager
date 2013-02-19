@@ -1,8 +1,9 @@
 <?php
-require( dirname( __FILE__ ) . '../../../../../wp-load.php' );
-if(!current_user_can('manage_options')){
-	exit;
-}
+add_action('wp_ajax_ajax_backlink', 'xyz_cfm_ajax_backlink');
+
+function xyz_cfm_ajax_backlink() {
+	
+
 global $wpdb;
 
 if($_POST){
@@ -10,6 +11,6 @@ if($_POST){
 // 	$xyz_cfm_credit=absint($_POST['enable']);
 	update_option('xyz_credit_link','cfm');
 }
-
-
+die();
+}
 ?>

@@ -1,5 +1,56 @@
 <?php
 
+/* new file name creation*/
+if(!function_exists('xyz_insert_file')){
+	function xyz_insert_file($path, $fileName, $i, $extension){
+		$firstFileName=$fileName;
+		if($i != 0){
+			$fileName = $fileName.$i;
+		}
+		if (!file_exists($path."/".$fileName.".".$extension)) {
+			return $fileName.".".$extension;
+		} else {
+			$j = $i + 1;
+			return xyz_insert_file($path, $firstFileName, $j, $extension);
+		}
+	}
+
+}
+/* new file name creation*/
+
+
+/* filter function for dropdown, radio button and checkbox*/
+if(!function_exists('xyz_cfm_trimOptions')){
+	function xyz_cfm_trimOptions($string){
+		$explodeArray = explode(',',$string);
+		$tempArray = array();
+		$newArray = array();
+
+		foreach ($explodeArray as $key => $value){
+			if(trim($value) != ''){
+				if(strpos($value, '=>')){
+					$explodeArrowArray = explode('=>',$value);
+					$tempArrayArrowKey = trim($explodeArrowArray[0]);
+					$tempArrayArrowValue = trim($explodeArrowArray[1]);
+					if(!array_key_exists($tempArrayArrowKey,$tempArray)){
+						$tempArray[$tempArrayArrowKey] = $tempArrayArrowValue;
+						$newArray[] = $tempArrayArrowKey.'=>'.$tempArrayArrowValue;
+					}
+				}else{
+					$tempArrayKey = trim($value);
+					if(!array_key_exists($tempArrayKey,$tempArray)){
+						$tempArray[trim($value)] = trim($value);
+						$newArray[] = trim($value);
+					}
+				}
+			}
+		}
+		return implode(',', $newArray);
+	}
+}
+
+/**/
+
 
 if(!function_exists('xyz_trim_deep'))
 {

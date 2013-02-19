@@ -1,8 +1,9 @@
 <?php
-require( dirname( __FILE__ ) . '../../../../../wp-load.php' );
-if(!current_user_can('manage_options')){
-	exit;
-}
+add_action('wp_ajax_ajax_load_elements', 'xyz_cfm_ajax_load_elements');
+
+function xyz_cfm_ajax_load_elements() {
+	
+
 global $wpdb;
 $_POST = stripslashes_deep($_POST);
 $formId = $_POST['formId'];
@@ -31,62 +32,47 @@ jQuery(document).ready(function() {
         	var elementId = (event.target.id).substring(1);
 
         	var formId = <?php echo $formId;?>;
-        	var dataString = 'elementId='+elementId;
+
+        	var dataString = { 
+                	action: 'ajax_load_element_details', 
+                	elementId: elementId 
+                };
 
         	document.getElementById('editDiv').scrollTop=0;
         	
-        	jQuery.ajax
-        	({
-        	type: "POST",
-        	url: "<?php echo plugins_url('contact-form-manager/admin/ajax-load-element-details.php') ?>",
-        	data: dataString,
-        	cache: false,
-        	success: function(html)
-        	{	
+        	jQuery.post(ajaxurl, dataString, function(response) {
         		jQuery("#progressEditImage").hide();
-        		jQuery("#elementSettingResultqwerty").html(html);
-        	}
+        		jQuery("#elementSettingResultqwerty").html(response);
         	});
-                	
-			
+
+        	
+        	
         }
         if((event.target.id).substr(0,1).toLowerCase() == 'd'){
         	//alert((event.target.id).substring(1));
 	        if (confirm('Please click \'OK\' to confirm ')) {
-	
-	        	var dataString = 'elementId='+(event.target.id).substring(1);
-	        	var formId = jQuery("#formId").val();
 	        	
 	        	jQuery("#progressEditImage").show();
+
+	        	var dataString = { 
+	    	        	action: 'ajax_delete_element', 
+	    	        	elementId: (event.target.id).substring(1),
+	    	        	formId: formId 
+	    	        };
 	        	
-	        	dataString = dataString + '&formId='+formId;
-	        	//alert(dataString);
-	        	jQuery.ajax
-	        	({
-	        	type: "POST",
-	        	url: "<?php echo plugins_url('contact-form-manager/admin/ajax-delete-element.php') ?>",
-	        	data: dataString,
-	        	cache: false,
-	        	success: function(html)
-	        	{	
+	        	jQuery.post(ajaxurl, dataString, function(response) {
 	        		var formId = jQuery("#formId").val();
 	        		var dataString = '&formId='+formId;
-	        		//alert(dataString);
-	        		jQuery.ajax
-	        		({
-	        		type: "POST",
-	        		url: "<?php echo plugins_url('contact-form-manager/admin/ajax-load-elements.php') ?>",
-	        		data: dataString,
-	        		cache: false,
-	        		success: function(html)
-	        		{	
+	        		var dataString = { 
+	    	        		action: 'ajax_load_elements', 
+	    	        		formId: formId 
+	    	        	};
+
+	        		jQuery.post(ajaxurl, dataString, function(response) {
 	        			jQuery("#progressEditImage").hide();
-	        			jQuery("#elementSettingResult").html(html);
-	        		}
+	        			jQuery("#elementSettingResult").html(response);
 	        		});
-	        	}
 	        	});
-	
 	        }
         }
             
@@ -186,4 +172,7 @@ $count++;
 <?php } ?>
 	</tbody>
 </table>
-
+<?php 
+die();
+}
+?>

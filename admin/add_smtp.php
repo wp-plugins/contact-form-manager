@@ -16,7 +16,7 @@ if (($_POST['xyz_cfm_SmtpHostName']!= "") && ($_POST['xyz_cfm_SmtpEmailAddress']
 			$xyz_cfm_SmtpPortNumber = $_POST['xyz_cfm_SmtpPortNumber'];
 			$xyz_cfm_SmtpSecuirity = $_POST['xyz_cfm_SmtpSecuirity'];
 			
-			if($_POST['xyz_cfm_SmtpSetDefault'] == "on"){
+			if(isset($_POST['xyz_cfm_SmtpSetDefault']) && $_POST['xyz_cfm_SmtpSetDefault'] == "on"){
 				$xyz_cfm_SmtpSetDefault = 1;
 				$wpdb->query('UPDATE '.$wpdb->prefix.'xyz_cfm_sender_email_address SET set_default="0"');
 			}else{
@@ -61,51 +61,51 @@ if (($_POST['xyz_cfm_SmtpHostName']!= "") && ($_POST['xyz_cfm_SmtpEmailAddress']
 	<form method="post">
 	<div style="float: left;width: 99%">
 	<fieldset style=" width:98%; border:1px solid #F7F7F7; padding:10px 0px 15px 10px;">
-	<legend >Add Account</legend>
+	<legend ><b>Add Account</b></legend>
 	<table class="widefat"  style="width:99%;">
 			<tr valign="top">
-				<td scope="row" class=" settingInput" ><label for="xyz_cfm_SmtpAuthentication">Authentication<font color="red">*</font> </label>
+				<td scope="row" class=" settingInput" ><label for="xyz_cfm_SmtpAuthentication">Authentication<span style="color:red;">*</span> </label>
 				</td>
 				<td><select name="xyz_cfm_SmtpAuthentication" id="xyz_cfm_SmtpAuthentication">
 						<option value="true"
-						<?php if(isset($_POST['xyz_cfm_SmtpAuthentication']) && $_POST['xyz_cfm_SmtpAuthentication']=='true') { echo 'selected';}elseif(get_option('xyz_cfm_SmtpAuthentication')=="true"){echo 'selected';} ?>>True</option>
+						<?php if(isset($_POST['xyz_cfm_SmtpAuthentication']) && $_POST['xyz_cfm_SmtpAuthentication']=='true') { echo 'selected';}?>>True</option>
 						<option value="false"
-						<?php if(isset($_POST['xyz_cfm_SmtpAuthentication']) && $_POST['xyz_cfm_SmtpAuthentication']=='false') { echo 'selected';}elseif(get_option('xyz_cfm_SmtpAuthentication')=="false"){echo 'selected';} ?>>False</option>
+						<?php if(isset($_POST['xyz_cfm_SmtpAuthentication']) && $_POST['xyz_cfm_SmtpAuthentication']=='false') { echo 'selected';}?>>False</option>
 
 				</select>
 				</td>
 			</tr>
 			
 			<tr valign="top">
-				<td scope="row" class=" settingInput" ><label for="xyz_cfm_SmtpHostName">Host Name<font color="red">*</font> </label>
+				<td scope="row" class=" settingInput" ><label for="xyz_cfm_SmtpHostName">Host Name<span style="color:red;">*</span> </label>
 				</td>
 				<td ><input  name="xyz_cfm_SmtpHostName" type="text"
 					id="xyz_cfm_SmtpHostName" value="<?php if(isset($_POST['xyz_cfm_SmtpHostName']) ){echo esc_attr($_POST['xyz_cfm_SmtpHostName']);}else{echo "localhost";} ?>" />
 				</td>
 			</tr>
 			<tr valign="top">
-				<td scope="row" class=" settingInput" ><label for="xyz_cfm_SmtpEmailAddress">Username<font color="red">*</font> </label>
+				<td scope="row" class=" settingInput" ><label for="xyz_cfm_SmtpEmailAddress">Username<span style="color:red;">*</span> </label>
 				</td>
 				<td ><input  name="xyz_cfm_SmtpEmailAddress" type="text"
 					id="xyz_cfm_limit" value="<?php if(isset($_POST['xyz_cfm_SmtpEmailAddress']) ){echo esc_attr($_POST['xyz_cfm_SmtpEmailAddress']);}?>" />
 				</td>
 			</tr>
 			<tr valign="top">
-				<td scope="row" class=" settingInput" ><label for="xyz_cfm_SmtpPassword">Password<font color="red">*</font> </label>
+				<td scope="row" class=" settingInput" ><label for="xyz_cfm_SmtpPassword">Password<span style="color:red;">*</span> </label>
 				</td>
 				<td ><input  name="xyz_cfm_SmtpPassword" type="password"
 					id="xyz_cfm_SmtpPassword" value="<?php if(isset($_POST['xyz_cfm_SmtpPassword']) ){echo esc_attr($_POST['xyz_cfm_SmtpPassword']);}?>" />
 				</td>
 			</tr>
 			<tr valign="top">
-				<td scope="row" class=" settingInput" ><label for="xyz_cfm_SmtpPortNumber">Port Number<font color="red">*</font> </label>
+				<td scope="row" class=" settingInput" ><label for="xyz_cfm_SmtpPortNumber">Port Number<span style="color:red;">*</span> </label>
 				</td>
 				<td ><input  name="xyz_cfm_SmtpPortNumber" type="text"
 					id="xyz_cfm_SmtpPortNumber" value="<?php if(isset($_POST['xyz_cfm_SmtpPortNumber']) ){echo esc_attr($_POST['xyz_cfm_SmtpPortNumber']);}else{echo "25";}?>" />
 				</td>
 			</tr>
 			<tr valign="top">
-				<td scope="row" class=" settingInput" ><label for="xyz_cfm_SmtpSecuirity">Security<font color="red">*</font> </label>
+				<td scope="row" class=" settingInput" ><label for="xyz_cfm_SmtpSecuirity">Security<span style="color:red;">*</span> </label>
 				</td>
 				<td ><input  name="xyz_cfm_SmtpSecuirity" type="text"
 					id="xyz_cfm_SmtpSecuirity" value="<?php if(isset($_POST['xyz_cfm_SmtpSecuirity']) ){echo esc_attr($_POST['xyz_cfm_SmtpSecuirity']);}else{echo "notls";}?>" />
@@ -121,7 +121,7 @@ if (($_POST['xyz_cfm_SmtpHostName']!= "") && ($_POST['xyz_cfm_SmtpEmailAddress']
 			<tr>
 				<td scope="row" class=" settingInput" id="bottomBorderNone"></td>
 				<td colspan=2 id="bottomBorderNone" >
-				<div style="height:50px;"><input style="margin:10px 0 20px 0; color:#FFFFFF;border-radius:4px;border:1px solid #1A87B9;" id="submit" class="submit" type="submit" value="Create" /></div>
+				<div style="height:50px;"><input style="margin:10px 0 20px 0; color:#FFFFFF;border-radius:4px;border:1px solid #1A87B9;" id="submit" class="submit_cfm" type="submit" value="Create" /></div>
 				
 				</td>
 			</tr>

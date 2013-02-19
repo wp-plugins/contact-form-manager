@@ -3,8 +3,8 @@ Contributors: f1logic
 Donate link: http://xyzscripts.com/donate/
 Tags:  contact form, contact forms, contact form plugin,  contact form manager, contact, contact page,  multiple contact forms, custom contact form, contact form with auto reply, contact form with recaptcha, contact form builder, contact us,  contact manager, wordpress contact, TinyMCE form editor
 Requires at least: 2.8
-Tested up to: 3.4.2
-Stable tag: 1.2
+Tested up to: 3.5.1
+Stable tag: 1.3
 License: GPLv2 or later
 
 Create contact forms for your website.  Choose from a wide range of form elements .
@@ -171,6 +171,15 @@ More questions ? [Drop a mail](http://xyzscripts.com/members/support/ "XYZScript
 2. This is a sample contact form.
 
 == Changelog ==
+
+= Contact Form Manager 1.3 =
+* Support for subscribing contact to XYZ Newsletter Manager plugin
+* Option to specify separate sender email in case of SMTP sending
+* Consolidated client side error messages on form submit instead of individual error messages
+* A few bug fixes 
+
+= Contact Form Manager 1.2.1 =
+* A few bug fixes 
 
 = Contact Form Manager 1.2 =
 * Support for Wordpress table prefix 
