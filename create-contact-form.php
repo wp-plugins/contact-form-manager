@@ -879,7 +879,7 @@ function display_form($id){
 								}
 							}';
 							if($formElementDetail->element_required == 1){
-								$script = $script.'if(xyz_cfm_email_'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'.trim() == ""){
+								$script = $script.'else if(xyz_cfm_email_'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'.trim() == ""){
 								document.getElementById("'.$elementType."_".$xyz_cfm_elementName."_".$xyz_cfm_elementId.$xyz_cfm_form_counter.'").innerHTML = "'.sprintf(__("Fill email field", "contact-form-manager")).'";
 								//return false;
 								xyz_cfm_client_error = 1;
