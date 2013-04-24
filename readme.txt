@@ -76,7 +76,13 @@ The various form elements supported in contact form manager are listed below. If
 
 Contact Form  Manager is developed and maintained by [XYZScripts](http://xyzscripts.com/ "xyzscripts.com"). For any support, you may [contact us](http://xyzscripts.com/support/ "XYZScripts Support").
 
+★ [Contact Form Manager User Guide](http://docs.xyzscripts.com/wordpress-plugins/contact-form-manager/ "Contact Form Manager User Guide")
+★ [Contact Form Manager FAQ](http://kb.xyzscripts.com/wordpress-plugins/contact-form-manager/ "Contact Form Manager FAQ")
+
 == Installation ==
+
+★ [Contact Form Manager User Guide](http://docs.xyzscripts.com/wordpress-plugins/contact-form-manager/ "Contact Form Manager User Guide")
+★ [Contact Form Manager FAQ](http://kb.xyzscripts.com/wordpress-plugins/contact-form-manager/ "Contact Form Manager FAQ")
 
 1. Extract `contact-form-manager.zip` to your `/wp-content/plugins/` directory.
 2. In the admin panel under plugins activate Contact Form Manager.
@@ -87,6 +93,9 @@ Contact Form  Manager is developed and maintained by [XYZScripts](http://xyzscri
 If you need any further help, you may contact our [support desk](http://xyzscripts.com/support/ "XYZScripts Support").
 
 == Frequently Asked Questions ==
+
+★ [Contact Form Manager User Guide](http://docs.xyzscripts.com/wordpress-plugins/contact-form-manager/ "Contact Form Manager User Guide")
+★ [Contact Form Manager FAQ](http://kb.xyzscripts.com/wordpress-plugins/contact-form-manager/ "Contact Form Manager FAQ")
 
 = ★ I can't see my  contact forms after I upgraded to latest version ! ★ =
 
@@ -215,6 +224,9 @@ More questions ? [Drop a mail](http://xyzscripts.com/members/support/ "XYZScript
 Some bugs have been fixed and quite a few new features have been added. Some notable fearures are  multiple installation in same db, support for shortcodes from oterh plugins in form content, deletion of contact form elements, more flexility in dropdown,checkbox and radiobutton configurations, support for user submitted values in all email related fields and redirection url, multiple "to" and "cc" email support.
 
 == More Information ==
+
+★ [Contact Form Manager User Guide](http://docs.xyzscripts.com/wordpress-plugins/contact-form-manager/ "Contact Form Manager User Guide")
+★ [Contact Form Manager FAQ](http://kb.xyzscripts.com/wordpress-plugins/contact-form-manager/ "Contact Form Manager FAQ")
 
 = Troubleshooting =
 
