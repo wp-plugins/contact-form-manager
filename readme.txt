@@ -4,7 +4,7 @@ Donate link: http://xyzscripts.com/donate/
 Tags:  contact form, contact forms, contact form plugin,  contact form manager, contact, contact page,  multiple contact forms, custom contact form, contact form with auto reply, contact form with recaptcha, contact form builder, contact us,  contact manager, wordpress contact, TinyMCE form editor
 Requires at least: 2.8
 Tested up to: 3.5.1
-Stable tag: 1.3
+Stable tag: 1.3.1
 License: GPLv2 or later
 
 Create contact forms for your website.  Choose from a wide range of form elements .
@@ -181,6 +181,10 @@ More questions ? [Drop a mail](http://xyzscripts.com/members/support/ "XYZScript
 
 == Changelog ==
 
+= Contact Form Manager 1.3.1 =
+* Option for bcc email with mulitiple emailid support
+* A few bug fixes 
+
 = Contact Form Manager 1.3 =
 * Support for subscribing contact to XYZ Newsletter Manager plugin
 * Option to specify separate sender email in case of SMTP sending
@@ -221,7 +225,7 @@ More questions ? [Drop a mail](http://xyzscripts.com/members/support/ "XYZScript
 * First official launch.
 
 == Upgrade Notice ==
-Some bugs have been fixed and quite a few new features have been added. Some notable fearures are  multiple installation in same db, support for shortcodes from oterh plugins in form content, deletion of contact form elements, more flexility in dropdown,checkbox and radiobutton configurations, support for user submitted values in all email related fields and redirection url, multiple "to" and "cc" email support.
+Some bugs have been fixed and  "bcc" option with multiple email support has been addeds.
 
 == More Information ==
 

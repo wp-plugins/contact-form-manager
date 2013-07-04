@@ -118,7 +118,7 @@ id="system_notice_area_dismiss">Dismiss</span>
 						<td><?php 
 						echo $entry->user;
 						if($entry->set_default == 1){
-						echo "  (default)";	
+							echo "   (Default SMTP Account)";
 						}
 						?></td>
 						

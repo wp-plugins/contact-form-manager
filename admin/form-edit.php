@@ -39,6 +39,7 @@ if(isset($_POST) && isset($_POST['addSubmit'])){
 	//$xyz_cfm_submitMode = $_POST['submitMode'];
 	$xyz_cfm_submitMode = 2;
 	$xyz_cfm_cc = $_POST['cc'];
+	$xyz_cfm_bcc = $_POST['bcc'];
 	$xyz_cfm_mailType = $_POST['mailType'];
 	if($xyz_cfm_mailType == 1){
 		
@@ -196,6 +197,7 @@ if(isset($_POST) && isset($_POST['addSubmit'])){
 						'reply_sender_email_id'=>$xyz_cfm_replaySenderEmailId,
 						'reply_sender_email'=>$xyz_cfm_replaySenderEmail,
 						'cc_email'=>$xyz_cfm_cc,
+						'bcc_email'=>$xyz_cfm_bcc,
 						'mail_type'=>$xyz_cfm_mailType,
 						'mail_subject'=>$xyz_cfm_subject,
 						'mail_body'=>$xyz_cfm_mailBody,
@@ -1967,6 +1969,14 @@ td {
 									value="<?php if(isset($_POST['cc'])){ echo esc_html($_POST['cc']);}else{ echo esc_html($formDetails->cc_email); }?>">
 								</td>
 							</tr>
+							
+							<tr>
+								<td>BCC&nbsp;:&nbsp;<br> <input style="width: 350px;" type="text"
+									name="bcc" id="bcc"
+									value="<?php if(isset($_POST['bcc'])){ echo esc_html($_POST['bcc']);}else{ echo esc_html($formDetails->bcc_email); }?>">
+								</td>
+							</tr>
+							
 							<?php 
 								if(get_option('xyz_cfm_sendViaSmtp') == 1){
 							?>

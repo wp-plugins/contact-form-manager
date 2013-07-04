@@ -33,12 +33,28 @@ if($_POST){
 			$elementType = 1;
 
 
-			$element_count = $wpdb->query( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE element_name="'.$elementName.'" AND form_id="'.$formId.'"  LIMIT 0,1' ) ;
-			if($element_count == 0){
+			$element_count = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE element_name="'.$elementName.'" AND form_id="'.$formId.'"  LIMIT 0,1' ) ;
+			if(count($element_count) == 0){
 
-				$wpdb->insert($wpdb->prefix.'xyz_cfm_form_elements', array('form_id' =>$formId,'element_diplay_name'=>'','element_name'=>$elementName,
-						'element_type'=>$elementType,'element_required'=>$required,'css_class'=>$className,'max_length'=>$maxlength,'default_value'=>$defaultValue),
-						array('%d','%s','%s','%d','%d','%s','%s','%s'));
+				$wpdb->insert($wpdb->prefix.'xyz_cfm_form_elements', array(
+						'form_id'	=>	$formId,
+						'element_diplay_name'	=>	'',
+						'element_name'	=>	$elementName,
+						'element_type'	=>	$elementType,
+						'element_required'	=>	$required,
+						'css_class'	=>	$className,
+						'max_length'	=>	$maxlength,
+						'default_value'	=>	$defaultValue,
+						'cols'	=>	'',
+						'rows'	=>	'',
+						'options'	=>	'',
+						'file_size'	=>	'',
+						'file_type'	=>	'',
+						're_captcha'	=>	0,
+						'client_view_check_radio_line_break_count'	=>	0,
+						'client_view_multi_select_drop_down'	=>	0
+						),
+						array('%d','%s','%s','%d','%d','%s','%s','%s','%s','%s','%s','%s','%s','%d','%d','%d'));
 				$lastElementId = $wpdb->insert_id;
 				echo "Copy this code and paste it into the form left.<br/>Code is [text-".$lastElementId."]";
 			}else{
@@ -69,12 +85,29 @@ if($_POST){
 			$formId = $_POST['formId'];
 			$elementType = 2;
 
-			$element_count = $wpdb->query( 'SELECT * FROM xyz_cfm_form_elements WHERE element_name="'.$elementName.'" AND form_id="'.$formId.'" LIMIT 0,1' ) ;
-			if($element_count == 0){
+			$element_count = $wpdb->get_results( 'SELECT * FROM xyz_cfm_form_elements WHERE element_name="'.$elementName.'" AND form_id="'.$formId.'" LIMIT 0,1' ) ;
+			if(count($element_count) == 0){
 
-				$wpdb->insert($wpdb->prefix.'xyz_cfm_form_elements', array('form_id' =>$formId,'element_diplay_name'=>'','element_name'=>$elementName,
-						'element_type'=>$elementType,'element_required'=>$required,'css_class'=>$className,'max_length'=>$maxlength,'default_value'=>$defaultValue),
-						array('%d','%s','%s','%d','%d','%s','%s','%s'));
+				$wpdb->insert($wpdb->prefix.'xyz_cfm_form_elements', array(
+						'form_id'	=>	$formId,
+						'element_diplay_name'	=>	'',
+						'element_name'	=>	$elementName,
+						'element_type'	=>	$elementType,
+						'element_required'	=>	$required,
+						'css_class'	=>	$className,
+						'max_length'	=>	$maxlength,
+						'default_value'	=>	$defaultValue,
+						'cols'	=>	'',
+						'rows'	=>	'',
+						'options'	=>	'',
+						'file_size'	=>	'',
+						'file_type'	=>	'',
+						're_captcha'	=>	0,
+						'client_view_check_radio_line_break_count'	=>	0,
+						'client_view_multi_select_drop_down'	=>	0
+						
+						),
+						array('%d','%s','%s','%d','%d','%s','%s','%s','%s','%s','%s','%s','%s','%d','%d','%d'));
 				$lastElementId = $wpdb->insert_id;
 				echo "Copy this code and paste it into the form left.<br/>Code is [email-".$lastElementId."]";
 			}else{
@@ -109,13 +142,29 @@ if($_POST){
 			$formId = $_POST['formId'];
 			$elementType = 3;
 
-			$element_count = $wpdb->query( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE element_name="'.$elementName.'" AND form_id="'.$formId.'" LIMIT 0,1' ) ;
-			if($element_count == 0){
+			$element_count = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE element_name="'.$elementName.'" AND form_id="'.$formId.'" LIMIT 0,1' ) ;
+			if(count($element_count) == 0){
 
 
-				$wpdb->insert($wpdb->prefix.'xyz_cfm_form_elements', array('form_id' =>$formId,'element_diplay_name'=>'','element_name'=>$elementName,
-						'element_type'=>$elementType,'element_required'=>$required,'css_class'=>$className,'cols'=>$collength,'rows'=>$rowlength,'default_value'=>$defaultValue),
-						array('%d','%s','%s','%d','%d','%s','%s','%s','%s'));
+				$wpdb->insert($wpdb->prefix.'xyz_cfm_form_elements', array(
+						'form_id'	=>	$formId,
+						'element_diplay_name'	=>	'',
+						'element_name'	=>	$elementName,
+						'element_type'	=>	$elementType,
+						'element_required'	=>	$required,
+						'css_class'	=>	$className,
+						'cols'	=>	$collength,
+						'rows'	=>	$rowlength,
+						'default_value'	=>	$defaultValue,
+						'max_length'	=>	'',
+						'options'	=>	'',
+						'file_size'	=>	'',
+						'file_type'	=>	'',
+						're_captcha'	=>	0,
+						'client_view_check_radio_line_break_count'	=>	0,
+						'client_view_multi_select_drop_down'	=>	0			
+						),
+						array('%d','%s','%s','%d','%d','%s','%s','%s','%s','%s','%s','%s','%s','%d','%d','%d'));
 				$lastElementId = $wpdb->insert_id;
 				echo "Copy this code and paste it into the form left.<br/>Code is [textarea-".$lastElementId."]";
 			}else{
@@ -147,12 +196,28 @@ if($_POST){
 			$elementType = 4;
 
 				
-			$element_count = $wpdb->query( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE element_name="'.$elementName.'" AND form_id="'.$formId.'" LIMIT 0,1' ) ;
-			if($element_count == 0){
+			$element_count = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE element_name="'.$elementName.'" AND form_id="'.$formId.'" LIMIT 0,1' ) ;
+			if(count($element_count) == 0){
 
-				$wpdb->insert($wpdb->prefix.'xyz_cfm_form_elements', array('form_id' =>$formId,'element_diplay_name'=>'','element_name'=>$elementName,
-						'element_type'=>$elementType,'element_required'=>$required,'css_class'=>$className,'options'=>$options,'default_value'=>$defaultValue,'client_view_multi_select_drop_down'=>$multipleSelect),
-						array('%d','%s','%s','%d','%d','%s','%s','%s','%d'));
+				$wpdb->insert($wpdb->prefix.'xyz_cfm_form_elements', array(
+						'form_id'	=>	$formId,
+						'element_diplay_name'	=>	'',
+						'element_name'	=>	$elementName,
+						'element_type'	=>	$elementType,
+						'element_required'	=>	$required,
+						'css_class'	=>	$className,
+						'options'	=>	$options,
+						'default_value'	=>	$defaultValue,
+						'client_view_multi_select_drop_down'	=>	$multipleSelect,
+						'max_length'	=>	'',
+						'cols'	=>	'',
+						'rows'	=>	'',
+						'file_size'	=>	'',
+						'file_type'	=>	'',
+						're_captcha'	=>	0,
+						'client_view_check_radio_line_break_count'	=>	0,
+						),
+						array('%d','%s','%s','%d','%d','%s','%s','%s','%d','%s','%s','%s','%s','%s','%d','%d'));
 				$lastElementId = $wpdb->insert_id;
 				echo "Copy this code and paste it into the form left.<br/>Code is [dropdown-".$lastElementId."]";
 			}else{
@@ -178,12 +243,28 @@ if($_POST){
 			$elementType = 5;
 
 
-			$element_count = $wpdb->query( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE element_name="'.$elementName.'" AND form_id="'.$formId.'" LIMIT 0,1' ) ;
-			if($element_count == 0){
+			$element_count = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE element_name="'.$elementName.'" AND form_id="'.$formId.'" LIMIT 0,1' ) ;
+			if(count($element_count) == 0){
 
-				$wpdb->insert($wpdb->prefix.'xyz_cfm_form_elements', array('form_id' =>$formId,'element_diplay_name'=>'','element_name'=>$elementName,
-						'element_type'=>$elementType,'element_required'=>$required,'css_class'=>$className),
-						array('%d','%s','%s','%d','%d','%s'));
+				$wpdb->insert($wpdb->prefix.'xyz_cfm_form_elements', array(
+						'form_id'	=>	$formId,
+						'element_diplay_name'	=>	'',
+						'element_name'	=>	$elementName,
+						'element_type'	=>	$elementType,
+						'element_required'	=>	$required,
+						'css_class'	=>	$className,
+						'max_length'	=>	'',
+						'default_value'	=>	'',
+						'cols'	=>	'',
+						'rows'	=>	'',
+						'options'	=>	'',
+						'file_size'	=>	'',
+						'file_type'	=>	'',
+						're_captcha'	=>	0,
+						'client_view_check_radio_line_break_count'	=>	0,
+						'client_view_multi_select_drop_down'	=>	0
+						),
+						array('%d','%s','%s','%d','%d','%s','%s','%s','%s','%s','%s','%s','%s','%d','%d','%d'));
 				$lastElementId = $wpdb->insert_id;
 				echo "Copy this code and paste it into the form left.<br/>Code is [date-".$lastElementId."]";
 			}else{
@@ -212,12 +293,28 @@ if($_POST){
 			$elementType = 6;
 
 
-			$element_count = $wpdb->query( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE element_name="'.$elementName.'" AND form_id="'.$formId.'" LIMIT 0,1' ) ;
-			if($element_count == 0){
+			$element_count = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE element_name="'.$elementName.'" AND form_id="'.$formId.'" LIMIT 0,1' ) ;
+			if(count($element_count) == 0){
 
-				$wpdb->insert($wpdb->prefix.'xyz_cfm_form_elements', array('form_id' =>$formId,'element_diplay_name'=>'','element_name'=>$elementName,
-						'element_type'=>$elementType,'element_required'=>$required,'css_class'=>$className,'options'=>$options,'client_view_check_radio_line_break_count'=>$singleLineView,'default_value'=>$defaultValue),
-						array('%d','%s','%s','%d','%d','%s','%s','%d','%s'));
+				$wpdb->insert($wpdb->prefix.'xyz_cfm_form_elements', array(
+						'form_id'	=>	$formId,
+						'element_diplay_name'	=>	'',
+						'element_name'	=>	$elementName,
+						'element_type'	=>	$elementType,
+						'element_required'	=>	$required,
+						'css_class'	=>	$className,
+						'options'	=>	$options,
+						'client_view_check_radio_line_break_count'	=>	$singleLineView,
+						'default_value'	=>	$defaultValue,
+						'max_length'	=>	'',
+						'cols'	=>	'',
+						'rows'	=>	'',
+						'file_size'	=>	'',
+						'file_type'	=>	'',
+						're_captcha'	=>	0,
+						'client_view_multi_select_drop_down'	=>	0
+						),
+						array('%d','%s','%s','%d','%d','%s','%s','%d','%s','%s','%s','%s','%s','%s','%d','%d'));
 				$lastElementId = $wpdb->insert_id;
 				echo "Copy this code and paste it into the form left.<br/>Code is [checkbox-".$lastElementId."]";
 			}else{
@@ -246,12 +343,28 @@ if($_POST){
 			$elementType = 7;
 
 
-			$element_count = $wpdb->query( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE element_name="'.$elementName.'" AND form_id="'.$formId.'" LIMIT 0,1' ) ;
-			if($element_count == 0){
+			$element_count = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE element_name="'.$elementName.'" AND form_id="'.$formId.'" LIMIT 0,1' ) ;
+			if(count($element_count) == 0){
 
-				$wpdb->insert($wpdb->prefix.'xyz_cfm_form_elements', array('form_id' =>$formId,'element_diplay_name'=>'','element_name'=>$elementName,
-						'element_type'=>$elementType,'element_required'=>$required,'css_class'=>$className,'options'=>$options,'client_view_check_radio_line_break_count'=>$singleLineView,'default_value'=>$defaultValue),
-						array('%d','%s','%s','%d','%d','%s','%s','%d','%s'));
+				$wpdb->insert($wpdb->prefix.'xyz_cfm_form_elements', array(
+						'form_id'	=>	$formId,
+						'element_diplay_name'	=>	'',
+						'element_name'	=>	$elementName,
+						'element_type'	=>	$elementType,
+						'element_required'	=>	$required,
+						'css_class'	=>	$className,
+						'options'	=>	$options,
+						'client_view_check_radio_line_break_count'	=>	$singleLineView,
+						'default_value'	=>	$defaultValue,
+						'max_length'	=>	'',
+						'cols'	=>	'',
+						'rows'	=>	'',
+						'file_size'	=>	'',
+						'file_type'	=>	'',
+						're_captcha'	=>	0,
+						'client_view_multi_select_drop_down'	=>	0
+						),
+						array('%d','%s','%s','%d','%d','%s','%s','%d','%s','%s','%s','%s','%s','%s','%d','%d'));
 				$lastElementId = $wpdb->insert_id;
 				echo "Copy this code and paste it into the form left.<br/>Code is [radiobutton-".$lastElementId."]";
 			}else{
@@ -281,12 +394,28 @@ if($_POST){
 			$elementType = 8;
 
 
-			$element_count = $wpdb->query( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE element_name="'.$elementName.'" AND form_id="'.$formId.'" LIMIT 0,1' ) ;
-			if($element_count == 0){
+			$element_count = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE element_name="'.$elementName.'" AND form_id="'.$formId.'" LIMIT 0,1' ) ;
+			if(count($element_count) == 0){
 
-				$wpdb->insert($wpdb->prefix.'xyz_cfm_form_elements', array('form_id' =>$formId,'element_diplay_name'=>'','element_name'=>$elementName,
-						'element_type'=>$elementType,'element_required'=>$required,'css_class'=>$className,'file_size'=>$fileSize,'file_type'=>$fileType),
-						array('%d','%s','%s','%d','%d','%s','%s','%s'));
+				$wpdb->insert($wpdb->prefix.'xyz_cfm_form_elements', array(
+						'form_id'	=>	$formId,
+						'element_diplay_name'	=>	'',
+						'element_name'	=>	$elementName,
+						'element_type'	=>	$elementType,
+						'element_required'	=>	$required,
+						'css_class'	=>	$className,
+						'file_size'	=>	$fileSize,
+						'file_type'	=>	$fileType,
+						'max_length'	=>	'',
+						'default_value'	=>	'',
+						'cols'	=>	'',
+						'rows'	=>	'',
+						'options'	=>	'',
+						're_captcha'	=>	0,
+						'client_view_check_radio_line_break_count'	=>	0,
+						'client_view_multi_select_drop_down'	=>	0
+						),
+						array('%d','%s','%s','%d','%d','%s','%s','%s','%s','%s','%s','%s','%s','%d','%d','%d'));
 				$lastElementId = $wpdb->insert_id;
 				echo "Copy this code and paste it into the form left.<br/>Code is [file-".$lastElementId."]";
 			}else{
@@ -311,12 +440,28 @@ if($_POST){
 			$elementType = 9;
 
 
-			$element_count = $wpdb->query( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE element_type="9" AND form_id="'.$formId.'" LIMIT 0,1' ) ;
-			if($element_count == 0){
+			$element_count = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE element_type="9" AND form_id="'.$formId.'" LIMIT 0,1' ) ;
+			if(count($element_count) == 0){
 
-				$wpdb->insert($wpdb->prefix.'xyz_cfm_form_elements', array('form_id' =>$formId,'element_diplay_name'=>$displayName,'element_name'=>$elementName,
-						'element_type'=>$elementType,'css_class'=>$className),
-						array('%d','%s','%s','%s','%d','%s'));
+				$wpdb->insert($wpdb->prefix.'xyz_cfm_form_elements', array(
+						'form_id' =>$formId,
+						'element_diplay_name'=>$displayName,
+						'element_name'=>$elementName,
+						'element_type'=>$elementType,
+						'css_class'=>$className,
+						'element_required'	=>	'1',
+						'max_length'	=>	'',
+						'default_value'	=>	'',
+						'cols'	=>	'',
+						'rows'	=>	'',
+						'options'	=>	'',
+						'file_size'	=>	'',
+						'file_type'	=>	'',
+						're_captcha'	=>	0,
+						'client_view_check_radio_line_break_count'	=>	0,
+						'client_view_multi_select_drop_down'	=>	0
+						),
+						array('%d','%s','%s','%s','%d','%s','%d','%s','%s','%s','%s','%s','%s','%s','%d','%d','%d'));
 				$lastElementId = $wpdb->insert_id;
 				echo "Copy this code and paste it into the form left.<br/>Code is [submit-".$lastElementId."]";
 			}else{
@@ -342,12 +487,28 @@ if($_POST){
 			$formId = $_REQUEST['formId'];
 			$elementType = 10;
 
-			$element_count = $wpdb->query( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE element_type="10" AND form_id="'.$formId.'" LIMIT 0,1' ) ;
-			if($element_count == 0){
+			$element_count = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE element_type="10" AND form_id="'.$formId.'" LIMIT 0,1' ) ;
+			if(count($element_count) == 0){
 					
-				$wpdb->insert($wpdb->prefix.'xyz_cfm_form_elements', array('form_id' =>$formId,'element_required'=>$required,'element_name'=>$elementName,
-						'element_type'=>$elementType,'css_class'=>$className,'re_captcha'=>$reCaptcha),
-						array('%d','%d','%s','%d','%s','%d'));
+				$wpdb->insert($wpdb->prefix.'xyz_cfm_form_elements', array(
+						'form_id'	=>	$formId,
+						'element_required'	=>	$required,
+						'element_name'	=>	$elementName,
+						'element_type'	=>	$elementType,
+						'css_class'	=>	$className,
+						're_captcha'	=>	$reCaptcha,
+						'element_diplay_name'	=>	'',
+						'max_length'	=>	'',
+						'default_value'	=>	'',
+						'cols'	=>	'',
+						'rows'	=>	'',
+						'options'	=>	'',
+						'file_size'	=>	'',
+						'file_type'	=>	'',
+						'client_view_check_radio_line_break_count'	=>	0,
+						'client_view_multi_select_drop_down'	=>	0
+						),
+						array('%d','%d','%s','%d','%s','%d','%s','%s','%s','%s','%s','%s','%s','%d','%d'));
 					
 					
 				$lastElementId = $wpdb->insert_id;

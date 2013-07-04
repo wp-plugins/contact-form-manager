@@ -4,16 +4,16 @@ require_once ABSPATH . WPINC . '/class-smtp.php';
 
 include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
-$pluginName = 'xyz-wp-contact-form/xyz-wp-contact-form.php';
-
-if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($pluginName))){
-	require_once dirname(XYZ_CFM_PLUGIN_FILE)."/recaptcha/recaptchalib.php";
-}
 set_time_limit(0);
 
 function display_form($id){
 	global $wpdb;
 	
+$pluginName = 'xyz-wp-contact-form/xyz-wp-contact-form.php';
+
+if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($pluginName))){
+	require_once dirname(XYZ_CFM_PLUGIN_FILE)."/recaptcha/recaptchalib.php";
+}
 	$folderName = md5(uniqid(microtime()) . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
 
 	$msg_after_submit='';
@@ -89,14 +89,26 @@ function display_form($id){
 						$email_to[] = $valueToemail;
 					}
 			}
+			
 			$emailCC = 	$formAllData->cc_email;
 			$email_cc = array();
 			$email_cc_list = explode(',', $emailCC);
 			foreach ($email_cc_list as $keyCCemail => $valueCCemail){
-					if(is_email($valueCCemail)){
-						$email_cc[] = $valueCCemail;
-					}
+				if(is_email($valueCCemail)){
+					$email_cc[] = $valueCCemail;
+				}
 			}
+			
+			$emailBCC = 	$formAllData->bcc_email;
+			$email_bcc = array();
+			$email_bcc_list = explode(',', $emailBCC);
+			foreach ($email_bcc_list as $keyBCCemail => $valueBCCemail){
+				if(is_email($valueCCemail)){
+					$email_bcc[] = $valueBCCemail;
+				}
+			}
+			
+			
 			$xyz_cfm_senderEmail = $formAllData->from_email; // if php mail() is used 
 			$email_senderName = $formAllData->sender_name;
 			$mailSubject = $formAllData->mail_subject;
@@ -109,8 +121,6 @@ function display_form($id){
 			$mailReplaySubject = $formAllData->reply_subject;
 			$mailReplayBody = $formAllData->reply_body;
 			$mailRedirectionLink = $formAllData->redirection_link;
-	
-			
 	
 					
 			$res = preg_match_all("/\[(email|text|date|submit|textarea|dropdown|checkbox|radiobutton|file|captcha)[-][0-9]{1,11}\]/",$formAllData->form_content,$match);
@@ -169,6 +179,18 @@ function display_form($id){
 									}
 								}
 								
+								if(stristr($emailBCC,$value)!==false){  // !== is needed for comparison; also stristr is used to match multiple shortcodes
+									$bcc_email_to_explode = explode(',',$xyz_cfm_alt);
+									foreach ($bcc_email_to_explode as $keyBCCEmail => $valueBCCEmail){
+										if(is_email($valueBCCEmail)){
+											if(!in_array($valueBCCEmail, $email_bcc)){
+												$email_bcc[] = $valueBCCEmail;
+											}
+										}
+									}
+								}
+								
+								
 								
 								
 								/*set email for newsletter subscription*/
@@ -205,10 +227,13 @@ function display_form($id){
 									
 									$replaceArray = array();
 									$autoReplyArray = array();
+									
+									
 									foreach ($optionsList as $optkey=>$optvalue){
 										$keyValueExplode = explode('=>', $optvalue);
 										if(in_array($keyValueExplode[0], $postedArray)){
-											$replaceArray[] = $optvalue;
+											$replyAdminArray[] = $optvalue; //key=>value format
+											$replaceArray[] = $keyValueExplode[0];//only key
 											if(strpos($optvalue, '=>')){
 												$autoReplyArray[] = $keyValueExplode[1];//only value for autoreply to user
 											}else{
@@ -216,8 +241,10 @@ function display_form($id){
 											}
 										}
 									}
+
 									
 									$replace=implode(",",$replaceArray);// in case of radio button the array will have one element
+									
 									
 									$replaceToAutoReply = implode(",",$autoReplyArray);
 									$mailReplaySubject = str_replace($value,$replaceToAutoReply,$mailReplaySubject);
@@ -239,7 +266,7 @@ function display_form($id){
 								$email_senderReplyName = str_replace($value,$replace,$email_senderReplyName);
 								$mailReplayToEmail = str_replace($value,$replace,$mailReplayToEmail);
 								
-								$mailRedirectionLink = str_replace($value,urlencode($replace),$mailRedirectionLink);
+								$mailRedirectionLink = str_replace($value,$replace,$mailRedirectionLink);
 								
 								if(count($customFields)){
 									foreach ($customFields as $keyField => $valueField){
@@ -251,7 +278,6 @@ function display_form($id){
 								
 							}
 						}
-	
 						
 	// 	echo '<pre>';
 	// 	print_r($email_senderReplyName);die;	
@@ -288,22 +314,22 @@ function display_form($id){
 					
 	
 					if($elementName->element_type == 10){
+						$captchaFlagError = 1;
+						$captchaErrorDivId = "#".$finalElementType.$elementName->element_name."_".$elementName->id.$xyz_cfm_form_counter;
 						if(isset($_POST['xyz_cfm_hiddenReCaptcha']) && $_POST['xyz_cfm_hiddenReCaptcha'] ==1){
 							$privatekey = get_option('xyz_cfm_recaptcha_private_key');
 							$resp = recaptcha_check_answer ($privatekey,
 									$_SERVER["REMOTE_ADDR"],
 									$_POST["recaptcha_challenge_field"],
 									$_POST["recaptcha_response_field"]);
-							if (!$resp->is_valid) {
-								$captchaFlagError = 1;
-								$captchaErrorDivId = "#".$finalElementType.$elementName->element_name."_".$elementName->id.$xyz_cfm_form_counter;
+							if ($resp->is_valid) {
+								$captchaFlagError = 0;
 							}
 						}else{
 							if(isset($_COOKIE['image_random_value_'.$formAllData->id.$xyz_cfm_form_counter])){
 								$captchaStringEncr = $_COOKIE['image_random_value_'.$formAllData->id.$xyz_cfm_form_counter];
-								if($captchaStringEncr != md5(strtoupper($xyz_cfm_altVariable))){
-									$captchaFlagError = 1;
-									$captchaErrorDivId = "#".$finalElementType.$elementName->element_name."_".$elementName->id.$xyz_cfm_form_counter;
+								if($captchaStringEncr == md5(strtoupper($xyz_cfm_altVariable))){
+									$captchaFlagError = 0;
 								}
 							}
 						}
@@ -521,6 +547,13 @@ function display_form($id){
 					foreach ($email_cc as $ccemailKey =>$ccemailValue)
 					{
 						$phpmailer->AddCC(trim($ccemailValue));
+					}
+				}
+				
+				if($formAllData->bcc_email != ""){
+					foreach ($email_bcc as $bccemailKey =>$bccemailValue)
+					{
+						$phpmailer->AddBCC(trim($bccemailValue));
 					}
 				}
 				
@@ -1085,15 +1118,15 @@ function display_form($id){
 								if($_POST && $individualFormSubmitFlag==1){
 									$checkArray=$_POST[$xyz_cfm_elementName];
 									if (in_array($key, $checkArray)) {
-										$replace = $replace.'<input class="'.$cssClass.'" checked="checked" type="checkbox"  name="'.$xyz_cfm_elementName.'[]" value="'.$key.'" />'.$value;
+										$replace = $replace.'<input class="'.$cssClass.'" checked="checked" type="checkbox"  name="'.$xyz_cfm_elementName.'[]" value="'.$key.'" /> '.$value;
 									}else{
-										$replace = $replace.'<input class="'.$cssClass.'" type="checkbox"  name="'.$xyz_cfm_elementName.'[]" value="'.$key.'" />'.$value;
+										$replace = $replace.'<input class="'.$cssClass.'" type="checkbox"  name="'.$xyz_cfm_elementName.'[]" value="'.$key.'" /> '.$value;
 									}
 								}else{
 									if (array_key_exists($key, $defaultValueArray)) {
-										$replace = $replace.'<input class="'.$cssClass.'" checked="checked" type="checkbox"  name="'.$xyz_cfm_elementName.'[]" value="'.$key.'" />'.$value;
+										$replace = $replace.'<input class="'.$cssClass.'" checked="checked" type="checkbox"  name="'.$xyz_cfm_elementName.'[]" value="'.$key.'" /> '.$value;
 									}else{
-										$replace = $replace.'<input class="'.$cssClass.'" type="checkbox"  name="'.$xyz_cfm_elementName.'[]" value="'.$key.'" />'.$value;
+										$replace = $replace.'<input class="'.$cssClass.'" type="checkbox"  name="'.$xyz_cfm_elementName.'[]" value="'.$key.'" /> '.$value;
 									}
 									
 								}
@@ -1159,15 +1192,15 @@ function display_form($id){
 						
 								if(isset($_POST[$xyz_cfm_elementName])  && $individualFormSubmitFlag==1){
 									if($_POST[$xyz_cfm_elementName] == $key){
-										$replace = $replace.'<input class="'.$cssClass.'" checked="checked" type="radio" name="'.$xyz_cfm_elementName.'"  value="'.$key.'" />'. $value;
+										$replace = $replace.'<input class="'.$cssClass.'" checked="checked" type="radio" name="'.$xyz_cfm_elementName.'"  value="'.$key.'" /> '. $value;
 									}else{
-										$replace = $replace.'<input class="'.$cssClass.'" type="radio" name="'.$xyz_cfm_elementName.'"  value="'.$key.'" />'. $value;
+										$replace = $replace.'<input class="'.$cssClass.'" type="radio" name="'.$xyz_cfm_elementName.'"  value="'.$key.'" /> '. $value;
 									}
 								}else{
 									if($defaultValue[0] == $key){
-										$replace = $replace.'<input class="'.$cssClass.'" checked="checked" type="radio" name="'.$xyz_cfm_elementName.'"  value="'.$key.'" />'.$value;
+										$replace = $replace.'<input class="'.$cssClass.'" checked="checked" type="radio" name="'.$xyz_cfm_elementName.'"  value="'.$key.'" /> '.$value;
 									}else{
-										$replace = $replace.'<input class="'.$cssClass.'" type="radio" name="'.$xyz_cfm_elementName.'"  value="'.$key.'" />'. $value;
+										$replace = $replace.'<input class="'.$cssClass.'" type="radio" name="'.$xyz_cfm_elementName.'"  value="'.$key.'" /> '. $value;
 									}
 								}
 								if($lineBreakCount != 0){
@@ -1266,7 +1299,7 @@ function display_form($id){
 									<script type="text/javascript">
 									Recaptcha.create("'.$publickey.'","reCaptchaDiv_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'", {theme: "'.$cssClass.'"});
 									</script><input type="hidden" name="xyz_cfm_hiddenReCaptcha" value="1" id="xyz_cfm_reCaptcha_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'">';
-									$replace = $replace.'<div style="font-weight: normal;color:red;" id="'.$elementType.'_'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'"></div>';
+									$replace = $replace.'<div style="font-weight: normal;color:red;" id="'.$elementType.'_'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'">';
 								}else{
 									$replace = $replace.'<span style="color:red;">Configure recaptcha public & private keys</span>';
 								}

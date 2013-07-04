@@ -1,14 +1,4 @@
-<style type="text/css">
-#xyz-wp-contactform-premium {
-	border: 1px solid #FCC328;
-	margin-bottom: 20px;
-	margin-top: 20px;
-	background-color: #FFF6D6;
-	height: 50px;
-	padding: 5px;
-	width: 98%
-}
-</style>
+
 <div style="clear: both;"></div>
 <div id="xyz-wp-contactform-premium">
 
@@ -22,7 +12,7 @@
 	<div style="float: left; margin-top: 3px">
 		<a target="_blank"
 			href="http://xyzscripts.com/members/product/purchase/XYZWPCFM"><img class="hoverImages"
-			src="<?php  echo plugins_url("contact-form-manager/admin/images/orange_buynow.png"); ?>">
+			src="<?php  echo plugins_url("contact-form-manager/images/orange_buynow.png"); ?>">
 		</a>
 	</div>
 <div style="float: left; padding: 0 5px">
@@ -34,37 +24,7 @@
 
 <div style="clear: both;"></div>
 
-    <style>
-    
-    .xyz_feedback{
-    background: #CEEAF7; /* Old browsers */
-	border: 1px solid #64cfe8;
-	width: 98%;    
-	height:30px;
-    padding-top:10px;
-    font-weight: bold;
-    
-    }
-    
-    
-    .xyz_feedback a{
-    text-decoration: none
-    }
 
-    
-    .xyz_subscribe{
-    background: #bae598; /* Old browsers */
-	border: 1px solid #4d8a1d;
-	width: 98%;    
-    padding-left: 10px;
-	height:35px;
-    padding-top:10px;
-    }
-  .xyz_subscribe  td{
-    padding:0;
-    }
-    
-    </style>
 <p></p>
 
 <div style="width: 100%">
@@ -184,11 +144,8 @@ type="text" value="<?php 	echo $current_user->user_email; ?>" /><span style="col
 
 
     <div style="clear: both;"></div>
- <div style="width: 99%">
-<div style="padding-top: 10px;float:left;">
-Powered by <a href="http://xyzscripts.com" target="_blank">XYZScripts</a>
-</div>
-<div style="padding-top: 10px;float:right ;">
+
+<div class="xyz_our_plugins">
 See Also : 
 	
 	<a target="_blank"	href="http://wordpress.org/extend/plugins/lightbox-pop/">Lightbox Pop</a> ★
@@ -197,10 +154,14 @@ See Also :
 	<a target="_blank"	href="http://wordpress.org/extend/plugins/quick-bar/">Quick Bar</a> ★
 	<a target="_blank"	href="http://wordpress.org/extend/plugins/quick-box-popup/">Quick Box Popup</a> ★
 	<a target="_blank"	href="http://wordpress.org/extend/plugins/insert-html-snippet/">Insert HTML Snippet</a> ★
-	<a target="_blank"	href="http://wordpress.org/extend/plugins/newsletter-manager/">Newsletter Manager</a>
+	<a target="_blank"	href="http://wordpress.org/extend/plugins/newsletter-manager/">Newsletter Manager</a> ★
+	<a target="_blank"	href="http://wordpress.org/extend/plugins/social-media-auto-publish/">Social Media Auto Publish</a>
 
 </div>
- </div>   
+   
+<div class="poweredBy">
+Powered by <a  href="http://xyzscripts.com" target="_blank">XYZScripts</a>
+</div> 
 
     <div style="clear: both;"></div>
 

@@ -3,7 +3,7 @@
 Plugin Name: Contact Form Manager
 Plugin URI: http://xyzscripts.com/wordpress-plugins/contact-form-manager/
 Description: Create  and manage multiple contact forms for your website. The plugin supports a wide range of form elements such as text field, email field, textarea, dropdown list, radio button, checkbox, date picker, captcha, file uploader etc. Shortcodes are generated such that, you can modify form element properties without having to replace the shortcode everytime.          
-Version: 1.3
+Version: 1.3.1
 Author: xyzscripts.com
 Author URI: http://xyzscripts.com/
 Text Domain: contact-form-manager
@@ -31,14 +31,13 @@ if ( !function_exists( 'add_action' ) )
 	echo "Hi there!  I'm just a plugin, not much I can do when called directly.";
 	exit;
 }
-
+mysql_query("SET sql_mode = ''");
 ob_start();
 error_reporting(0);
 define('XYZ_CFM_PLUGIN_FILE',__FILE__);
 require( dirname( __FILE__ ) . '/xyz-functions.php' );
 
 require( dirname( __FILE__ ) . '/admin/install.php' );
-register_activation_hook(__FILE__,'cfm_install');
 
 require( dirname( __FILE__ ) . '/admin/menu.php' );
 
@@ -49,8 +48,6 @@ require( dirname( __FILE__ ) . '/shortcode-handler.php' );
 require( dirname( __FILE__ ) . '/ajax-handler.php' );
 
 require( dirname( __FILE__ ) . '/admin/uninstall.php' );
-
-register_uninstall_hook(__FILE__,'cfm_uninstall');
 
 function xyz_cfm_manager() {
 	load_plugin_textdomain( 'contact-form-manager', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
@@ -63,7 +60,7 @@ if(get_option('xyz_credit_link')=="cfm"){
 
 }
 function xyz_cfm_credit() {	
-	$content = '<div style="width:100%;text-align:center; font-size:11px; "><a target="_blank" title="Contact form" href="http://xyzscripts.com/wordpress-plugins/contact-form-manager/details" >Contact Form</a> Powered By : <a target="_blank" title="PHP Scripts & Programs" href="http://www.xyzscripts.com" >XYZScripts.com</a></div>';
+	$content = '<div style="clear:both;width:100%;text-align:center; font-size:11px; "><a target="_blank" title="Contact form" href="http://xyzscripts.com/wordpress-plugins/contact-form-manager/details" >Contact Form</a> Powered By : <a target="_blank" title="PHP Scripts & Programs" href="http://www.xyzscripts.com" >XYZScripts.com</a></div>';
 	echo $content;
 }
 

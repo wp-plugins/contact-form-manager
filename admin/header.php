@@ -21,7 +21,7 @@
 	<div style="float: left; margin-top: 3px">
 		<a target="_blank"
 			href="http://xyzscripts.com/members/product/purchase/XYZWPCFM"><img class="hoverImages"
-			src="<?php  echo plugins_url("contact-form-manager/admin/images/orange_buynow.png"); ?>">
+			src="<?php  echo plugins_url("contact-form-manager/images/orange_buynow.png"); ?>">
 		</a>
 	</div>
 	<div style="float: left; padding: 0 5px">

@@ -17,20 +17,34 @@ if (($_POST['xyz_cfm_SmtpHostName']!= "") && ($_POST['xyz_cfm_SmtpEmailAddress']
 			$xyz_cfm_SmtpSecuirity = $_POST['xyz_cfm_SmtpSecuirity'];
 			$xyz_cfm_hiddenSmtpId = $_POST['xyz_cfm_hiddenSmtpId'];
 			
+			$blockedAccount_cfm = 0;
+			
 			if(isset($_POST['xyz_cfm_SmtpSetDefault']) && $_POST['xyz_cfm_SmtpSetDefault']=="on"){
 				
 				$xyz_cfm_SmtpSetDefault = 1;
-				$wpdb->query('UPDATE '.$wpdb->prefix.'xyz_cfm_sender_email_address SET set_default="0"');
+				
+				$queryDefaultChecking = $wpdb->get_results( 'SELECT status FROM '.$wpdb->prefix.'xyz_cfm_sender_email_address WHERE id="'.$xyz_cfm_hiddenSmtpId.'"' ) ;
+				$queryDefaultChecking = $queryDefaultChecking[0];
+				if($queryDefaultChecking->status == 1){
+					$wpdb->query('UPDATE '.$wpdb->prefix.'xyz_cfm_sender_email_address SET set_default="0"');
+				}else{
+					$blockedAccount_cfm = 1;
+				}
 			}else{
 				$xyz_cfm_SmtpSetDefault = 0;
 			}
 			
 			$xyz_cfm_smtpAccountCount = $wpdb->query( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_sender_email_address WHERE user="'.$xyz_cfm_SmtpEmailAddress.'"  AND id!="'.$xyz_cfm_hiddenSmtpId.'"  LIMIT 0,1' ) ;
 			if($xyz_cfm_smtpAccountCount == 0){
-				$wpdb->update($wpdb->prefix.'xyz_cfm_sender_email_address', 
-				array('authentication'=>$xyz_cfm_SmtpAuthentication,'host'=>$xyz_cfm_SmtpHostName,'user'=>$xyz_cfm_SmtpEmailAddress,'password'=>$xyz_cfm_SmtpPassword,
-				'port'=>$xyz_cfm_SmtpPortNumber,'security'=>$xyz_cfm_SmtpSecuirity,'set_default'=>$xyz_cfm_SmtpSetDefault), array('id'=>$xyz_cfm_hiddenSmtpId));
-
+				if($blockedAccount_cfm == 0){
+					$wpdb->update($wpdb->prefix.'xyz_cfm_sender_email_address', 
+					array('authentication'=>$xyz_cfm_SmtpAuthentication,'host'=>$xyz_cfm_SmtpHostName,'user'=>$xyz_cfm_SmtpEmailAddress,'password'=>$xyz_cfm_SmtpPassword,
+					'port'=>$xyz_cfm_SmtpPortNumber,'security'=>$xyz_cfm_SmtpSecuirity,'set_default'=>$xyz_cfm_SmtpSetDefault), array('id'=>$xyz_cfm_hiddenSmtpId));
+				}else{
+					$wpdb->update($wpdb->prefix.'xyz_cfm_sender_email_address',
+							array('authentication'=>$xyz_cfm_SmtpAuthentication,'host'=>$xyz_cfm_SmtpHostName,'user'=>$xyz_cfm_SmtpEmailAddress,'password'=>$xyz_cfm_SmtpPassword,
+									'port'=>$xyz_cfm_SmtpPortNumber,'security'=>$xyz_cfm_SmtpSecuirity), array('id'=>$xyz_cfm_hiddenSmtpId));
+				}
 				?>
 				
 				

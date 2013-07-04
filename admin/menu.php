@@ -94,22 +94,6 @@ function cfm_about(){
 	require( dirname( __FILE__ ) . '/footer.php' );
 }
 
-// function cfm_addcontactform(){
-// 	if(isset($_GET['action']) && $_GET['action']=='form-add' )
-// 	{
-// 		require( dirname( __FILE__ ) . '/add-contact-form.php' );
-// 		require( dirname( __FILE__ ) . '/footer.php' );
-// 	}
-// }
-
-
-
-function xyz_cfm_admin_style()
-{
-	require( dirname( __FILE__ ) . '/style.php' );
-
-}
-add_action('admin_print_styles', 'xyz_cfm_admin_style');
 
 wp_enqueue_script('jquery');
 
