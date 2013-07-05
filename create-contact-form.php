@@ -666,10 +666,22 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 					* */
 					
 					if($formAllData->newsletter_subscription_status == 1) {
+						
 							
 						$newsletterEmailList = $formAllData->newsletter_email_list;
 						
 						$newsletterOptinMode = $formAllData->newsletter_optin_mode;
+						
+						
+// 						echo '<pre>';
+// 						print_r($newsletterEmail);
+						
+// 						echo '<pre>';
+// 						print_r($postArray);
+// 						echo '<pre>';
+// 						print_r($newsletterEmailList);
+// 						echo '<pre>';
+// 						print_r($newsletterOptinMode);die;
 						
 						$customFieldsArray = serialize($postArray);
 	
@@ -682,11 +694,11 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 					
 							$ch = curl_init();
 					
-							curl_setopt($ch, CURLOPT_URL, plugins_url('xyz-wp-newsletter/subscription.php'));
+							curl_setopt($ch, CURLOPT_URL, get_site_url()."/index.php?wp_nlm=subscription");
 							curl_setopt($ch, CURLOPT_HEADER, 0);
 							curl_setopt($ch, CURLOPT_POST, TRUE);
 							curl_setopt($ch, CURLOPT_POSTFIELDS,
-							"xyz_em_email=".rawurlencode($newsletterEmail)."&xyz_newsletter_optinmode=".rawurlencode($newsletterOptinMode)."&xyz_em_mode_choosed=1&xyz_em_listIds=".$newsletterEmailList."&xyz_em_redirActive=".''."&xyz_em_redirPending=".''."&customFieldsDetails=".rawurlencode($customFieldsArray)."&postFrom=cfm");
+							"&xyz_em_email=".rawurlencode($newsletterEmail)."&xyz_newsletter_optinmode=".rawurlencode($newsletterOptinMode)."&xyz_em_mode_choosed=1&xyz_em_listIds=".$newsletterEmailList."&xyz_em_redirActive=".''."&xyz_em_redirPending=".''."&customFieldsDetails=".rawurlencode($customFieldsArray)."&postFrom=cfmwp_nlm=subscription");
 					
 							// receive server response ...
 							curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -702,18 +714,20 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 								
 							$ch = curl_init();
 								
-							curl_setopt($ch, CURLOPT_URL, plugins_url('newsletter-manager/subscription.php'));
+							curl_setopt($ch, CURLOPT_URL, get_site_url()."/index.php?wp_nlm=subscription");
 							curl_setopt($ch, CURLOPT_HEADER, 0);
 							curl_setopt($ch, CURLOPT_POST, TRUE);
 							curl_setopt($ch, CURLOPT_POSTFIELDS,
-							"xyz_em_email=".rawurlencode($newsletterEmail)."&xyz_newsletter_optinmode=".rawurlencode($newsletterOptinMode)."&customFieldsDetails=".rawurlencode($customFieldsArray)."&postFrom=cfm");
+							"&xyz_em_email=".rawurlencode($newsletterEmail)."&xyz_newsletter_optinmode=".rawurlencode($newsletterOptinMode)."&customFieldsDetails=".rawurlencode($customFieldsArray)."&postFrom=cfm");
 								
 							// receive server response ...
 							curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 					
 								
 							$server_output = curl_exec ($ch);
-							// 						die($server_output);
+							
+// 							echo $server_output;
+// 							die();
 							curl_close ($ch);
 								
 						}

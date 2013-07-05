@@ -2240,7 +2240,7 @@ td {
 									<td colspan="3" style="border-bottom: 1px solid #F9F9F9; padding-top:20px;padding-bottom:20px;"><span style="font-size: 22px;">XYZ Newsletter Subscription Settings</span>
 									<br/><b>Requires XYZ Newsletter
 									<?php  
-									if($pluginType == 'std'){echo ' Version - 1.2.2';}elseif($pluginType == 'pre'){echo ' Version - 1.0.2';}
+									if($pluginType == 'std'){echo ' Version - 1.2.2 or higher ';}elseif($pluginType == 'pre'){echo ' Version - 1.0.2 or higher ';}
 									?>
 									</b>
 									</td>
@@ -2440,8 +2440,8 @@ td {
 
 									<span style="font-size: 22px;">XYZ Newsletter Subscription
 										Setting</span> <br />
-								<b>Requires Newsletter Manager Version - 1.2.2 / XYZ WP Newsletter
-										Version 1.0.2</b>
+								<b>Requires Newsletter Manager Version - 1.2.2 or higher  / XYZ WP Newsletter
+										Version 1.0.2 or higher </b>
 								</td>
 							</tr>
 						</table> 
