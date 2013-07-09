@@ -135,10 +135,10 @@ if(isset($_POST) && isset($_POST['addSubmit'])){
 			$additionalFieldInfoDetails = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'xyz_em_additional_field_info' ) ;
 			$fieldValue = array();
 			foreach ($additionalFieldInfoDetails as $InfoDetails){
-				if($_REQUEST['xyz_em_cfm_'.$InfoDetails->field_name] != ''){
+				if($_REQUEST['xyz_em_cfm_'.$InfoDetails->id] != ''){
 					$fieldExistFlag = 1;
 					//$fieldId = 'field'.$InfoDetails->id;
-					$fieldValue[$InfoDetails->id] = $_REQUEST['xyz_em_cfm_'.$InfoDetails->field_name];
+					$fieldValue[$InfoDetails->id] = $_REQUEST['xyz_em_cfm_'.$InfoDetails->id];
 				}
 			}
 				
@@ -2385,10 +2385,10 @@ td {
 												<td style="border:none;">&nbsp;:&nbsp;</td>
 												<td style="border:none;">
 															
-												<input name="xyz_em_cfm_<?php echo $infoDetails->field_name;?>" type="text" id="xyz_em_cfm_<?php echo $infoDetails->field_name;?>"
+												<input name="xyz_em_cfm_<?php echo $infoDetails->id;?>" type="text" id="xyz_em_cfm_<?php echo $infoDetails->id;?>"
 													value="<?php
-																if(isset($_POST['xyz_em_cfm_'.$infoDetails->field_name]) ){
-																	echo esc_attr($_POST['xyz_em_cfm_'.$infoDetails->field_name]);
+																if(isset($_POST['xyz_em_cfm_'.$infoDetails->id]) ){
+																	echo esc_attr($_POST['xyz_em_cfm_'.$infoDetails->id]);
 																}else{				
 																	$field = "field".$infoDetails->id;				
 																	//echo esc_attr($additionalFieldValueDetails->$field);
