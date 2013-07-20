@@ -677,11 +677,12 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 // 						print_r($newsletterEmail);
 						
 // 						echo '<pre>';
-// 						print_r($postArray);
-// 						echo '<pre>';
 // 						print_r($newsletterEmailList);
 // 						echo '<pre>';
-// 						print_r($newsletterOptinMode);die;
+// 						print_r($newsletterOptinMode);
+// 						echo '<pre>';
+// 						print_r($postArray);
+// 						die;
 						
 						$customFieldsArray = serialize($postArray);
 	
@@ -698,7 +699,7 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 							curl_setopt($ch, CURLOPT_HEADER, 0);
 							curl_setopt($ch, CURLOPT_POST, TRUE);
 							curl_setopt($ch, CURLOPT_POSTFIELDS,
-							"&xyz_em_email=".rawurlencode($newsletterEmail)."&xyz_newsletter_optinmode=".rawurlencode($newsletterOptinMode)."&xyz_em_mode_choosed=1&xyz_em_listIds=".$newsletterEmailList."&xyz_em_redirActive=".''."&xyz_em_redirPending=".''."&customFieldsDetails=".rawurlencode($customFieldsArray)."&postFrom=cfmwp_nlm=subscription");
+							"&xyz_em_email=".rawurlencode($newsletterEmail)."&xyz_newsletter_optinmode=".rawurlencode($newsletterOptinMode)."&xyz_em_mode_choosed=1&xyz_em_listIds=".$newsletterEmailList."&xyz_em_redirActive=".''."&xyz_em_redirPending=".''."&customFieldsDetails=".rawurlencode($customFieldsArray)."&postFrom=cfm");
 					
 							// receive server response ...
 							curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -759,10 +760,10 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 						//echo  $pageURL;
 						
 						if(strpos($pageURL,"?") !=''){
-							$pageURL .= '&sent=1&form='.$formAllData->name.$xyz_cfm_form_counter;
+							$pageURL .= '&sent=1&form='.str_replace(' ', '', $formAllData->name).$xyz_cfm_form_counter;
 							wp_redirect($pageURL);
 						}else{
-							$pageURL .= '?sent=1&form='.$formAllData->name.$xyz_cfm_form_counter;
+							$pageURL .= '?sent=1&form='.str_replace(' ', '', $formAllData->name).$xyz_cfm_form_counter;
 							wp_redirect($pageURL);
 						}	
 						die;
@@ -773,14 +774,15 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 				
 			if(isset($_GET['sent']) && $_GET['sent'] == 1){
 				$xyz_cfm_current_form = $_GET['form'];
-				$xyz_cfm_current_form = 'xyz_cfm_'.$xyz_cfm_current_form.'_success';
+				$xyz_cfm_current_form = 'xyz_cfm_'.$xyz_cfm_current_form;
+				$xyz_cfm_current_form .='_success';
 				
-				$firstWord = explode('_', $_GET['form']);
-			
-				if($firstWord[0] == $formAllData->name){
+				$formName = $_GET['form'];
+
+				if($formName == str_replace(' ', '', $formAllData->name).$xyz_cfm_form_counter){
 					if($formAllData->redisplay_option == 2){ // do not show form again
 						return '<div style="background: #C8FCBB; text-align: center; -moz-border-radius: 15px; border-radius: 15px; margin-bottom: 20px;">'.__("Mail successfully sent", "contact-form-manager").'</div>';
-					}else{
+					}elseif($formAllData->redisplay_option == 1){
 						
 						$jQueryScript = $jQueryScript.'jQuery("#'.$xyz_cfm_current_form.'").
 						html("'. __("Mail successfully sent", "contact-form-manager").'");
@@ -1367,7 +1369,7 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 					}
 					
 					$contactForm = $msg_after_submit.$jQueryScriptStart.$jQueryScript.$jQueryScriptClose.$scriptStart.$script.$scriptClose.'
-					<div id="xyz_cfm_'.$formAllData->name.$xyz_cfm_form_counter.'_success" style="background: #C8FCBB;  text-align: center;  border-radius: 15px; margin-bottom: 20px;"></div>
+					<div id="xyz_cfm_'.str_replace(' ','',$formAllData->name).$xyz_cfm_form_counter.'_success" style="background: #C8FCBB;  text-align: center;  border-radius: 15px; margin-bottom: 20px;"></div>
 					<form name="xyz_cfm_'.$formId.$xyz_cfm_form_counter.'" method="POST" id="xyz_cfm_'.$formId.$xyz_cfm_form_counter.'" enctype="multipart/form-data" onSubmit="return xyz_cfm_'.$formId.$xyz_cfm_form_counter.'_check();">
 					'.$messageBody.'
 					<input type ="hidden" name="xyz_cfm_frmName'.$xyz_cfm_form_counter.'"  value="'.$formAllData->name.'" >

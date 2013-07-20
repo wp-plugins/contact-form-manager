@@ -2274,8 +2274,8 @@ td {
 									<td style="border:none;">&nbsp;:&nbsp;</td>
 									<td style="border:none;"> 
 										<select name="xyz_newsletterOptinMode">
-											<option value='Active' <?php if(isset($_POST['xyz_newsletterOptinMode']) && ($_POST['xyz_newsletterOptinMode'] == 'Active') ){?> selected="selected"<?php }?>>Single Optin</option>
-											<option value='Pending' <?php if(isset($_POST['xyz_newsletterOptinMode']) && ($_POST['xyz_newsletterOptinMode'] == 'Pending') ){?> selected="selected"<?php }?>>Double Optin</option>
+											<option value='Active' <?php if(isset($_POST['xyz_newsletterOptinMode']) && ($_POST['xyz_newsletterOptinMode'] == 'Active') ){?> selected="selected"<?php }else{if($formDetails->newsletter_optin_mode == 'Active'){?> selected="selected"<?php }}?>>Single Optin</option>
+											<option value='Pending' <?php if(isset($_POST['xyz_newsletterOptinMode']) && ($_POST['xyz_newsletterOptinMode'] == 'Pending') ){?> selected="selected"<?php }else{if($formDetails->newsletter_optin_mode == 'Pending'){?> selected="selected"<?php }}?>>Double Optin</option>
 										</select>
 									</td>
 								</tr>

@@ -3,7 +3,7 @@
 Plugin Name: Contact Form Manager
 Plugin URI: http://xyzscripts.com/wordpress-plugins/contact-form-manager/
 Description: Create  and manage multiple contact forms for your website. The plugin supports a wide range of form elements such as text field, email field, textarea, dropdown list, radio button, checkbox, date picker, captcha, file uploader etc. Shortcodes are generated such that, you can modify form element properties without having to replace the shortcode everytime.          
-Version: 1.3.1
+Version: 1.3.2
 Author: xyzscripts.com
 Author URI: http://xyzscripts.com/
 Text Domain: contact-form-manager
