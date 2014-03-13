@@ -2,7 +2,7 @@
 Contributors: f1logic
 Donate link: http://xyzscripts.com/donate/
 
-Tags:   contact, contact form, contact forms, contact form plugin,  contact form manager, contact page,  multiple contact forms, custom contact form, contact form with auto reply, contact form with recaptcha, contact form builder, contact us,  contact manager, wordpress contact, TinyMCE form editor
+Tags: contact, contact form, contact forms, contact form plugin,  contact form manager, contact page,  multiple contact forms, custom contact form, contact form with auto reply, contact form with recaptcha, contact form builder, contact us,  contact manager, wordpress contact, TinyMCE form editor
 Requires at least: 2.8
 Tested up to: 3.8.1
 Stable tag: 1.4
@@ -105,7 +105,7 @@ Please deactivate and reactivate the plugin. All your contact  forms should come
 
 = 1. The Contact Form Manager is not working properly. =
 
-Please check the wordpress version you are using. Make sure it meets the minimum version recommended by us. Make sure all files of the `contact form manager` plugin are uploaded to the folder `wp-content/plugins/`
+Please check the wordpress version you are using. Make sure it meets the minimum version recommended by us. Make sure all files of the `contact-form-manager` plugin are uploaded to the folder `wp-content/plugins/`
 
 
 = 2. How can I display the contact form in my website ? =
@@ -113,7 +113,7 @@ Please check the wordpress version you are using. Make sure it meets the minimum
 First you need to create a new contact form. Now in the XYZ Contact > Contact Forms page you can see the newly created contact form and its short code. After making any necessary changes to the contact form save the contact form. Please copy the short code and paste in your contact page.
 
 
-= 3. How can I add a field to my contact form ? =
+= 3. How can I add a field to my contact-form ? =
 
 To add a new field in the contact form, please click the edit contact form or add a new contact form link. Now you can see a section Form Elements and from here please select the Add Elements. Now you can select and create a new element or field. Once the new  form field is created, copy the shortcode of the field to contact form content.
 
@@ -122,12 +122,12 @@ To add a new field in the contact form, please click the edit contact form or ad
 No. There is no need to replace the contact form shortcode after editing the contact form elements. It will update automatically and saves you from the trouble of replacing the code everytime.
 
 
-= 5. How can I get a mail with user submitted values of all fields used in the contact form ? =
+= 5. How can I get a mail with user submitted values of all fields used in the contact-form ? =
 
 In the mail content, please use all the shortcodes corresponding to the fields you have used in the contact form. Please make sure that you have added all the form field shortcodes (the code will be like [text-1], [email-2] etc.) in the email body. Custom fields like captcha and submit button cannot be used in mail.
 
 
-= 6. Can I embed the contact form into my template file ? =
+= 6. Can I embed the contact-form into my template file ? =
 
 
 Yes, you can embed the contact form into your template file. You cannot directly add the shortcode of the contact form in the template file but you will need to pass the code into do_shortcode() function and display its output like this:
@@ -135,12 +135,12 @@ Yes, you can embed the contact form into your template file. You cannot directly
 <?php echo do_shortcode( '[xyz-cfm-form id=1]' ); ?>
 
 
-= 7. I want to use contact form in my language, not in English. How can I do that ? =
+= 7. I want to use contact-form in my language, not in English. How can I do that ? =
 
 For changing language of contact form, please check the [how-to-change-the-language-in-contact-form-manager](http://docs.xyzscripts.com/contact-form-manager/how-to-change-the-language-in-contact-form-manager/ "Contact Form Manager Documentation - Changing Language") section in our docs.
 
 
-= 8. Why is not CAPTCHA working in my contact form ? =
+= 8. Why is not CAPTCHA working in my contact-form ? =
 
 We are using 2 types of captcha in the contact form plugin.
 
@@ -153,22 +153,22 @@ If you are using the standard captcha, you need GD and FreeType library installe
 If you are using the recaptcha, please make sure that you have configured the public key and private key.
 
 
-= 9. Why is site admin not receiving any mail from the contact form ? =
+= 9. Why is site admin not receiving any mail from the contact-form ? =
 
 
 While editing the 'Mail to site admin' section of a contact form, you need to specify the 'from email' address. Since you want the message from your visitor's email id, we are using the shortcode of the user email field here. The code is something like [email-2].
 
 But in some servers, the host does not allow to send emails with from addresses that are outside the server domain. So in such conditions, you need to add an email address of your own  domain in the 'from email' section.
 
-= 10. Does the contact form plugin save the contact requests in database so that admin can view it from admin panel ? =
+= 10. Does the contact-form plugin save the contact requests in database so that admin can view it from admin panel ? =
 
 Yes, you need to purchase the premium version of contact form manager plugin to have this feature.
 
-= 11. Is it possible to duplicate a contact form with its current settings ? =
+= 11. Is it possible to duplicate a contact-form with its current settings ? =
 
 Yes, we have this feature in the premium  version of contact form plugin.
 
-= 12. Where can i get the premium version of contact form manager ? =
+= 12. Where can i get the premium version of contact-form-manager ? =
 
 The premium version of contact form manager can be purchased from our site [xyzscripts.com](http://xyzscripts.com/wordpress-plugins/xyz-wp-contact-form/ "XYZ WP Contact Form").
 
@@ -177,8 +177,8 @@ More questions ? [Drop a mail](http://xyzscripts.com/members/support/ "XYZScript
 
 == Screenshots ==
 
-1. This is the contact form configuration page.
-2. This is a sample contact form.
+1. This is the contact-form configuration page.
+2. This is a sample contact-form.
 
 == Changelog ==
 
