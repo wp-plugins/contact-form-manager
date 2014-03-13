@@ -23,7 +23,8 @@ if (($_POST['xyz_cfm_SmtpHostName']!= "") && ($_POST['xyz_cfm_SmtpEmailAddress']
 				
 				$xyz_cfm_SmtpSetDefault = 1;
 				
-				$queryDefaultChecking = $wpdb->get_results( 'SELECT status FROM '.$wpdb->prefix.'xyz_cfm_sender_email_address WHERE id="'.$xyz_cfm_hiddenSmtpId.'"' ) ;
+				
+				$queryDefaultChecking = $wpdb->get_results( $wpdb->prepare( "SELECT status FROM ".$wpdb->prefix."xyz_cfm_sender_email_address WHERE id= %d ", $xyz_cfm_hiddenSmtpId) ) ;
 				$queryDefaultChecking = $queryDefaultChecking[0];
 				if($queryDefaultChecking->status == 1){
 					$wpdb->query('UPDATE '.$wpdb->prefix.'xyz_cfm_sender_email_address SET set_default="0"');
@@ -34,7 +35,7 @@ if (($_POST['xyz_cfm_SmtpHostName']!= "") && ($_POST['xyz_cfm_SmtpEmailAddress']
 				$xyz_cfm_SmtpSetDefault = 0;
 			}
 			
-			$xyz_cfm_smtpAccountCount = $wpdb->query( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_sender_email_address WHERE user="'.$xyz_cfm_SmtpEmailAddress.'"  AND id!="'.$xyz_cfm_hiddenSmtpId.'"  LIMIT 0,1' ) ;
+			$xyz_cfm_smtpAccountCount = $wpdb->query( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."xyz_cfm_sender_email_address WHERE user= '%s' AND id!= %d LIMIT %d,%d",$xyz_cfm_SmtpEmailAddress,$xyz_cfm_hiddenSmtpId,0,1) ) ;
 			if($xyz_cfm_smtpAccountCount == 0){
 				if($blockedAccount_cfm == 0){
 					$wpdb->update($wpdb->prefix.'xyz_cfm_sender_email_address', 
@@ -89,7 +90,7 @@ if($xyz_cfm_SmtpId=="" || !is_numeric($xyz_cfm_SmtpId)){
 	exit();
 }
 
-$xyz_cfm_details = $wpdb->get_results('SELECT * FROM '.$wpdb->prefix.'xyz_cfm_sender_email_address WHERE id="'.$xyz_cfm_SmtpId.'"' ) ;
+$xyz_cfm_details = $wpdb->get_results($wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."xyz_cfm_sender_email_address WHERE id= %d ", $xyz_cfm_SmtpId) ) ;
 
 $campCount = count($xyz_cfm_details);
 if($campCount==0){

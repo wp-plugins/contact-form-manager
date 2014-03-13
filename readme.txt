@@ -3,8 +3,8 @@ Contributors: f1logic
 Donate link: http://xyzscripts.com/donate/
 Tags:   contact, contact form, contact forms, contact form plugin,  contact form manager, contact page,  multiple contact forms, custom contact form, contact form with auto reply, contact form with recaptcha, contact form builder, contact us,  contact manager, wordpress contact, TinyMCE form editor
 Requires at least: 2.8
-Tested up to: 3.6
-Stable tag: 1.3.2
+Tested up to: 3.8.1
+Stable tag: 1.4
 License: GPLv2 or later
 
 Create contact forms for your website.  Choose from a wide range of form elements .
@@ -180,6 +180,12 @@ More questions ? [Drop a mail](http://xyzscripts.com/members/support/ "XYZScript
 2. This is a sample contact form.
 
 == Changelog ==
+
+= Contact Form Manager 1.4 =
+* Epoch calendar replaced with jquery calendar
+* Auto focus to first error element upon form submit
+* Option to disable premium version ads
+* A few bug fixes
 
 = Contact Form Manager 1.3.2 =
 * Fix for newsletter subscription related bug

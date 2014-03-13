@@ -9,7 +9,8 @@ global $wpdb;
 $_POST = stripslashes_deep($_POST);
 
 $elementId = $_POST['elementId'];
-$element_result = $wpdb->get_results('SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE id="'.$elementId.'"') ;
+
+$element_result = $wpdb->get_results($wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."xyz_cfm_form_elements WHERE id=  %d ", $elementId)) ;
 $element_result = $element_result[0];
 
 if(count($element_result) == 0 ){
@@ -155,10 +156,10 @@ jQuery('#textFieldButtonUpdate1').click(function() {
 		required = 0;
 	}
 
-	var elementName = encodeURIComponent(jQuery.trim(jQuery("#elementNameUpdate1").val()).replace("+", "%252b"));
-	var className = encodeURIComponent(jQuery("#classNameUpdate1").val().replace("+", "%252b"));
-	var maxlength = encodeURIComponent(jQuery("#maxlengthUpdate1").val().replace("+", "%252b"));
-	var defaultValue = encodeURIComponent(jQuery("#defaultValueUpdate1").val().replace("+", "%252b"));
+	var elementName = jQuery.trim(jQuery("#elementNameUpdate1").val());
+	var className = jQuery("#classNameUpdate1").val();
+	var maxlength = jQuery("#maxlengthUpdate1").val();
+	var defaultValue = jQuery("#defaultValueUpdate1").val();
 	var formId = jQuery("#formId").val();
 	
 	if(elementName != ""){
@@ -200,10 +201,10 @@ jQuery('#textFieldButtonUpdate2').click(function() {
 		required = 0;
 	}
 
-	var elementName = encodeURIComponent(jQuery.trim(jQuery("#elementNameUpdate2").val()).replace("+", "%252b"));
-	var className = encodeURIComponent(jQuery("#classNameUpdate2").val().replace("+", "%252b"));
-	var maxlength = encodeURIComponent(jQuery("#maxlengthUpdate2").val().replace("+", "%252b"));
-	var defaultValue = encodeURIComponent(jQuery("#defaultValueUpdate2").val().replace("+", "%252b"));
+	var elementName = jQuery.trim(jQuery("#elementNameUpdate2").val());
+	var className = jQuery("#classNameUpdate2").val();
+	var maxlength = jQuery("#maxlengthUpdate2").val();
+	var defaultValue = jQuery("#defaultValueUpdate2").val();
 	var formId = jQuery("#formId").val();
 
 	if(elementName != ""){
@@ -243,11 +244,11 @@ jQuery('#textFieldButtonUpdate3').click(function() {
 		required = 0;
 	}
 
-	var elementName = encodeURIComponent(jQuery.trim(jQuery("#elementNameUpdate3").val()).replace("+", "%252b"));
-	var className = encodeURIComponent(jQuery("#classNameUpdate3").val().replace("+", "%252b"));
-	var collength = encodeURIComponent(jQuery("#colLengthUpdate3").val().replace("+", "%252b"));
-	var rowlength = encodeURIComponent(jQuery("#rowLengthUpdate3").val().replace("+", "%252b"));
-	var defaultValue = encodeURIComponent(jQuery("#defaultValueUpdate3").val().replace("+", "%252b"));
+	var elementName = jQuery.trim(jQuery("#elementNameUpdate3").val());
+	var className = jQuery("#classNameUpdate3").val();
+	var collength = jQuery("#colLengthUpdate3").val();
+	var rowlength = jQuery("#rowLengthUpdate3").val();
+	var defaultValue = jQuery("#defaultValueUpdate3").val();
 	var formId = jQuery("#formId").val();
 
 	if(elementName != ""){
@@ -294,10 +295,10 @@ jQuery('#textFieldButtonUpdate4').click(function() {
 	}else{
 		multipleSelect = 0;
 	}
-	var elementName = encodeURIComponent(jQuery.trim(jQuery("#elementNameUpdate4").val()).replace("+", "%252b"));
-	var className = encodeURIComponent(jQuery("#classNameUpdate4").val().replace("+", "%252b"));
-	var options = encodeURIComponent(jQuery.trim(jQuery("#dropDownOptionsUpdate4").val()).replace("+", "%252b"));
-	var defaultValue = encodeURIComponent(jQuery("#dropDownOptionsUpdate4DefaultValue").val().replace("+", "%252b"));
+	var elementName = jQuery.trim(jQuery("#elementNameUpdate4").val());
+	var className = jQuery("#classNameUpdate4").val();
+	var options = jQuery.trim(jQuery("#dropDownOptionsUpdate4").val());
+	var defaultValue = jQuery("#dropDownOptionsUpdate4DefaultValue").val();
 	var formId = jQuery("#formId").val();
 
 	if(elementName != "" && options != ""){
@@ -339,8 +340,8 @@ jQuery('#textFieldButtonUpdate5').click(function() {
 		required = 0;
 	}
 
-	var elementName = encodeURIComponent(jQuery.trim(jQuery("#elementNameUpdate5").val()).replace("+", "%252b"));
-	var className = encodeURIComponent(jQuery("#classNameUpdate5").val().replace("+", "%252b"));
+	var elementName = jQuery.trim(jQuery("#elementNameUpdate5").val());
+	var className = jQuery("#classNameUpdate5").val();
 	var formId = jQuery("#formId").val();
 
 	if(elementName != "" ){
@@ -386,10 +387,10 @@ jQuery('#textFieldButtonUpdate6').click(function() {
 		singleLineView = 0;
 	}
 
-	var elementName = encodeURIComponent(jQuery.trim(jQuery("#elementNameUpdate6").val()).replace("+", "%252b"));
-	var className = encodeURIComponent(jQuery("#classNameUpdate6").val().replace("+", "%252b"));
-	var options = encodeURIComponent(jQuery.trim(jQuery("#checkBoxOptionsUpdate6").val()).replace("+", "%252b"));
-	var defaultValue = encodeURIComponent(jQuery("#checkBoxOptionsUpdate6DefaultValue").val().replace("+", "%252b"));
+	var elementName = jQuery.trim(jQuery("#elementNameUpdate6").val());
+	var className = jQuery("#classNameUpdate6").val();
+	var options = jQuery.trim(jQuery("#checkBoxOptionsUpdate6").val());
+	var defaultValue = jQuery("#checkBoxOptionsUpdate6DefaultValue").val();
 	var formId = jQuery("#formId").val();
 
 	if(elementName != "" && options != ""){
@@ -436,10 +437,10 @@ jQuery('#textFieldButtonUpdate7').click(function() {
 		singleLineView = 0;
 	}
 
-	var elementName = encodeURIComponent(jQuery.trim(jQuery("#elementNameUpdate7").val()).replace("+", "%252b"));
-	var className = encodeURIComponent(jQuery("#classNameUpdate7").val().replace("+", "%252b"));
-	var options = encodeURIComponent(jQuery.trim(jQuery("#radioOptionsUpdate7").val()).replace("+", "%252b"));
-	var defaultValue = encodeURIComponent(jQuery("#radioOptionsUpdate7DefaultValue").val().replace("+", "%252b"));
+	var elementName = jQuery.trim(jQuery("#elementNameUpdate7").val());
+	var className = jQuery("#classNameUpdate7").val();
+	var options = jQuery.trim(jQuery("#radioOptionsUpdate7").val());
+	var defaultValue = jQuery("#radioOptionsUpdate7DefaultValue").val();
 	var formId = jQuery("#formId").val();
 
 	if(elementName != "" && options != ""){
@@ -481,10 +482,10 @@ jQuery('#textFieldButtonUpdate8').click(function() {
 		required = 0;
 	}
 
-	var elementName = encodeURIComponent(jQuery.trim(jQuery("#elementNameUpdate8").val()).replace("+", "%252b"));
-	var className = encodeURIComponent(jQuery("#classNameUpdate8").val().replace("+", "%252b"));
-	var fileSize = encodeURIComponent(jQuery("#fileSizeUpdate8").val().replace("+", "%252b"));
-	var fileType = encodeURIComponent(jQuery("#fileTypeUpdate8").val().replace("+", "%252b"));
+	var elementName = jQuery.trim(jQuery("#elementNameUpdate8").val());
+	var className = jQuery("#classNameUpdate8").val();
+	var fileSize = jQuery("#fileSizeUpdate8").val();
+	var fileType = jQuery("#fileTypeUpdate8").val();
 	var formId = jQuery("#formId").val();
 
 	if(elementName != ""){
@@ -518,9 +519,9 @@ jQuery('#textFieldButtonUpdate8').click(function() {
 jQuery('#textFieldButtonUpdate9').click(function() {
 	var selectId = 9;
 
-	var displayName = encodeURIComponent(jQuery.trim(jQuery("#displayNameUpdate9").val()).replace("+", "%252b"));
-	var elementName = encodeURIComponent(jQuery("#elementNameUpdate9").val().replace("+", "%252b"));
-	var className = encodeURIComponent(jQuery("#classNameUpdate9").val().replace("+", "%252b"));
+	var displayName = jQuery.trim(jQuery("#displayNameUpdate9").val());
+	var elementName = jQuery("#elementNameUpdate9").val();
+	var className = jQuery("#classNameUpdate9").val();
 	var formId = jQuery("#formId").val();
 
 	if(displayName != "" && elementName != ""){
@@ -561,11 +562,11 @@ jQuery('#textFieldButtonUpdate10').click(function() {
 
 	if(jQuery('#reCaptchaUpdate').attr('checked')){
 
-		elementName = encodeURIComponent(jQuery.trim(jQuery("#reCaptchaElementNameUpdate10").val()).replace("+", "%252b"));		
+		elementName = jQuery.trim(jQuery("#reCaptchaElementNameUpdate10").val());		
 		if(elementName != ""){
 			jQuery("#progressEditImage").show();
 			
-			var className = encodeURIComponent(jQuery("#reCaptchaStyleOptionUpdate").val().replace("+", "%252b"));
+			var className = jQuery("#reCaptchaStyleOptionUpdate").val();
 			
 			var dataString = { 
 					action: 'ajax_update_element', 
@@ -590,11 +591,11 @@ jQuery('#textFieldButtonUpdate10').click(function() {
 	
 	}else{
 		
-		elementName = encodeURIComponent(jQuery.trim(jQuery("#captchaElementNameUpdate10").val()).replace("+", "%252b"));		
+		elementName = jQuery.trim(jQuery("#captchaElementNameUpdate10").val());		
 		if(elementName != ""){
 			jQuery("#progressEditImage").show();
 
-			var className = encodeURIComponent(jQuery("#classNameUpdate10").val().replace("+", "%252b"));
+			var className = jQuery("#classNameUpdate10").val();
 			
 			var dataString = { 
 					action: 'ajax_update_element', 

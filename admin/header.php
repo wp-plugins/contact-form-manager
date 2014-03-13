@@ -9,6 +9,10 @@
 	width: 98%
 }
 </style>
+<?php
+if(!get_option(xyz_cfm_hidepmAds))
+{ 
+?>
 <div id="xyz-wp-contactform-premium">
 
 	<div style="float: left; padding: 0 5px">
@@ -30,7 +34,9 @@
 	</h2>		
 	</div>
 </div>
-
+<?php 
+}
+?>
 
 <style>
 	a.xyz_cfm_link:hover{text-decoration:underline;} 
@@ -84,10 +90,10 @@ jQuery(document).ready(function() {
 	<a onmouseover="tooltip.show('Please help us to keep this plugin free forever by donating a dollar');" onmouseout="tooltip.hide();" class="xyz_cfm_link" style="margin-left:8px;margin-right:12px;"   target="_blank" href="http://xyzscripts.com/donate/1">Donate</a>
 </td>
 <td style="float:right;">
-	<a class="xyz_cfm_link" style="margin-left:8px;" target="_blank" href="http://kb.xyzscripts.com/category/contact-form-manager">FAQ</a> |
+	<a class="xyz_cfm_link" style="margin-left:8px;" target="_blank" href="http://kb.xyzscripts.com/wordpress-plugins/contact-form-manager/">FAQ</a> |
 </td>
 <td style="float:right;">
-	<a class="xyz_cfm_link" style="margin-left:8px;" target="_blank" href="http://docs.xyzscripts.com/category/contact-form-manager">README</a> |
+	<a class="xyz_cfm_link" style="margin-left:8px;" target="_blank" href="http://docs.xyzscripts.com/wordpress-plugins/contact-form-manager/">README</a> |
 </td>
 <td style="float:right;">
 	<a class="xyz_cfm_link" style="margin-left:8px;" target="_blank" href="http://xyzscripts.com/wordpress-plugins/contact-form-manager/details">About</a> |

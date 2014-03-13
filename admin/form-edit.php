@@ -131,7 +131,6 @@ if(isset($_POST) && isset($_POST['addSubmit'])){
 				$newsletterSubscriptionErrorFlag = 1;
 			}
 			
-				
 			$additionalFieldInfoDetails = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'xyz_em_additional_field_info' ) ;
 			$fieldValue = array();
 			foreach ($additionalFieldInfoDetails as $InfoDetails){
@@ -180,7 +179,7 @@ if(isset($_POST) && isset($_POST['addSubmit'])){
 			$xyz_cfm_generatedCode != "" && $xyz_cfm_to != "" && ($senderErrorFlag == 0) &&
 			 $xyz_cfm_subject != "" && $xyz_cfm_mailBody != "" && $xyz_cfm_subjectReplay != "" && $xyz_cfm_mailBodyReplay != ""){
 		
-		$element_count = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form WHERE id!="'.$xyz_cfm_formId.'" AND name="'.$xyz_cfm_formName.'" LIMIT 0,1' ) ;
+		$element_count = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."xyz_cfm_form WHERE id!=  %d AND name= '%s' LIMIT %d,%d", $xyz_cfm_formId,$xyz_cfm_formName,0,1) ) ;
 		if(count($element_count) == 0){
 			
 				$wpdb->update($wpdb->prefix.'xyz_cfm_form',
@@ -227,8 +226,7 @@ if(isset($_POST) && isset($_POST['addSubmit'])){
 			<?php
 	
 		}else{
-			$currentCode = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form WHERE element_diplay_name="'.$xyz_cfm_formName.'" LIMIT 0,1' ) ;
-			$currentCode = $currentCode[0];
+			
 			
 			?>
 			<div class="system_notice_area_style0" id="system_notice_area">
@@ -558,10 +556,10 @@ jQuery(document).ready(function() {
 			required = 0;
 		}
 
-		var elementName = encodeURIComponent(jQuery.trim(jQuery("#elementName1").val()).replace("+", "%252b"));
-		var className = encodeURIComponent(jQuery("#className1").val().replace("+", "%252b"));
-		var maxlength = encodeURIComponent(jQuery("#maxlength1").val().replace("+", "%252b"));
-		var defaultValue = encodeURIComponent(jQuery("#defaultValue1").val().replace("+", "%252b"));
+		var elementName = jQuery.trim(jQuery("#elementName1").val());
+		var className = jQuery("#className1").val();
+		var maxlength = jQuery("#maxlength1").val();
+		var defaultValue = jQuery("#defaultValue1").val();
 		var formId = jQuery("#formId").val();
 		
 		if(elementName != ""){
@@ -603,10 +601,10 @@ jQuery(document).ready(function() {
 			required = 0;
 		}
 
-		var elementName = encodeURIComponent(jQuery.trim(jQuery("#elementName2").val()).replace("+", "%252b"));
-		var className = encodeURIComponent(jQuery("#className2").val().replace("+", "%252b"));
-		var maxlength = encodeURIComponent(jQuery("#maxlength2").val().replace("+", "%252b"));
-		var defaultValue = encodeURIComponent(jQuery("#defaultValue2").val().replace("+", "%252b"));
+		var elementName = jQuery.trim(jQuery("#elementName2").val());
+		var className = jQuery("#className2").val();
+		var maxlength = jQuery("#maxlength2").val();
+		var defaultValue = jQuery("#defaultValue2").val();
 		var formId = jQuery("#formId").val();
 
 		if(elementName != ""){
@@ -647,11 +645,11 @@ jQuery(document).ready(function() {
 			required = 0;
 		}
 
-		var elementName = encodeURIComponent(jQuery.trim(jQuery("#elementName3").val()).replace("+", "%252b"));
-		var className = encodeURIComponent(jQuery("#className3").val().replace("+", "%252b"));
-		var collength = encodeURIComponent(jQuery("#colLength3").val().replace("+", "%252b"));
-		var rowlength = encodeURIComponent(jQuery("#rowLength3").val().replace("+", "%252b"));
-		var defaultValue = encodeURIComponent(jQuery("#defaultValue3").val().replace("+", "%252b"));
+		var elementName = jQuery.trim(jQuery("#elementName3").val());
+		var className = jQuery("#className3").val();
+		var collength = jQuery("#colLength3").val();
+		var rowlength = jQuery("#rowLength3").val();
+		var defaultValue = jQuery("#defaultValue3").val();
 		var formId = jQuery("#formId").val();
 
 		if(elementName != ""){
@@ -698,10 +696,10 @@ jQuery(document).ready(function() {
 		}else{
 			multipleSelect = 0;
 		}
-		var elementName = encodeURIComponent(jQuery.trim(jQuery("#elementName4").val()).replace("+", "%252b"));
-		var className = encodeURIComponent(jQuery("#className4").val().replace("+", "%252b"));
-		var options = encodeURIComponent(jQuery.trim(jQuery("#dropDownOptions4").val()).replace("+", "%252b"));
-		var defaultValue = encodeURIComponent(jQuery.trim(jQuery("#dropDownOptions4DefaultValue").val()).replace("+", "%252b"));
+		var elementName = jQuery.trim(jQuery("#elementName4").val());
+		var className = jQuery("#className4").val();
+		var options = jQuery.trim(jQuery("#dropDownOptions4").val());
+		var defaultValue = jQuery.trim(jQuery("#dropDownOptions4DefaultValue").val());
 		var formId = jQuery("#formId").val();
 
 		if(elementName != "" && options != ""){
@@ -742,8 +740,8 @@ jQuery(document).ready(function() {
 			required = 0;
 		}
 
-		var elementName = encodeURIComponent(jQuery.trim(jQuery("#elementName5").val()).replace("+", "%252b"));
-		var className = encodeURIComponent(jQuery("#className5").val().replace("+", "%252b"));
+		var elementName = jQuery.trim(jQuery("#elementName5").val());
+		var className = jQuery("#className5").val();
 		var formId = jQuery("#formId").val();
 
 		if(elementName != "" ){
@@ -787,10 +785,10 @@ jQuery(document).ready(function() {
 			singleLineView = 0;
 		}
 		//alert(singleLineView);return false;
-		var elementName = encodeURIComponent(jQuery.trim(jQuery("#elementName6").val()).replace("+", "%252b"));
-		var className = encodeURIComponent(jQuery("#className6").val().replace("+", "%252b"));
-		var options = encodeURIComponent(jQuery.trim(jQuery("#checkBoxOptions6").val()).replace("+", "%252b"));
-		var defaultValue = encodeURIComponent(jQuery.trim(jQuery("#checkBoxOptions6DefaultValue").val()).replace("+", "%252b"));
+		var elementName = jQuery.trim(jQuery("#elementName6").val());
+		var className = jQuery("#className6").val();
+		var options = jQuery.trim(jQuery("#checkBoxOptions6").val());
+		var defaultValue = jQuery.trim(jQuery("#checkBoxOptions6DefaultValue").val());
 		var formId = jQuery("#formId").val();
 
 		if(elementName != "" && options != ""){
@@ -838,10 +836,10 @@ jQuery(document).ready(function() {
 			singleLineView = 0;
 		}
 
-		var elementName = encodeURIComponent(jQuery.trim(jQuery("#elementName7").val()).replace("+", "%252b"));
-		var className = encodeURIComponent(jQuery("#className7").val().replace("+", "%252b"));
-		var options = encodeURIComponent(jQuery.trim(jQuery("#radioOptions7").val()).replace("+", "%252b"));
-		var defaultValue = encodeURIComponent(jQuery.trim(jQuery("#radioOptions7DefaultValue").val()).replace("+", "%252b"));
+		var elementName = jQuery.trim(jQuery("#elementName7").val());
+		var className = jQuery("#className7").val();
+		var options = jQuery.trim(jQuery("#radioOptions7").val());
+		var defaultValue = jQuery.trim(jQuery("#radioOptions7DefaultValue").val());
 		var formId = jQuery("#formId").val();
 
 		if(elementName != "" && options != ""){
@@ -882,10 +880,10 @@ jQuery(document).ready(function() {
 			required = 0;
 		}
 
-		var elementName = encodeURIComponent(jQuery.trim(jQuery("#elementName8").val()).replace("+", "%252b"));
-		var className = encodeURIComponent(jQuery("#className8").val().replace("+", "%252b"));
-		var fileSize = encodeURIComponent(jQuery("#fileSize8").val().replace("+", "%252b"));
-		var fileType = encodeURIComponent(jQuery("#fileType8").val().replace("+", "%252b"));
+		var elementName = jQuery.trim(jQuery("#elementName8").val());
+		var className = jQuery("#className8").val();
+		var fileSize = jQuery("#fileSize8").val();
+		var fileType = jQuery("#fileType8").val();
 		var formId = jQuery("#formId").val();
 
 		if(elementName != ""){
@@ -918,9 +916,9 @@ jQuery(document).ready(function() {
 
 		var selectId = 9;
 
-		var displayName = encodeURIComponent(jQuery.trim(jQuery("#displayName9").val()).replace("+", "%252b"));
-		var elementName = encodeURIComponent(jQuery.trim(jQuery("#elementName9").val()).replace("+", "%252b"));
-		var className = encodeURIComponent(jQuery("#className9").val().replace("+", "%252b"));
+		var displayName = jQuery.trim(jQuery("#displayName9").val());
+		var elementName = jQuery.trim(jQuery("#elementName9").val());
+		var className = jQuery("#className9").val();
 		var formId = jQuery("#formId").val();
 
 		if(displayName != "" && elementName != ""){
@@ -957,11 +955,11 @@ jQuery(document).ready(function() {
 		var reCaptcha = jQuery("#reCaptcha").val();
 
 		if(jQuery('#reCaptcha').attr('checked')){
-			elementName = encodeURIComponent(jQuery.trim(jQuery("#reCaptchaElementName10").val()).replace("+", "%252b"));
+			elementName = jQuery.trim(jQuery("#reCaptchaElementName10").val());
 			if(elementName != ""){
 				jQuery("#progressSelectImage").show();
 
-				var className = encodeURIComponent(jQuery("#reCaptchaStyleOption").val().replace("+", "%252b"));
+				var className = jQuery("#reCaptchaStyleOption").val();
 				var dataString = { 
 						action: 'ajax_insert_element', 
 						id: selectId,
@@ -984,10 +982,10 @@ jQuery(document).ready(function() {
 
 		}else{
 
-			elementName = encodeURIComponent(jQuery.trim(jQuery("#captchaElementName10").val()).replace("+", "%252b"));
+			elementName = jQuery.trim(jQuery("#captchaElementName10").val());
 			if(elementName != ""){
 				jQuery("#progressSelectImage").show();
-				var className = encodeURIComponent(jQuery("#className10").val().replace("+", "%252b"));
+				var className = jQuery("#className10").val();
 				var dataString = { 
 						action: 'ajax_insert_element', 
 						id: selectId,
@@ -1140,7 +1138,7 @@ function editor_change_reply()
 global $wpdb;
 
 
-$formDetails = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form WHERE id="'.$xyz_cfm_formId.'" LIMIT 0,1' ) ;
+$formDetails = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."xyz_cfm_form WHERE id= %d LIMIT %d,%d", $xyz_cfm_formId, 0, 1 ) ) ;
 $formDetails = $formDetails[0];
 
 // echo '<pre>';
@@ -1918,14 +1916,14 @@ td {
 								</td>
 							</tr>
 							<tr>
-								<td style="border-bottom: none;"><br>
+								<td style="border-bottom: none;">
 									<div style="width: 100%;">
 										Redirection link after form submit (optional) : <br> <input
 											style="width: 350px;" type="text" name="redirectionLink"
 											id="redirectionLink"
 											value="<?php if(isset($_POST['redirectionLink'])){ echo esc_html($_POST['redirectionLink']);}else{ echo esc_html($formDetails->redirection_link); }?>">
 									</div>
-									<div style="width: 100%;">
+									<div style="width: 100%;"><br>
 										Redisplay empty form after submission: <input style=""
 											type="radio" name="redisplayOption" value="1"
 											<?php if(isset($_POST['redisplayOption']) && ($_POST['redisplayOption'] == 1)){?>
@@ -1939,6 +1937,9 @@ td {
 											checked="checked"
 											<?php }?>>No
 									</div>
+									<div style="width: 100%;"><br>
+											<strong>NOTE: Both settings will not work together</strong>
+										</div>
 									<br></td>
 							</tr>
 							

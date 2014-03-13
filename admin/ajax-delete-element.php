@@ -12,8 +12,9 @@ if($_POST){
 			
 	$formId = $_POST['formId'];
 	$elementId = $_POST['elementId'];
-
-	$wpdb->query('DELETE FROM '.$wpdb->prefix.'xyz_cfm_form_elements where id="'.$elementId.'" AND form_id="'.$formId.'"');
+	
+	
+	$wpdb->query($wpdb->prepare( "DELETE FROM ".$wpdb->prefix."xyz_cfm_form_elements WHERE id= %d AND form_id= %d", $elementId,$formId));
 
 }
 die();

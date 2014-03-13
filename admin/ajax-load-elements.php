@@ -8,7 +8,7 @@ global $wpdb;
 $_POST = stripslashes_deep($_POST);
 $formId = $_POST['formId'];
 
-$element_result = $wpdb->get_results('SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE form_id="'.$formId.'"') ;
+$element_result = $wpdb->get_results($wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."xyz_cfm_form_elements WHERE form_id=  %d ", $formId)) ;
 //$element_result = $element_result[0];
 // echo '<pre>';
 // print_r($element_result);
@@ -53,7 +53,7 @@ jQuery(document).ready(function() {
 	        if (confirm('Please click \'OK\' to confirm ')) {
 	        	
 	        	jQuery("#progressEditImage").show();
-
+	        	var formId = jQuery("#formId").val();
 	        	var dataString = { 
 	    	        	action: 'ajax_delete_element', 
 	    	        	elementId: (event.target.id).substring(1),

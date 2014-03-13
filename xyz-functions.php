@@ -100,6 +100,9 @@ function xyz_cfm_links($links, $file) {
 	$base = plugin_basename(XYZ_CFM_PLUGIN_FILE);
 	if ($file == $base) {
 
+		$links[] = '<a href="http://kb.xyzscripts.com/wordpress-plugins/contact-form-manager/"  title="FAQ">FAQ</a>';
+		$links[] = '<a href="http://docs.xyzscripts.com/wordpress-plugins/contact-form-manager/"  title="Read Me">README</a>';
+		$links[] = '<a href="http://xyzscripts.com/donate/1" title="Donate">Donate</a>';
 		$links[] = '<a href="http://xyzscripts.com/support/" class="xyz_support" title="Support"></a>';
 		$links[] = '<a href="http://twitter.com/xyzscripts" class="xyz_twitt" title="Follow us on twitter"></a>';
 		$links[] = '<a href="https://www.facebook.com/xyzscripts" class="xyz_fbook" title="Facebook"></a>';

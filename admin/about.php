@@ -37,7 +37,7 @@ developed and maintained by
 	</tr>
 	<!-- Supported Elements  -->
 	<tr>
-		<td rowspan="14"><h4>Form Elements</h4></td>
+		<td rowspan="18"><h4>Form Elements</h4></td>
 		<td>Text field, Email field, Textarea</td>
 		<td><img src="<?php echo plugins_url("contact-form-manager/images/tick.png");?>">
 		</td>
@@ -136,7 +136,35 @@ developed and maintained by
 		</td>
 		<td><img src="<?php echo plugins_url("contact-form-manager/images/tick.png");?>">
 		</td>
+	</tr>
+	<tr>
+		<td>Option to define javascript callback for click, keyup, keydown, blur, mouseover, mouseout, mouseup, mousedown events on form elements</td>
+		<td><img src="<?php echo plugins_url("contact-form-manager/images/cross.png");?>">
+		</td>
+		<td><img src="<?php echo plugins_url("contact-form-manager/images/tick.png");?>">
+		</td>
+	</tr>
+	<tr>
+		<td>Option to upload multiple files in file upload element</td>
+		<td><img src="<?php echo plugins_url("contact-form-manager/images/cross.png");?>">
+		</td>
+		<td><img src="<?php echo plugins_url("contact-form-manager/images/tick.png");?>">
+		</td>
+	</tr>
+	<tr>
+		<td>Datepicker with option to pick month,day,year separately</td>
+		<td><img src="<?php echo plugins_url("contact-form-manager/images/cross.png");?>">
+		</td>
+		<td><img src="<?php echo plugins_url("contact-form-manager/images/tick.png");?>">
+		</td>
 	</tr>	
+	<tr>
+		<td>Option to specify date range for datepicker</td>
+		<td><img src="<?php echo plugins_url("contact-form-manager/images/cross.png");?>">
+		</td>
+		<td><img src="<?php echo plugins_url("contact-form-manager/images/tick.png");?>">
+		</td>
+	</tr>
 	<!-- Form Content  -->
 	<tr>
 		<td rowspan="11"><h4>Form Content</h4></td>

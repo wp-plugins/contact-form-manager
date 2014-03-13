@@ -24,6 +24,11 @@ function cfm_uninstall(){
 
 global $wpdb;
 
+$pluginName = 'xyz-wp-contact-form/xyz-wp-contact-form.php';
+if (is_plugin_active($pluginName)) {
+    return;
+}
+
 /* table delete*/
 
 
@@ -52,7 +57,7 @@ delete_option('xyz_cfm_DateFormat');
 
 }
 
-register_uninstall_hook( XYZ_CFM_PLUGIN_FILE, 'cfm_network_uninstall' );
 
+	register_uninstall_hook( XYZ_CFM_PLUGIN_FILE, 'cfm_network_uninstall' );
 
 ?>

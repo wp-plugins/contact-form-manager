@@ -38,6 +38,8 @@ if ($_POST['xyz_cfm_pagelimit']!= ""){
 			$xyz_cfm_SmtpDebug = $_POST['xyz_cfm_SmtpDebug'];
 			$xyz_cfm_DateFormat = $_POST['xyz_cfm_DateFormat'];
 			
+			$xyz_cfm_hidepmAds = $_POST['xyz_cfm_hidepmAds'];
+			
 			update_option('xyz_cfm_paging_limit',$xyz_cfm_pagelimit);
 			update_option('xyz_cfm_tinymce_filter',$xyz_cfm_filter);
 			update_option('xyz_cfm_mandatory_sign',$xyz_cfm_mandatory);
@@ -50,6 +52,8 @@ if ($_POST['xyz_cfm_pagelimit']!= ""){
 			
 			update_option('xyz_cfm_sendViaSmtp',$xyz_cfm_sendViaSmtp);
 			update_option('xyz_cfm_SmtpDebug',$xyz_cfm_SmtpDebug);
+			
+			update_option('xyz_cfm_hidepmAds',$xyz_cfm_hidepmAds);
 ?>
 
 
@@ -201,6 +205,20 @@ jQuery(document).ready(function() {
 				<td ><input  name="xyz_cfm_recaptchaPublicKey" type="text"
 					id="xyz_cfm_recaptchaPublicKey" value="<?php if(isset($_POST['xyz_cfm_recaptchaPublicKey']) && $_POST['xyz_cfm_recaptchaPublicKey'] != ""){echo $_POST['xyz_cfm_recaptchaPublicKey'];}else{print(get_option('xyz_cfm_recaptcha_public_key'));} ?>" />
 					&nbsp;&nbsp;&nbsp;<a target="_blank" href="https://www.google.com/recaptcha/admin" >Get Public Key</a>
+				</td>
+			</tr>
+			<tr valign="top">
+				<td scope="row" class=" settingInput" id="bottomBorderNone"><label for="xyz_cfm_hidepmAds">
+						Hide premium version ads</label>
+				</td>
+				<td id="bottomBorderNone" style="width: 200px !important;"><select name="xyz_cfm_hidepmAds"
+					id="xyz_cfm_hidepmAds">
+						<option value="0"
+						<?php if(isset($_POST['xyz_cfm_hidepmAds']) && $_POST['xyz_cfm_hidepmAds']==0){ echo 'selected';}elseif(get_option('xyz_cfm_hidepmAds')==0){echo 'selected';}?>>No</option>
+						<option value="1"
+						<?php if(isset($_POST['xyz_cfm_hidepmAds']) && $_POST['xyz_cfm_hidepmAds']==1){ echo 'selected';}elseif(get_option('xyz_cfm_hidepmAds')==1){echo 'selected';}?>>Yes</option>
+
+				</select>
 				</td>
 			</tr>
 			<tr>

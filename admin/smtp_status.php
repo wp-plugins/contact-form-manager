@@ -10,13 +10,13 @@ if($xyz_cfm_SmtpId=="" || !is_numeric($xyz_cfm_SmtpId)){
 	header("Location:".admin_url('admin.php?page=contact-form-manager-manage-smtp'));
 	exit();
 }
-$campCount = $wpdb->query( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_sender_email_address WHERE id="'.$xyz_cfm_SmtpId.'"' ) ;
+$campCount = $wpdb->query( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."xyz_cfm_sender_email_address WHERE id= %d",$xyz_cfm_SmtpId) ) ;
 if($campCount==0){
 	header("Location:".admin_url('admin.php?page=contact-form-manager-manage-smtp&smtpmsg=3'));
 	exit();
 }else{
 	
-	$xyz_cfm_default = $wpdb->get_results('SELECT * FROM '.$wpdb->prefix.'xyz_cfm_sender_email_address WHERE id="'.$xyz_cfm_SmtpId.'"' ) ;
+	$xyz_cfm_default = $wpdb->get_results($wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."xyz_cfm_sender_email_address WHERE id= %d ", $xyz_cfm_SmtpId) ) ;
 	$xyz_cfm_default = $xyz_cfm_default[0];
 	
 	if($xyz_cfm_default->set_default != 1){

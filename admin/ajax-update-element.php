@@ -19,20 +19,21 @@ if($_REQUEST['id']){
 
 		$required = $_POST['required'];
 
-		$elementName = str_replace(' ','',str_replace('%2b','+',urldecode($_POST['elementName'])));
+		$elementName = str_replace(' ','',$_POST['elementName']);
 		$elementNameTest = str_replace('_','',$elementName);
 
 		if(ctype_alnum($elementNameTest) && ctype_alpha($elementNameTest[0])){
-			$className = str_replace('%2b','+',urldecode($_POST['className']));
-			$maxlength = intval(str_replace('%2b','+',urldecode($_POST['maxlength'])));
+			$className = $_POST['className'];
+			$maxlength = intval($_POST['maxlength']);
 			if($maxlength == 0){
 				$maxlength = '';
 			}
-			$defaultValue = str_replace('%2b','+',urldecode($_POST['defaultValue']));
+			$defaultValue = $_POST['defaultValue'];
 
 
 			$elementType = 1;
-			$element_count = $wpdb->query( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE element_name="'.$elementName.'" AND form_id="'.$formId.'" AND id!="'.$elementId.'"  LIMIT 0,1' ) ;
+			
+			$element_count = $wpdb->query( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."xyz_cfm_form_elements WHERE element_name= '%s' AND form_id= %d AND id!= %d LIMIT %d,%d", $elementName,$formId,$elementId,0,1) ) ;
 			if($element_count == 0){
 				$wpdb->update($wpdb->prefix.'xyz_cfm_form_elements', array('element_required'=>$required,'element_name'=>$elementName,'css_class'=>$className,'max_length'=>$maxlength,'default_value'=>$defaultValue), array('id'=>$elementId));
 				echo "<font color=green>Element successfully updated.</font>";
@@ -50,19 +51,19 @@ if($_REQUEST['id']){
 
 		$required = $_POST['required'];
 
-		$elementName = str_replace(' ','',str_replace('%2b','+',urldecode($_POST['elementName'])));
+		$elementName = str_replace(' ','',$_POST['elementName']);
 		$elementNameTest = str_replace('_','',$elementName);
 
 		if(ctype_alnum($elementNameTest) && ctype_alpha($elementNameTest[0])){
-			$className = str_replace('%2b','+',urldecode($_POST['className']));
-			$maxlength = intval(str_replace('%2b','+',urldecode($_POST['maxlength'])));
+			$className = $_POST['className'];
+			$maxlength = intval($_POST['maxlength']);
 			if($maxlength == 0){
 				$maxlength = '';
 			}
-			$defaultValue = str_replace('%2b','+',urldecode($_POST['defaultValue']));
+			$defaultValue = $_POST['defaultValue'];
 			$elementType = 2;
 
-			$element_count = $wpdb->query( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE element_name="'.$elementName.'" AND form_id="'.$formId.'" AND id!="'.$elementId.'" LIMIT 0,1' ) ;
+			$element_count = $wpdb->query( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."xyz_cfm_form_elements WHERE element_name= '%s' AND form_id= %d AND id!= %d LIMIT %d,%d", $elementName,$formId,$elementId,0,1) ) ;
 			if($element_count == 0){
 				$wpdb->update($wpdb->prefix.'xyz_cfm_form_elements', array('element_required'=>$required,'element_name'=>$elementName,'css_class'=>$className,'max_length'=>$maxlength,'default_value'=>$defaultValue), array('id'=>$elementId));
 				echo "<font color=green>Element successfully updated.</font>";
@@ -79,23 +80,23 @@ if($_REQUEST['id']){
 
 		$required = $_POST['required'];
 
-		$elementName = str_replace(' ','',str_replace('%2b','+',urldecode($_POST['elementName'])));
+		$elementName = str_replace(' ','',$_POST['elementName']);
 		$elementNameTest = str_replace('_','',$elementName);
 
 		if(ctype_alnum($elementNameTest) && ctype_alpha($elementNameTest[0])){
-			$className = str_replace('%2b','+',urldecode($_POST['className']));
-			$collength = intval(str_replace('%2b','+',urldecode($_POST['collength'])));
+			$className = $_POST['className'];
+			$collength = intval($_POST['collength']);
 			if($collength == 0){
 				$collength = '';
 			}
-			$rowlength = intval(str_replace('%2b','+',urldecode($_POST['rowlength'])));
+			$rowlength = intval($_POST['rowlength']);
 			if($rowlength == 0){
 				$rowlength = '';
 			}
-			$defaultValue = str_replace('%2b','+',urldecode($_POST['defaultValue']));
+			$defaultValue = $_POST['defaultValue'];
 			$elementType = 3;
 
-			$element_count = $wpdb->query( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE element_name="'.$elementName.'" AND form_id="'.$formId.'" AND id!="'.$elementId.'" LIMIT 0,1' ) ;
+			$element_count = $wpdb->query( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."xyz_cfm_form_elements WHERE element_name= '%s' AND form_id= %d AND id!= %d LIMIT %d,%d", $elementName,$formId,$elementId,0,1) ) ;
 			if($element_count == 0){
 				$wpdb->update($wpdb->prefix.'xyz_cfm_form_elements', array('element_required'=>$required,'element_name'=>$elementName,'css_class'=>$className,'cols'=>$collength,'rows'=>$rowlength,'default_value'=>$defaultValue), array('id'=>$elementId));
 				echo "<font color=green>Element successfully updated.</font>";
@@ -112,18 +113,18 @@ if($_REQUEST['id']){
 
 		$required = $_POST['required'];
 
-		$elementName = str_replace(' ','',str_replace('%2b','+',urldecode($_POST['elementName'])));
+		$elementName = str_replace(' ','',$_POST['elementName']);
 		$elementNameTest = str_replace('_','',$elementName);
 
 		if(ctype_alnum($elementNameTest) && ctype_alpha($elementNameTest[0])){
-			$className = str_replace('%2b','+',urldecode($_POST['className']));
-			$options = xyz_cfm_trimOptions(str_replace('%2b','+',urldecode($_POST['options'])));
-			$defaultValue = xyz_cfm_trimOptions(str_replace('%2b','+',urldecode($_POST['defaultValue'])));
+			$className = $_POST['className'];
+			$options = xyz_cfm_trimOptions($_POST['options']);
+			$defaultValue = xyz_cfm_trimOptions($_POST['defaultValue']);
 			$multipleSelect = $_POST['multipleSelect'];
 			$elementType = 4;
 
 				
-			$element_count = $wpdb->query( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE element_name="'.$elementName.'" AND form_id="'.$formId.'" AND id!="'.$elementId.'" LIMIT 0,1' ) ;
+			$element_count = $wpdb->query( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."xyz_cfm_form_elements WHERE element_name= '%s' AND form_id= %d AND id!= %d LIMIT %d,%d", $elementName,$formId,$elementId,0,1) ) ;
 			if($element_count == 0){
 				$wpdb->update($wpdb->prefix.'xyz_cfm_form_elements', array('element_required'=>$required,'element_name'=>$elementName,'css_class'=>$className,'options'=>$options,'default_value'=>$defaultValue,'client_view_multi_select_drop_down'=>$multipleSelect), array('id'=>$elementId));
 				echo "<font color=green>Element successfully updated.</font>";
@@ -139,15 +140,15 @@ if($_REQUEST['id']){
 
 		$required = $_POST['required'];
 
-		$elementName = str_replace(' ','',str_replace('%2b','+',urldecode($_POST['elementName'])));
+		$elementName = str_replace(' ','',$_POST['elementName']);
 		$elementNameTest = str_replace('_','',$elementName);
 
 		if(ctype_alnum($elementNameTest) && ctype_alpha($elementNameTest[0])){
-			$className = str_replace('%2b','+',urldecode($_POST['className']));
+			$className = $_POST['className'];
 			$elementType = 5;
 
 
-			$element_count = $wpdb->query( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE element_name="'.$elementName.'" AND form_id="'.$formId.'" AND id!="'.$elementId.'" LIMIT 0,1' ) ;
+			$element_count = $wpdb->query( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."xyz_cfm_form_elements WHERE element_name= '%s' AND form_id= %d AND id!= %d LIMIT %d,%d", $elementName,$formId,$elementId,0,1) ) ;
 			if($element_count == 0){
 				$wpdb->update($wpdb->prefix.'xyz_cfm_form_elements', array('element_required'=>$required,'element_name'=>$elementName,'css_class'=>$className), array('id'=>$elementId));
 				echo "<font color=green>Element successfully updated.</font>";
@@ -163,17 +164,17 @@ if($_REQUEST['id']){
 
 		$required = $_POST['required'];
 
-		$elementName = str_replace(' ','',str_replace('%2b','+',urldecode($_POST['elementName'])));
+		$elementName = str_replace(' ','',$_POST['elementName']);
 		$elementNameTest = str_replace('_','',$elementName);
 
 		if(ctype_alnum($elementNameTest) && ctype_alpha($elementNameTest[0])){
-			$className = str_replace('%2b','+',urldecode($_POST['className']));
-			$options = xyz_cfm_trimOptions(str_replace('%2b','+',urldecode($_POST['options'])));
-			$defaultValue = xyz_cfm_trimOptions(str_replace('%2b','+',urldecode($_POST['defaultValue'])));
+			$className = $_POST['className'];
+			$options = xyz_cfm_trimOptions($_POST['options']);
+			$defaultValue = xyz_cfm_trimOptions($_POST['defaultValue']);
 			$singleLineView = $_POST['singleLineView'];
 			$elementType = 6;
 
-			$element_count = $wpdb->query( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE element_name="'.$elementName.'" AND form_id="'.$formId.'" AND id!="'.$elementId.'" LIMIT 0,1' ) ;
+			$element_count = $wpdb->query( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."xyz_cfm_form_elements WHERE element_name= '%s' AND form_id= %d AND id!= %d LIMIT %d,%d", $elementName,$formId,$elementId,0,1) ) ;
 			if($element_count == 0){
 				$wpdb->update($wpdb->prefix.'xyz_cfm_form_elements', array('element_required'=>$required,'element_name'=>$elementName,'css_class'=>$className,'options'=>$options,'client_view_check_radio_line_break_count'=>$singleLineView,'default_value'=>$defaultValue), array('id'=>$elementId));
 				echo "<font color=green>Element successfully updated.</font>";
@@ -189,17 +190,17 @@ if($_REQUEST['id']){
 
 		$required = $_POST['required'];
 
-		$elementName = str_replace(' ','',str_replace('%2b','+',urldecode($_POST['elementName'])));
+		$elementName = str_replace(' ','',$_POST['elementName']);
 		$elementNameTest = str_replace('_','',$elementName);
 
 		if(ctype_alnum($elementNameTest) && ctype_alpha($elementNameTest[0])){
-			$className = str_replace('%2b','+',urldecode($_POST['className']));
-			$options = xyz_cfm_trimOptions(str_replace('%2b','+',urldecode($_POST['options'])));
-			$defaultValue = xyz_cfm_trimOptions(str_replace('%2b','+',urldecode($_POST['defaultValue'])));
+			$className = $_POST['className'];
+			$options = xyz_cfm_trimOptions($_POST['options']);
+			$defaultValue = xyz_cfm_trimOptions($_POST['defaultValue']);
 			$singleLineView = $_POST['singleLineView'];
 			$elementType = 7;
 
-			$element_count = $wpdb->query( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE element_name="'.$elementName.'" AND form_id="'.$formId.'" AND id!="'.$elementId.'" LIMIT 0,1' ) ;
+			$element_count = $wpdb->query( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."xyz_cfm_form_elements WHERE element_name= '%s' AND form_id= %d AND id!= %d LIMIT %d,%d", $elementName,$formId,$elementId,0,1) ) ;
 			if($element_count == 0){
 				$wpdb->update($wpdb->prefix.'xyz_cfm_form_elements', array('element_required'=>$required,'element_name'=>$elementName,'css_class'=>$className,'options'=>$options,'client_view_check_radio_line_break_count'=>$singleLineView,'default_value'=>$defaultValue), array('id'=>$elementId));
 					
@@ -216,21 +217,21 @@ if($_REQUEST['id']){
 
 		$required = $_POST['required'];
 
-		$elementName = str_replace(' ','',str_replace('%2b','+',urldecode($_POST['elementName'])));
+		$elementName = str_replace(' ','',$_POST['elementName']);
 		$elementNameTest = str_replace('_','',$elementName);
 
 		if(ctype_alnum($elementNameTest) && ctype_alpha($elementNameTest[0])){
-			$className = str_replace('%2b','+',urldecode($_POST['className']));
-			$fileSize = intval(str_replace('%2b','+',urldecode($_POST['fileSize'])));
+			$className = $_POST['className'];
+			$fileSize = intval($_POST['fileSize']);
 			if($fileSize == 0){
 				$fileSize = '';
 			}
-			$fileType = str_replace('%2b','+',urldecode($_POST['fileType']));
+			$fileType = $_POST['fileType'];
 
 			$elementType = 8;
 
 
-			$element_count = $wpdb->query( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE element_name="'.$elementName.'" AND form_id="'.$formId.'" AND id!="'.$elementId.'" LIMIT 0,1' ) ;
+			$element_count = $wpdb->query( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."xyz_cfm_form_elements WHERE element_name= '%s' AND form_id= %d AND id!= %d LIMIT %d,%d", $elementName,$formId,$elementId,0,1) ) ;
 			if($element_count == 0){
 					
 				$wpdb->update($wpdb->prefix.'xyz_cfm_form_elements', array('element_required'=>$required, 'element_name'=>$elementName,'css_class'=>$className,'file_size'=>$fileSize,'file_type'=>$fileType), array('id'=>$elementId));
@@ -246,16 +247,16 @@ if($_REQUEST['id']){
 
 	if($id == 9){
 
-		$displayName = str_replace('%2b','+',urldecode($_POST['displayName']));
-		$elementName = str_replace(' ','',str_replace('%2b','+',urldecode($_POST['elementName'])));
+		$displayName = $_POST['displayName'];
+		$elementName = str_replace(' ','',$_POST['elementName']);
 		$elementNameTest = str_replace('_','',$elementName);
 
 		if(ctype_alnum($elementNameTest) && ctype_alpha($elementNameTest[0])){
-			$className = str_replace('%2b','+',urldecode($_POST['className']));
+			$className = $_POST['className'];
 			$elementType = 9;
 
-			$element_count = $wpdb->query( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE element_name="'.$elementName.'" AND form_id="'.$formId.'" AND id!="'.$elementId.'" LIMIT 0,1' ) ;
-			//$element_count = $wpdb->query( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE element_type="9" AND form_id="'.$formId.'" AND id!="'.$elementId.'" LIMIT 0,1' ) ;
+			$element_count = $wpdb->query( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."xyz_cfm_form_elements WHERE element_name= '%s' AND form_id= %d AND id!= %d LIMIT %d,%d", $elementName,$formId,$elementId,0,1) ) ;
+			
 			if($element_count == 0){
 					
 				$wpdb->update($wpdb->prefix.'xyz_cfm_form_elements', array('element_diplay_name'=>$displayName, 'element_name'=>$elementName,'css_class'=>$className), array('id'=>$elementId));
@@ -272,14 +273,14 @@ if($_REQUEST['id']){
 	if($id == 10){
 		
 		$required = 1;
-		$elementName = str_replace(' ','',str_replace('%2b','+',urldecode($_REQUEST['elementName'])));
+		$elementName = str_replace(' ','',$_REQUEST['elementName']);
 		$elementNameTest = str_replace('_','',$elementName);
 			
 		if(ctype_alnum($elementNameTest) && ctype_alpha($elementNameTest[0])){
-			$className = str_replace('%2b','+',urldecode($_REQUEST['className']));
+			$className = $_REQUEST['className'];
 			$elementType = 10;
 			$reCaptcha  = $_REQUEST['reCaptcha'];
-			$element_count = $wpdb->query( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE element_name="'.$elementName.'" AND form_id="'.$formId.'" AND id!="'.$elementId.'" LIMIT 0,1' ) ;
+			$element_count = $wpdb->query( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."xyz_cfm_form_elements WHERE element_name= '%s' AND form_id= %d AND id!= %d LIMIT %d,%d", $elementName,$formId,$elementId,0,1) ) ;
 			if($element_count == 0){
 					
 				$wpdb->update($wpdb->prefix.'xyz_cfm_form_elements', array('element_required'=>$required,'element_name'=>$elementName,'element_type'=>$elementType,'css_class'=>$className,'re_captcha'=>$reCaptcha), array('id'=>$elementId));

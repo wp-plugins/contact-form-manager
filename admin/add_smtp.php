@@ -23,7 +23,8 @@ if (($_POST['xyz_cfm_SmtpHostName']!= "") && ($_POST['xyz_cfm_SmtpEmailAddress']
 				$xyz_cfm_SmtpSetDefault = 0;
 			}
 			
-			$xyz_cfm_smtpAccountCount = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_sender_email_address WHERE user="'.$xyz_cfm_SmtpEmailAddress.'"  LIMIT 0,1' ) ;
+			
+			$xyz_cfm_smtpAccountCount = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."xyz_cfm_sender_email_address WHERE user= '%s' LIMIT %d,%d", $xyz_cfm_SmtpEmailAddress, 0, 1 ) ) ;
 			if(count($xyz_cfm_smtpAccountCount) == 0){
 			
 			$wpdb->insert($wpdb->prefix.'xyz_cfm_sender_email_address', 

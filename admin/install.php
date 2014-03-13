@@ -36,6 +36,8 @@ function cfm_install(){
 	add_option("xyz_cfm_mandatory_sign",1);
 	add_option("xyz_cfm_DateFormat",2);
 	
+	add_option("xyz_cfm_hidepmAds",0);
+	
 // 	add_option("xyz_cfm_credit_link",0);
 	
 	if(get_option('xyz_credit_link') == ""){

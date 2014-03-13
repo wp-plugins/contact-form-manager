@@ -68,7 +68,8 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 		
 		$xyz_cfm_form_counter = "_".$GLOBALS['xyz_cfm_'.$formId];
 		
-		$formAllData = $wpdb->get_results('SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form WHERE id="'.$formId.'"' );
+		
+		$formAllData = $wpdb->get_results($wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."xyz_cfm_form WHERE id= %d ", $formId));
 		if(count($formAllData)){
 			$formAllData = $formAllData[0];
 			
@@ -136,7 +137,8 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 							
 							$elementId =  strstr($value, '-');
 							$elementId = substr($elementId,1,-1);
-							$elementName = $wpdb->get_results('SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE id="'.$elementId.'"' );
+							
+							$elementName = $wpdb->get_results($wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."xyz_cfm_form_elements WHERE id= %d ", $elementId));
 							$elementName = $elementName[0];
 							
 							if(($elementName->element_type != 8)&&($elementName->element_type != 9)&&($elementName->element_type != 10)){
@@ -297,7 +299,7 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 					$elementId = substr($elementId,1,-1);
 					/*filter element id*/
 	
-					$elementName = $wpdb->get_results('SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE id="'.$elementId.'"' );
+					$elementName = $wpdb->get_results($wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."xyz_cfm_form_elements WHERE id= %d ", $elementId));
 					$elementName = $elementName[0];
 					
 					$xyz_cfm_altVariable = '';
@@ -499,7 +501,7 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 					if($formAllData->from_email_id == 0){
 						$xyz_cfm_SmtpDetails = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_sender_email_address WHERE set_default ="1"') ;
 					}else{
-						$xyz_cfm_SmtpDetails = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_sender_email_address WHERE id="'.$formAllData->from_email_id.'"' ) ;
+						$xyz_cfm_SmtpDetails = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."xyz_cfm_sender_email_address WHERE id= %d ", $formAllData->from_email_id)) ;
 					}
 					$xyz_cfm_SmtpDetails = $xyz_cfm_SmtpDetails[0];
 					
@@ -593,7 +595,7 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 							if($formAllData->reply_sender_email_id == 0){
 								$xyz_cfm_SmtpDetails = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_sender_email_address WHERE set_default ="1"') ;
 							}else{
-								$xyz_cfm_SmtpDetails = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_sender_email_address WHERE id="'.$formAllData->reply_sender_email_id.'"' ) ;
+								$xyz_cfm_SmtpDetails = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."xyz_cfm_sender_email_address WHERE id= %d ", $formAllData->reply_sender_email_id) ) ;
 							}
 							$xyz_cfm_SmtpDetails = $xyz_cfm_SmtpDetails[0];
 							
@@ -803,14 +805,26 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 					$scriptStart.='var xyz_cfm_date_format = "m/d/Y"';
 				}
 				
-				$scriptStart.=';function xyz_cfm_'.$formId.$xyz_cfm_form_counter.'_check(){var xyz_cfm_client_error = 0;'; // js validation checking main function
+				$scriptStart.=';function xyz_cfm_'.$formId.$xyz_cfm_form_counter.'_check(){var firstErrorId = ""; var xyz_cfm_client_error = 0;'; // js validation checking main function
 				$scriptClose = '}</script>';
+				
+				/* To get the elements in the placed order xyz is prepended*/
 				$res = preg_match_all("/\[(email|text|date|submit|textarea|dropdown|checkbox|radiobutton|file|captcha)[-][0-9]{1,11}\]/",$formAllData->form_content,$matches);
+				$xyz_append_content=$formAllData->form_content;
 				if($res){
 					foreach ($matches[0] as $key => $value){
+						$value_modified=str_replace('[','[xyz ',$value);
+						$xyz_append_content=str_replace($value,$value_modified,$xyz_append_content);
+					}
+					}
+				$res = preg_match_all("/\[xyz (email|text|date|submit|textarea|dropdown|checkbox|radiobutton|file|captcha)[-][0-9]{1,11}\]/",$xyz_append_content,$matches);
+				if($res){
+					foreach ($matches[0] as $key => $value){
+					    $value=str_replace('[xyz ','[',$value);
 						$elementId =  strstr($value, '-');
 						$elementId = substr($elementId,1,-1);
-						$formElementDetails = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.'xyz_cfm_form_elements WHERE form_id="'.$formId.'" AND id="'.$elementId.'"' );
+						
+						$formElementDetails = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."xyz_cfm_form_elements WHERE form_id= %d AND id= %d", $formId,$elementId) );
 						$formElementDetail = $formElementDetails[0];
 						
 						$xyz_cfm_elementName = esc_html($formElementDetail->element_name);
@@ -893,7 +907,9 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 								$script = $script.'var xyz_cfm_name_'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.' = document.getElementById("'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'").value;
 								if(xyz_cfm_name_'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'.trim() == ""){
 								document.getElementById("'.$elementType."_".$xyz_cfm_elementName."_".$xyz_cfm_elementId.$xyz_cfm_form_counter.'").innerHTML = "'.sprintf(__("Fill text field", "contact-form-manager")).'";
-								//return false;
+								if(firstErrorId ==  ""){
+									firstErrorId = 	"'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'";
+								}
 								xyz_cfm_client_error = 1;
 								}else{
 								document.getElementById("'.$elementType."_".$xyz_cfm_elementName."_".$xyz_cfm_elementId.$xyz_cfm_form_counter.'").innerHTML = "";
@@ -921,7 +937,9 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 								var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 								if(reg.test(xyz_cfm_email_'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.') == false) {
 								document.getElementById("'.$elementType."_".$xyz_cfm_elementName."_".$xyz_cfm_elementId.$xyz_cfm_form_counter.'").innerHTML = "'.sprintf(__("Please provide a valid email address", "contact-form-manager")).'";
-								//return false;
+								if(firstErrorId ==  ""){
+									firstErrorId = 	"'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'";
+								}
 								xyz_cfm_client_error = 1;
 								}else{
 								document.getElementById("'.$elementType."_".$xyz_cfm_elementName."_".$xyz_cfm_elementId.$xyz_cfm_form_counter.'").innerHTML = "";
@@ -930,7 +948,9 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 							if($formElementDetail->element_required == 1){
 								$script = $script.'else if(xyz_cfm_email_'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'.trim() == ""){
 								document.getElementById("'.$elementType."_".$xyz_cfm_elementName."_".$xyz_cfm_elementId.$xyz_cfm_form_counter.'").innerHTML = "'.sprintf(__("Fill email field", "contact-form-manager")).'";
-								//return false;
+								if(firstErrorId ==  ""){
+									firstErrorId = 	"'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'";
+								}
 								xyz_cfm_client_error = 1;
 								}else{
 								document.getElementById("'.$elementType."_".$xyz_cfm_elementName."_".$xyz_cfm_elementId.$xyz_cfm_form_counter.'").innerHTML = "";
@@ -957,7 +977,9 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 								$script = $script.'var xyz_cfm_textArea_'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.' = document.getElementById("'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'").value;
 								if(xyz_cfm_textArea_'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'.trim() == ""){
 								document.getElementById("'.$elementType."_".$xyz_cfm_elementName."_".$xyz_cfm_elementId.$xyz_cfm_form_counter.'").innerHTML = "'.sprintf(__("Fill textarea field", "contact-form-manager")).'";
-								//return false;
+								if(firstErrorId ==  ""){
+									firstErrorId = 	"'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'";
+								}
 								xyz_cfm_client_error = 1;
 								}else{
 								document.getElementById("'.$elementType."_".$xyz_cfm_elementName."_".$xyz_cfm_elementId.$xyz_cfm_form_counter.'").innerHTML = "";
@@ -984,7 +1006,9 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 									$script = $script.'var name_'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.' = document.getElementById("'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'").value;
 									if(name_'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.' == ""){
 									document.getElementById("'.$elementType."_".$xyz_cfm_elementName."_".$xyz_cfm_elementId.$xyz_cfm_form_counter.'").innerHTML = "'.sprintf(__("Select dropdown field", "contact-form-manager")).'";
-									//return false;
+									if(firstErrorId ==  ""){
+										firstErrorId = 	"'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'";
+									}
 									xyz_cfm_client_error = 1;
 									}else{
 									document.getElementById("'.$elementType."_".$xyz_cfm_elementName."_".$xyz_cfm_elementId.$xyz_cfm_form_counter.'").innerHTML = "";
@@ -1001,7 +1025,9 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 									}
 									if(count == 0){
 									document.getElementById("'.$elementType."_".$xyz_cfm_elementName."_".$xyz_cfm_elementId.$xyz_cfm_form_counter.'").innerHTML = "'.sprintf(__("Select dropdown field", "contact-form-manager")).'";
-									//return false;
+									if(firstErrorId ==  ""){
+										firstErrorId = 	"'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'";
+									}
 									xyz_cfm_client_error = 1;
 									}else{
 									document.getElementById("'.$elementType."_".$xyz_cfm_elementName."_".$xyz_cfm_elementId.$xyz_cfm_form_counter.'").innerHTML = "";
@@ -1065,22 +1091,28 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 								var xyz_cfm_date_'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.' = document.getElementById("'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'").value;
 								if(xyz_cfm_date_'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'.trim() == ""){
 								document.getElementById("'.$elementType."_".$xyz_cfm_elementName."_".$xyz_cfm_elementId.$xyz_cfm_form_counter.'").innerHTML = "'.sprintf(__("Fill date field", "contact-form-manager")).'";
-								//return false;
+								if(firstErrorId ==  ""){
+									firstErrorId = 	"'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'";
+								}
 								xyz_cfm_client_error = 1;
 								}else{
 								document.getElementById("'.$elementType."_".$xyz_cfm_elementName."_".$xyz_cfm_elementId.$xyz_cfm_form_counter.'").innerHTML = "";
 								}';
 							}
 							$dateFlag = 1;
-							$scriptInclude = '<script type="text/javascript" src="'.plugins_url("contact-form-manager/js/epoch_classes.js") .'"></script>';
 							$scriptDate .= '<script type="text/javascript">
 							var dp_cal_'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.';
 							jQuery(document).ready(function() {
+							jQuery("#'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'").datepicker({';
+							if(get_option('xyz_cfm_DateFormat') == 1)//dd-mm-yyyy
+								$scriptDate .='dateFormat : "dd/mm/yy"';
+							if(get_option('xyz_cfm_DateFormat') == 2)//mm-dd-yyyy
+									$scriptDate .='dateFormat : "mm/dd/yy"';
+															   
+							$scriptDate .='});
 							jQuery("#'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'").click(function() {
-							if(!window.dp_cal_'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'){
-							dp_cal_'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'  = new Epoch("epoch_popup","popup",document.getElementById("'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'"));
-							}
-							dp_cal_'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'.show();
+							
+							jQuery("#'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'").show();
 							});
 							});
 							</script>';
@@ -1119,7 +1151,9 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 								}
 								if(total == 0){
 								document.getElementById("'.$elementType."_".$xyz_cfm_elementName."_".$xyz_cfm_elementId.$xyz_cfm_form_counter.'").innerHTML = "'.sprintf(__("Select atleast one checkbox", "contact-form-manager")).'";
-								//return false;
+								if(firstErrorId ==  ""){
+									firstErrorId = 	"'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'";
+								}
 								xyz_cfm_client_error = 1;
 								}else{
 								document.getElementById("'.$elementType."_".$xyz_cfm_elementName."_".$xyz_cfm_elementId.$xyz_cfm_form_counter.'").innerHTML = "";
@@ -1193,7 +1227,9 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 								}
 								if(total == 0){
 								document.getElementById("'.$elementType."_".$xyz_cfm_elementName."_".$xyz_cfm_elementId.$xyz_cfm_form_counter.'").innerHTML = "'.sprintf(__("Select atleast one radio button", "contact-form-manager")).'";
-								//return false;
+								if(firstErrorId ==  ""){
+									firstErrorId = 	"'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'";
+								}
 								xyz_cfm_client_error = 1;
 								}else{
 								document.getElementById("'.$elementType."_".$xyz_cfm_elementName."_".$xyz_cfm_elementId.$xyz_cfm_form_counter.'").innerHTML = "";
@@ -1251,13 +1287,14 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 								$script .= 'var xyz_cfm_file_'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.' = document.getElementById("'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'").value;
 								if(xyz_cfm_file_'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'.trim() == ""){
 								document.getElementById("'.$elementType."_".$xyz_cfm_elementName."_".$xyz_cfm_elementId.$xyz_cfm_form_counter.'").innerHTML = "'.sprintf(__("Upload a file", "contact-form-manager")).'";
-								//return false;
+								if(firstErrorId ==  ""){
+									firstErrorId = 	"'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'";
+								}
 								xyz_cfm_client_error = 1;
 								}else{
 								document.getElementById("'.$elementType."_".$xyz_cfm_elementName."_".$xyz_cfm_elementId.$xyz_cfm_form_counter.'").innerHTML = "";
 								}';
 							}
-							//$replace = $replace.'<div style="width:355px;">';
 							$replace = $replace.'<input class="'.$cssClass.'" type="file" name="'.$xyz_cfm_elementName.'" id="'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'"  >';
 							if((get_option('xyz_cfm_mandatory_sign')=="1") && ($formElementDetail->element_required == 1)){
 								$replace = $replace.'<span style="color:red;">*</span>';
@@ -1291,7 +1328,6 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 								}
 								$replace = $replace.'</div>';
 							}
-							//$replace = $replace.'</div>';
 							$replace = $replace.'<div style="font-weight: normal;color:red;" id="'.$elementType.'_'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'"></div>';
 							$messageBody = str_replace("[".$elementType."-".$elementId."]",$replace,$messageBody);
 						}
@@ -1311,11 +1347,15 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 								$publickey = get_option('xyz_cfm_recaptcha_public_key');
 								if($publickey != ''){
 									//$replace = $replace.recaptcha_get_html($publickey); for php
-									$replace = $replace.'<div id="reCaptchaDiv_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'"></div><span style="color:red;">*</span><script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+									if (stripos(get_option('siteurl'), 'https://') === 0) 
+										$url = 'https://www.google.com/recaptcha/api/js/recaptcha_ajax.js';
+									else 
+										$url = 'http://www.google.com/recaptcha/api/js/recaptcha_ajax.js';
+									$replace = $replace.'<div id="reCaptchaDiv_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'"></div><span style="color:red;">*</span><script type="text/javascript" src="'.$url.'"></script>
 									<script type="text/javascript">
 									Recaptcha.create("'.$publickey.'","reCaptchaDiv_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'", {theme: "'.$cssClass.'"});
 									</script><input type="hidden" name="xyz_cfm_hiddenReCaptcha" value="1" id="xyz_cfm_reCaptcha_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'">';
-									$replace = $replace.'<div style="font-weight: normal;color:red;" id="'.$elementType.'_'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'">';
+									$replace = $replace.'<div style="font-weight: normal;color:red;" id="'.$elementType.'_'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'"></div>';
 								}else{
 									$replace = $replace.'<span style="color:red;">Configure recaptcha public & private keys</span>';
 								}
@@ -1326,7 +1366,9 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 									var xyz_cfm_captcha_'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.' = document.getElementById("'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'").value;
 									if(xyz_cfm_captcha_'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'.trim() == ""){
 									document.getElementById("'.$elementType."_".$xyz_cfm_elementName."_".$xyz_cfm_elementId.$xyz_cfm_form_counter.'").innerHTML = "'.sprintf(__("Fill captcha field", "contact-form-manager")).'";
-									//return false;
+									if(firstErrorId ==  ""){
+										firstErrorId = 	"'.$xyz_cfm_elementName.'_'.$xyz_cfm_elementId.$xyz_cfm_form_counter.'";
+									}
 									xyz_cfm_client_error = 1;
 									}else{
 									document.getElementById("'.$elementType."_".$xyz_cfm_elementName."_".$xyz_cfm_elementId.$xyz_cfm_form_counter.'").innerHTML = "";
@@ -1358,6 +1400,9 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 					}
 					
 					$script = $script.'	if(xyz_cfm_client_error == 1){
+								if(firstErrorId !=  ""){
+									document.getElementById(firstErrorId).focus();	
+								}
 								return false;
 							}';
 					
@@ -1375,6 +1420,10 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 					<input type ="hidden" name="xyz_cfm_frmName'.$xyz_cfm_form_counter.'"  value="'.$formAllData->name.'" >
 					</form>';
 				
+					$contactForm=str_replace(array("\r\n","\r","\t"),"\n",$contactForm);
+					do{		$contactForm=str_replace("\n\n","\n",$contactForm);
+					}while(strpos($contactForm,"\n\n") !== false);
+					
 				return do_shortcode( $contactForm );
 				}
 			}
@@ -1384,3 +1433,4 @@ if(!is_plugin_active('wp-recaptcha/wp-recaptcha.php') && (!is_plugin_active($plu
 	}
 }
 
+?>
