@@ -1,8 +1,7 @@
 ﻿=== Contact Form Manager ===
 Contributors: f1logic
 Donate link: http://xyzscripts.com/donate/
-
-Tags: contact, contact form, contact forms, contact form plugin,  contact form manager, contact page,  multiple contact forms, custom contact form, contact form with auto reply, contact form with recaptcha, contact form builder, contact us,  contact manager, wordpress contact, TinyMCE form editor
+Tags: contact, contact form, contact forms, contact form plugin,  contact form manager, contact page,  multiple contact forms, custom contact form, contact form with auto reply, contact form with recaptcha, contact form builder, contact us,  contact manager, wordpress contact
 Requires at least: 2.8
 Tested up to: 3.8.1
 Stable tag: 1.4
@@ -237,6 +236,7 @@ More questions ? [Drop a mail](http://xyzscripts.com/members/support/ "XYZScript
 
 == Upgrade Notice ==
 
+= Contact Form Manager 1.3.1 =
 Some bugs have been fixed and  "bcc" option with multiple email support has been added.
 
 == More Information ==
