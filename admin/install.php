@@ -29,6 +29,7 @@ function cfm_install(){
 	}
 	
 	global $wpdb;
+	$wpdb->show_errors();
 	global $current_user; get_currentuserinfo();
 	
 	add_option("xyz_cfm_paging_limit",20);
@@ -86,80 +87,56 @@ function cfm_install(){
 		}
 	}
 	$group_flag=0;
-	$tblcolums = mysql_query("SHOW COLUMNS FROM  ".$wpdb->prefix."xyz_cfm_form");
-	while ($row = mysql_fetch_array($tblcolums))
-	{
-		if( $row['Field']=="from_email_id")
-		{
-			$group_flag=1;
-		}
-	
-	}
+	$tblcolums = $wpdb->get_col("SHOW COLUMNS FROM  ".$wpdb->prefix."xyz_cfm_form");
+	if(in_array("from_email_id", $tblcolums))
+		$group_flag=1;
 	
 	
 	if($group_flag==0)
 	{
-		mysql_query("ALTER TABLE ".$wpdb->prefix."xyz_cfm_form ADD (`from_email_id` int not null default '0' ,`reply_sender_email_id` int not null default '0')");
-		echo mysql_error();
-	}
-	
-	$group_flag=0;
-	$tblcolums = mysql_query("SHOW COLUMNS FROM  ".$wpdb->prefix."xyz_cfm_form");
-	while ($row = mysql_fetch_array($tblcolums))
-	{
-		if( $row['Field']=="redisplay_option")
-		{
-			$group_flag=1;
-		}
-	
-	}
-	if($group_flag==0)
-	{
-		mysql_query("ALTER TABLE ".$wpdb->prefix."xyz_cfm_form ADD (`redisplay_option` int not null default 2)");
-		echo mysql_error();
+		$wpdb->query("ALTER TABLE ".$wpdb->prefix."xyz_cfm_form ADD (`from_email_id` int not null default '0' ,`reply_sender_email_id` int not null default '0')");
 		
 	}
 	
 	$group_flag=0;
-	$tblcolums = mysql_query("SHOW COLUMNS FROM  ".$wpdb->prefix."xyz_cfm_form");
-	while ($row = mysql_fetch_array($tblcolums))
+	$tblcolums = $wpdb->get_col("SHOW COLUMNS FROM  ".$wpdb->prefix."xyz_cfm_form");
+	if(in_array("redisplay_option", $tblcolums))
+		$group_flag=1;
+	if($group_flag==0)
 	{
-		if( $row['Field']=="newsletter_email_shortcode")
-		{
-			$group_flag=1;
-		}
-	
+		$wpdb->query("ALTER TABLE ".$wpdb->prefix."xyz_cfm_form ADD (`redisplay_option` int not null default 2)");
+		
+		
 	}
+	
+	$group_flag=0;
+	$tblcolums = $wpdb->get_col("SHOW COLUMNS FROM  ".$wpdb->prefix."xyz_cfm_form");
+	if(in_array("newsletter_email_shortcode", $tblcolums))
+		$group_flag=1;
 	
 	
 	if($group_flag==0)
 	{
-		mysql_query("ALTER TABLE ".$wpdb->prefix."xyz_cfm_form ADD
+		$wpdb->query("ALTER TABLE ".$wpdb->prefix."xyz_cfm_form ADD
 				(`newsletter_email_shortcode` varchar(225) COLLATE utf8_unicode_ci NOT NULL,
 				`newsletter_email_list` text COLLATE utf8_unicode_ci NOT NULL,
 				`newsletter_custom_fields` text COLLATE utf8_unicode_ci NOT NULL,
 				`newsletter_optin_mode` varchar(225) COLLATE utf8_unicode_ci NOT NULL,
 				`newsletter_subscription_status` int(11) NOT NULL )");
-		echo mysql_error();
+		
 	}
 	
 	
 	$group_flag=0;
-	$tblcolums = mysql_query("SHOW COLUMNS FROM  ".$wpdb->prefix."xyz_cfm_form");
-	while ($row = mysql_fetch_array($tblcolums))
-	{
-		if( $row['Field']=="bcc_email")
-		{
-			$group_flag=1;
-		}
-	
-	}
+	$tblcolums = $wpdb->get_col("SHOW COLUMNS FROM  ".$wpdb->prefix."xyz_cfm_form");
+	if(in_array("bcc_email", $tblcolums))
+		$group_flag=1;
 	
 	
 	if($group_flag==0)
 	{
-		mysql_query("ALTER TABLE ".$wpdb->prefix."xyz_cfm_form ADD (`bcc_email` text COLLATE utf8_unicode_ci NOT NULL)");
-		echo mysql_error();
+		$wpdb->query("ALTER TABLE ".$wpdb->prefix."xyz_cfm_form ADD (`bcc_email` text COLLATE utf8_unicode_ci NOT NULL)");
+		
 	}
 	
 	
@@ -199,21 +176,15 @@ function cfm_install(){
 	}
 	
 	$group_flag=0;
-	$tblcolums = mysql_query("SHOW COLUMNS FROM  ".$wpdb->prefix."xyz_cfm_form_elements");
-	while ($row = mysql_fetch_array($tblcolums))
-	{
-		if( $row['Field']=="client_view_check_radio_line_break_count")
-		{
-			$group_flag=1;
-		}
-	
-	}
+	$tblcolums = $wpdb->get_col("SHOW COLUMNS FROM  ".$wpdb->prefix."xyz_cfm_form_elements");
+	if(in_array("client_view_check_radio_line_break_count", $tblcolums))
+		$group_flag=1;
 	
 	
 	if($group_flag==0)
 	{
-		mysql_query("ALTER TABLE ".$wpdb->prefix."xyz_cfm_form_elements ADD (`client_view_check_radio_line_break_count` int not null default '0' ,`client_view_multi_select_drop_down` int not null default '0')");
-		echo mysql_error();
+		$wpdb->query("ALTER TABLE ".$wpdb->prefix."xyz_cfm_form_elements ADD (`client_view_check_radio_line_break_count` int not null default '0' ,`client_view_multi_select_drop_down` int not null default '0')");
+		
 	}
 	
 	
