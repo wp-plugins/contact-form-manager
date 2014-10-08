@@ -3,7 +3,7 @@ Contributors: f1logic
 Donate link: http://xyzscripts.com/donate/
 Tags: contact, contact form, contact forms, contact form plugin,  contact form manager, contact page,  multiple contact forms, custom contact form, contact form with auto reply, contact form with recaptcha, contact form builder, contact us,  contact manager, wordpress contact
 Requires at least: 2.8
-Tested up to: 3.9
+Tested up to: 4.0
 Stable tag: 1.4.1
 License: GPLv2 or later
 
