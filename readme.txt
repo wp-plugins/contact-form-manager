@@ -3,7 +3,7 @@ Contributors: f1logic
 Donate link: http://xyzscripts.com/donate/
 Tags: contact, contact form, contact forms, contact form plugin,  contact form manager, contact page,  multiple contact forms, custom contact form, contact form with auto reply, contact form with recaptcha, contact form builder, contact us,  contact manager, wordpress contact
 Requires at least: 2.8
-Tested up to: 4.0
+Tested up to: 4.2.1
 Stable tag: 1.4.1
 License: GPLv2 or later
 
@@ -202,9 +202,6 @@ More questions ? [Drop a mail](http://xyzscripts.com/members/support/ "XYZScript
 * Support for subscribing contact to XYZ Newsletter Manager plugin
 * Option to specify separate sender email in case of SMTP sending
 * Consolidated client side error messages on form submit instead of individual error messages
-* A few bug fixes 
-
-= Contact Form Manager 1.2.1 =
 * A few bug fixes 
 
 = Contact Form Manager 1.2 =
